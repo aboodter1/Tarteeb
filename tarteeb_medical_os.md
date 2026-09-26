@@ -1,5 +1,5 @@
 # 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
-> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٢:٢٠:٥٢ ص  
+> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٢:٥٤:٠٧ ص  
 > **عدد الملفات:** 55 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -2987,12 +2987,19 @@ for (const file of allFiles) {
 
 // Write to project root
 fs.writeFileSync(outputFile, mdContent, 'utf-8');
-console.log(`✅ Saved bundle to: ${outputFile} (${(Buffer.byteLength(mdContent) / 1024).toFixed(1)} KB)`);
+const legacyOutputFile = path.join(projectRoot, 'nashmi_ops_full_codebase.md');
+fs.writeFileSync(legacyOutputFile, mdContent, 'utf-8');
+console.log(`✅ Saved bundle to: ${outputFile} and ${legacyOutputFile} (${(Buffer.byteLength(mdContent) / 1024).toFixed(1)} KB)`);
 
 // Also copy to artifacts directory
 try {
   fs.writeFileSync(artifactOutput, mdContent, 'utf-8');
-  console.log(`✅ Saved copy to artifact: ${artifactOutput}`);
+  const legacyArtifactOutput = path.join(
+    'C:\\Users\\Toshiba\\.gemini\\antigravity-ide\\brain\\c32f6ced-e9df-4b0f-ba5a-b0db496385c3',
+    'nashmi_ops_full_codebase.md'
+  );
+  fs.writeFileSync(legacyArtifactOutput, mdContent, 'utf-8');
+  console.log(`✅ Saved copies to artifacts directory`);
 } catch (e) {
   console.warn('Could not write to artifact dir:', e);
 }
@@ -3000,8 +3007,10 @@ try {
 // Copy to public directory for download links
 try {
   const publicOutput = path.join(projectRoot, 'public', 'tarteeb_medical_os.md');
+  const legacyPublicOutput = path.join(projectRoot, 'public', 'nashmi_ops_full_codebase.md');
   fs.writeFileSync(publicOutput, mdContent, 'utf-8');
-  console.log(`✅ Saved copy to public: ${publicOutput}`);
+  fs.writeFileSync(legacyPublicOutput, mdContent, 'utf-8');
+  console.log(`✅ Saved copies to public directory`);
 } catch (e) {
   console.warn('Could not write to public dir:', e);
 }
@@ -12097,11 +12106,11 @@ export interface APMEvent {
   "crons": [
     {
       "path": "/api/jobs?action=trigger_smart_reminders",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/jobs?action=trigger_no_show_recovery",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 18 * * *"
     }
   ]
 }

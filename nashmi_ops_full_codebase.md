@@ -1,5 +1,5 @@
-# 🦷 كود مشروع مركز نشمي لطب الأسنان (NashmiOps Enterprise MVP)
-> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٢:٠٨:٤٤ ص  
+# 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
+> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٢:٥٤:٠٧ ص  
 > **عدد الملفات:** 55 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -668,7 +668,7 @@ export async function GET(req: NextRequest) {
   const token = searchParams.get('hub.verify_token');
   const challenge = searchParams.get('hub.challenge');
 
-  const expectedToken = process.env.META_WHATSAPP_VERIFY_TOKEN || 'nashmi_verify_token_2026';
+  const expectedToken = process.env.META_WHATSAPP_VERIFY_TOKEN || 'tarteeb_verify_token_2026';
 
   if (mode === 'subscribe' && token === expectedToken) {
     console.log('[WhatsApp Webhook] Meta challenge verification passed successfully.');
@@ -1024,29 +1024,29 @@ export default function CleanChatPage() {
   };
 
   return (
-    <div dir="rtl" className="flex flex-col h-screen bg-slate-950 text-slate-100 font-sans">
+    <div dir="rtl" className="flex flex-col h-screen bg-slate-100 text-slate-900 font-sans">
       {/* Top Header */}
-      <header className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-10">
+      <header className="flex items-center justify-between px-6 py-3.5 border-b border-slate-200 bg-white sticky top-0 z-10 shadow-sm">
         <div className="flex items-center gap-3">
           <Link
             href="/"
             title="الرئيسية"
-            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20 text-white font-bold"
+            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center shadow-md shadow-teal-600/20 text-white font-bold"
           >
-            🦷
+            ت
           </Link>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-bold text-base md:text-lg text-slate-100">
-                مركز نشمي لطب وجراحة الأسنان
+              <h1 className="font-bold text-base md:text-lg text-slate-900">
+                نظام ترتيب - الاستقبال الذكي
               </h1>
-              <span className="flex items-center gap-1 text-[11px] font-medium bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 rounded-full">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                Gemini 3.5 متصل
+              <span className="flex items-center gap-1 text-[11px] font-medium bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded-full">
+                <span className="w-1.5 h-1.5 rounded-full bg-teal-500 animate-pulse"></span>
+                المساعد نشمي متصل
               </span>
             </div>
-            <p className="text-xs text-slate-400">
-              الاستقبال الذكي للمواعيد والاستفسارات - عمان، الأردن
+            <p className="text-xs text-slate-500">
+              محادثة واتساب مباشرة لحجز المواعيد والاستفسارات - عمان، الأردن
             </p>
           </div>
         </div>
@@ -1054,15 +1054,15 @@ export default function CleanChatPage() {
         <div className="flex items-center gap-2">
           <Link
             href="/sandbox"
-            className="hidden sm:flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 bg-emerald-950/40 hover:bg-emerald-900/40 px-3 py-1.5 rounded-lg border border-emerald-800/40 transition"
+            className="hidden sm:flex items-center gap-1.5 text-xs text-teal-700 hover:text-teal-800 bg-teal-50 hover:bg-teal-100 px-3 py-1.5 rounded-lg border border-teal-200 transition font-medium"
           >
-            <span>بيئة الاختبار Sandbox</span>
+            <span>لوحة التحكم Sandbox</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <button
             onClick={handleReset}
             title="بدء محادثة جديدة"
-            className="flex items-center gap-1.5 text-xs text-slate-400 hover:text-slate-200 bg-slate-800/60 hover:bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+            className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg border border-slate-200 transition font-medium"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">محادثة جديدة</span>
@@ -1071,7 +1071,7 @@ export default function CleanChatPage() {
       </header>
 
       {/* Messages Feed */}
-      <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 max-w-4xl w-full mx-auto">
+      <main className="flex-1 overflow-y-auto p-4 md:p-6 space-y-4 max-w-4xl w-full mx-auto bg-slate-100/60">
         {messages.map((msg) => {
           const isUser = msg.role === 'user';
           return (
@@ -1080,12 +1080,12 @@ export default function CleanChatPage() {
               className={`flex items-end gap-2.5 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
             >
               <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs ${
+                className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 text-xs shadow-sm ${
                   isUser
-                    ? 'bg-blue-600 text-white'
+                    ? 'bg-slate-800 text-white'
                     : msg.isEmergency
-                    ? 'bg-red-600 text-white animate-pulse'
-                    : 'bg-emerald-600/30 text-emerald-300 border border-emerald-500/30'
+                    ? 'bg-rose-600 text-white animate-pulse'
+                    : 'bg-teal-100 text-teal-700 border border-teal-200 font-bold'
                 }`}
               >
                 {isUser ? <User className="w-4 h-4" /> : <Bot className="w-4 h-4" />}
@@ -1094,17 +1094,17 @@ export default function CleanChatPage() {
               <div
                 className={`max-w-[85%] sm:max-w-[75%] rounded-2xl px-4 py-3 text-sm md:text-[15px] leading-relaxed shadow-sm ${
                   isUser
-                    ? 'bg-blue-600 text-white rounded-bl-none'
+                    ? 'bg-teal-600 text-white rounded-bl-none'
                     : msg.isEmergency
-                    ? 'bg-red-950/90 border border-red-700 text-red-100 rounded-br-none'
-                    : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-br-none'
+                    ? 'bg-rose-50 border border-rose-200 text-rose-900 rounded-br-none font-medium'
+                    : 'bg-white border border-slate-200 text-slate-800 rounded-br-none'
                 }`}
               >
                 <p className="whitespace-pre-wrap">{msg.text}</p>
                 <span
                   suppressHydrationWarning={true}
-                  className={`block text-[10px] mt-1.5 text-left opacity-60 ${
-                    isUser ? 'text-blue-100' : 'text-slate-400'
+                  className={`block text-[10px] mt-1.5 text-left opacity-75 ${
+                    isUser ? 'text-teal-100' : 'text-slate-400'
                   }`}
                 >
                   {isMounted ? msg.time : ''}
@@ -1116,20 +1116,20 @@ export default function CleanChatPage() {
 
         {loading && (
           <div className="flex items-end gap-2.5">
-            <div className="w-8 h-8 rounded-full bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 flex items-center justify-center shrink-0">
-              <Sparkles className="w-4 h-4 animate-spin" />
+            <div className="w-8 h-8 rounded-full bg-teal-100 text-teal-700 border border-teal-200 flex items-center justify-center shrink-0 shadow-sm">
+              <Sparkles className="w-4 h-4 animate-spin text-teal-600" />
             </div>
-            <div className="bg-slate-900 border border-slate-800 rounded-2xl rounded-br-none px-4 py-3 text-sm text-slate-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce"></span>
+            <div className="bg-white border border-slate-200 rounded-2xl rounded-br-none px-4 py-3 text-sm text-slate-600 flex items-center gap-1.5 shadow-sm">
+              <span className="w-2 h-2 rounded-full bg-teal-600 animate-bounce"></span>
               <span
-                className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce"
+                className="w-2 h-2 rounded-full bg-teal-600 animate-bounce"
                 style={{ animationDelay: '0.15s' }}
               ></span>
               <span
-                className="w-2 h-2 rounded-full bg-emerald-400 animate-bounce"
+                className="w-2 h-2 rounded-full bg-teal-600 animate-bounce"
                 style={{ animationDelay: '0.3s' }}
               ></span>
-              <span className="text-xs mr-2 text-slate-400">نشمي يكتب الآن...</span>
+              <span className="text-xs mr-2 text-slate-500 font-medium">المساعد نشمي يكتب الآن...</span>
             </div>
           </div>
         )}
@@ -1138,12 +1138,12 @@ export default function CleanChatPage() {
       </main>
 
       {/* Input Bar */}
-      <footer className="p-4 border-t border-slate-800 bg-slate-900/90 backdrop-blur sticky bottom-0">
+      <footer className="p-4 border-t border-slate-200 bg-white sticky bottom-0 shadow-sm">
         <div className="max-w-4xl mx-auto flex items-end gap-2">
           <button
             onClick={() => handleSend('يا هلا دكتور، بسجل صوتي عشان أسأل عن موعد تنظيف أسنان الأسبوع الجاي', true)}
             title="إرسال رسالة صوتية تجريبية"
-            className="h-12 w-12 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 flex items-center justify-center transition shrink-0"
+            className="h-12 w-12 rounded-xl bg-slate-100 hover:bg-slate-200 text-teal-600 border border-slate-200 flex items-center justify-center transition shrink-0 shadow-sm"
           >
             <Mic className="w-5 h-5" />
           </button>
@@ -1155,14 +1155,14 @@ export default function CleanChatPage() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="اكتب رسالتك هنا كالمريض... (اضغط Enter للإرسال)"
-            className="flex-1 resize-none bg-slate-950 border border-slate-700 focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 rounded-xl px-4 py-3 text-sm text-slate-100 placeholder-slate-500 outline-none transition max-h-32 min-h-[48px]"
+            className="flex-1 resize-none bg-slate-50 border border-slate-200 focus:border-teal-500 focus:ring-1 focus:ring-teal-500 focus:bg-white rounded-xl px-4 py-3 text-sm text-slate-900 placeholder-slate-400 outline-none transition max-h-32 min-h-[48px]"
           />
 
           <button
             onClick={() => handleSend()}
             disabled={!input.trim() || loading}
             aria-label="إرسال"
-            className="h-12 w-12 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 disabled:opacity-40 disabled:hover:bg-emerald-600 text-white flex items-center justify-center transition shrink-0 shadow-lg shadow-emerald-600/20"
+            className="h-12 w-12 rounded-xl bg-teal-600 hover:bg-teal-500 active:bg-teal-700 disabled:opacity-40 text-white flex items-center justify-center transition shrink-0 shadow-md shadow-teal-600/20"
           >
             <Send className="w-5 h-5 -rotate-90" />
           </button>
@@ -1185,8 +1185,8 @@ export default function CleanChatPage() {
 @tailwind utilities;
 
 :root {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --background: #f8fafc;
+  --foreground: #0f172a;
 }
 
 body {
@@ -1203,14 +1203,14 @@ body {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0f172a;
+  background: #f1f5f9;
 }
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #cbd5e1;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #10b981;
+  background: #0d9488;
 }
 
 ```
@@ -1225,8 +1225,8 @@ import type { Metadata } from 'next';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'NashmiOps Enterprise (نشمي أوبس) - نظام تشغيل العيادات الذكي',
-  description: 'نظام تشغيل عيادات الأسنان بالذكاء الاصطناعي - متوافق مع التشريعات الأردنية والفوترة الوطنية JoFotara',
+  title: 'نظام ترتيب (Tarteeb) - نظام تشغيل عيادات الأسنان الذكي',
+  description: 'نظام ترتيب لإدارة عيادات الأسنان بالذكاء الاصطناعي مع المساعد نشمي - متوافق مع التشريعات الأردنية والفوترة الوطنية JoFotara',
 };
 
 export default function RootLayout({
@@ -1244,7 +1244,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="antialiased bg-slate-950 text-slate-100 min-h-screen selection:bg-emerald-600 selection:text-white">
+      <body className="antialiased bg-slate-50 text-slate-900 min-h-screen selection:bg-teal-600 selection:text-white">
         {children}
       </body>
     </html>
@@ -1261,7 +1261,7 @@ export default function RootLayout({
 // File: app/page.tsx
 import Link from 'next/link';
 import {
-  Shield,
+  ShieldCheck,
   FileCode,
   Calendar,
   Mic,
@@ -1271,39 +1271,48 @@ import {
   CheckCircle2,
   Lock,
   Building,
+  Users,
+  Shield,
+  Stethoscope,
+  Sparkles,
 } from 'lucide-react';
 import { CLINIC_CONFIG } from '@/lib/config/constants';
 
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between selection:bg-emerald-600 selection:text-white">
+    <main className="min-h-screen bg-slate-50 text-slate-900 flex flex-col justify-between selection:bg-teal-600 selection:text-white">
       {/* Top Navigation */}
-      <header className="border-b border-slate-800 bg-slate-900/70 backdrop-blur sticky top-0 z-50">
+      <header className="border-b border-slate-200 bg-white/90 backdrop-blur sticky top-0 z-50 shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-emerald-900/40">
-              ن
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center font-bold text-xl text-white shadow-md shadow-teal-600/20">
+              ت
             </div>
             <div>
-              <h1 className="font-bold text-lg text-white">NashmiOps Enterprise</h1>
-              <span className="text-xs text-emerald-400 font-medium">
-                نشمي أوبس | نظام العمليات والعيادات الذكي (MVP Edition)
-              </span>
+              <div className="flex items-center gap-2">
+                <h1 className="font-bold text-lg text-slate-900">نظام ترتيب (Tarteeb)</h1>
+                <span className="text-[11px] bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded-full font-semibold">
+                  نظام تشغيل العيادات
+                </span>
+              </div>
+              <p className="text-xs text-slate-500">
+                إدارة العيادات الطبية بالذكاء الاصطناعي مع المساعد &quot;نشمي&quot;
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-3">
             <Link
               href="/chat"
-              className="text-xs text-slate-300 hover:text-white bg-slate-800 hover:bg-slate-700 px-4 py-2.5 rounded-xl border border-slate-700 transition"
+              className="text-xs text-slate-700 hover:text-teal-700 bg-slate-100 hover:bg-slate-200 px-4 py-2.5 rounded-xl border border-slate-200 transition font-medium"
             >
-              شات الاستقبال المباشر
+              شات الاستقبال (المساعد نشمي)
             </Link>
             <Link
               href="/sandbox"
-              className="bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-lg shadow-emerald-700/30 flex items-center gap-2 transition"
+              className="bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold px-5 py-2.5 rounded-xl shadow-md shadow-teal-600/20 flex items-center gap-2 transition"
             >
-              <span>فتح بيئة الاختبار (Sandbox)</span>
+              <span>فتح لوحة التحكم (Sandbox)</span>
               <ArrowLeft className="w-4 h-4" />
             </Link>
           </div>
@@ -1311,126 +1320,133 @@ export default function HomePage() {
       </header>
 
       {/* Hero Section */}
-      <section className="max-w-5xl mx-auto px-6 py-16 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/30 px-4 py-1.5 rounded-full text-emerald-400 text-xs font-semibold">
-          <Shield className="w-4 h-4" />
-          <span>مطابق 100% لقانون المسؤولية الطبية الأردني رقم 25 وقانون حماية البيانات رقم 24</span>
+      <section className="max-w-5xl mx-auto px-6 py-16 md:py-20 text-center space-y-6">
+        {/* Trust Shield Badge */}
+        <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-200 px-4 py-2 rounded-full text-teal-800 text-xs font-semibold shadow-sm">
+          <ShieldCheck className="w-4 h-4 text-teal-600" />
+          <span>درع الثقة: متوافق مع قانون المسؤولية الطبية رقم 25، قانون حماية البيانات رقم 24، والربط مع JoFotara</span>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-extrabold text-white leading-tight">
-          نظام تشغيل عيادات الأسنان بالذكاء الاصطناعي <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-l from-emerald-400 to-teal-200">
-            إدارة تشغيلية ذكية وحجز فوري ومباشر
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 leading-tight">
+          ودّع فوضى المواعيد.. <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-l from-teal-700 via-teal-600 to-cyan-600">
+            نظام ترتيب لإدارة عيادات الأسنان
           </span>
         </h1>
 
-        <p className="text-slate-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-          منصة B2B متكاملة متعددة المستأجرين (Multi-Tenant) مصممة خصيصاً لقطاع الرعاية الصحية في المملكة الأردنية
-          الهاشمية، تجمع بين الذكاء الاصطناعي الصوتي والمحادثي، الفوترة الإلكترونية الوطنية JoFotara، وقناص المواعيد
-          الشاغرة.
+        <p className="text-slate-600 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+          منصة سحابية متكاملة لعيادات ومراكز الأسنان في المملكة الأردنية الهاشمية. أتمتة تشغيلية كاملة لحجز المواعيد
+          عبر الواتساب مع المساعد الذكي <strong>&quot;نشمي&quot;</strong>، فوترة إلكترونية وطنية فورية (JoFotara Phase 2)،
+          وقناص تلقائي للمواعيد الشاغرة دون أي إرباك لموظفي الاستقبال.
         </p>
 
         <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/sandbox"
-            className="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-xl shadow-emerald-950 flex items-center gap-2 transition transform hover:-translate-y-0.5 text-sm"
+            className="bg-teal-600 hover:bg-teal-500 text-white font-bold px-8 py-3.5 rounded-xl shadow-lg shadow-teal-600/25 flex items-center gap-2 transition transform hover:-translate-y-0.5 text-sm"
           >
-            <span>بدء المحاكاة في الـ Sandbox التفاعلي</span>
+            <span>بدء التجربة في لوحة التحكم (Sandbox)</span>
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <Link
             href="/chat"
-            className="bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold px-6 py-3.5 rounded-xl border border-slate-700 transition text-sm"
+            className="bg-white hover:bg-slate-100 text-slate-700 font-semibold px-6 py-3.5 rounded-xl border border-slate-300 shadow-sm transition text-sm flex items-center gap-2"
           >
-            تجربة شات المريض (WhatsApp Web UI)
+            <Sparkles className="w-4 h-4 text-teal-600" />
+            <span>تجربة المساعد نشمي (WhatsApp Web)</span>
           </Link>
         </div>
       </section>
 
-      {/* 5 Core Pillars Grid */}
+      {/* 6 Responsive White Feature Cards Grid */}
       <section className="max-w-7xl mx-auto px-6 py-12">
-        <h2 className="text-xl font-bold text-center text-slate-200 mb-8">
-          الركائز الخمس الأساسية للنظام (The 5 Core Pillars)
-        </h2>
+        <div className="text-center mb-10 space-y-2">
+          <h2 className="text-2xl font-bold text-slate-900">
+            منظومة تشغيلية ذكية صُممت خصيصاً لعيادات الأسنان
+          </h2>
+          <p className="text-sm text-slate-500 max-w-xl mx-auto">
+            كافة الأدوات التي يحتاجها طبيب الأسنان وطاقم الاستقبال لضبط الجداول وزيادة الإيرادات والامتثال للقوانين
+          </p>
+        </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* Pillar 1: Conversational Voice AI */}
-          <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-emerald-500/50 transition">
-            <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
+          {/* Card 1: Conversational AI (Nashmi) */}
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-teal-50 border border-teal-200 flex items-center justify-center text-teal-600">
               <Mic className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-white">الذكاء الاصطناعي الصوتي والمحادثي</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              معالجة الرسائل الصوتية (.ogg) ومحادثات الواتساب بلهجة أردنية عفوية وسريعة، مع حجز فوري وسلس ودعم
-              ملفات العائلة (حجز الآباء لأبنائهم).
+            <h3 className="text-base font-bold text-slate-900">المساعد الذكي &quot;نشمي&quot; (Voice &amp; Text)</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              معالجة الرسائل الصوتية والنصية بلهجة أردنية عفوية وسريعة، اقتراح المواعيد الشاغرة، وتثبيت الحجز الفوري
+              مع دعم كامل لملفات العائلة والمرافقين.
             </p>
           </div>
 
-          {/* Pillar 2: JoFotara E-Invoicing */}
-          <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-emerald-500/50 transition">
-            <div className="w-12 h-12 rounded-xl bg-teal-500/10 border border-teal-500/30 flex items-center justify-center text-teal-400">
+          {/* Card 2: JoFotara E-Invoicing */}
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-700">
               <FileCode className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-white">نظام الفوترة الوطني JoFotara (Phase 2)</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              توليد XML مطابق لمعيار UBL 2.1 (ISO/IEC 19845)، فواتير مبسطة B2C بدون رقم وطني، وفواتير قياسية B2B بالرقم
-              الضريبي، وتشفير تسلسلي PIH مع رمز الاستجابة السريعة TLV Base64.
+            <h3 className="text-base font-bold text-slate-900">الفوترة الوطنية JoFotara (المرحلة 2)</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              إصدار فواتير إلكترونية معتمدة بصيغة UBL 2.1 XML مشفرة تسلسلياً (PIH)، مع رمز الاستجابة السريعة
+              (TLV Base64 QR) ودعم الفواتير المبسطة B2C والعامة B2B.
             </p>
           </div>
 
-          {/* Pillar 3: Waitlist Sniper */}
-          <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-emerald-500/50 transition">
-            <div className="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400">
+          {/* Card 3: Waitlist Sniper */}
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
               <Crosshair className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-white">قناص المواعيد الشاغرة (Waitlist Sniper)</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              بمجرد إلغاء أي موعد، يستعلم النظام ذاتياً عن المرضى في قائمة الانتظار ويرسل قالب واتساب فوري لمنح الموعد
-              الشاغر دون تدخل يدوي من موظف الاستقبال.
+            <h3 className="text-base font-bold text-slate-900">قناص قائمة الانتظار (Waitlist Sniper)</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              بمجرد إلغاء أي مريض لموعده، يقوم القناص آلياً بمطابقة مدة الشاغر مع قائمة الانتظار وإرسال عرض فوري للمريض
+              الأنسب لشغل الكرسي بدون أي هدر زمني.
             </p>
           </div>
 
-          {/* Pillar 4: Reminders & No-Show Recovery */}
-          <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-emerald-500/50 transition">
-            <div className="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+          {/* Card 4: Reminders & No-Show Recovery */}
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-amber-50 border border-amber-200 flex items-center justify-center text-amber-600">
               <Bell className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-white">التذكير الذكي واستعادة الغائبين (No-Show)</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              تذكير قبل 24 ساعة، وتذكير قبل ساعتين مع رابط خرائط جوجل المباشر للعيادة، بالإضافة لمتابعة لطيفة بعد ساعة
-              من فوات الموعد لإعادة جدولته.
+            <h3 className="text-base font-bold text-slate-900">التذكير الذكي واستعادة الغائبين (No-Show)</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              تذكير مؤتمت قبل 24 ساعة، وتذكير تفاعلي قبل ساعتين مع موقع العيادة الجغرافي، مع ملاحقة لطيفة بعد ساعة من
+              فوات الموعد لإعادة جدولته فوراً.
             </p>
           </div>
 
-          {/* Pillar 5: Legal Shield (Law 25 & 24) */}
-          <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-emerald-500/50 transition">
-            <div className="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400">
+          {/* Card 5: Legal Shield (Law 25 & 24) */}
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-rose-50 border border-rose-200 flex items-center justify-center text-rose-600">
               <Shield className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-white">الدرع القانوني والطبي (Law No. 25 & 24)</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              منع قطعي لأي تشخيص أو اقتراح أدوية ومسكنات، تحفيز فوري لكود [EMERGENCY_TRIGGER] عند رصد النزيف أو الألم الحاد،
-              ومطابقة تامة لحفظ سجلات 5 سنوات عبر الحذف اللطيف.
+            <h3 className="text-base font-bold text-slate-900">درع المسؤولية الطبية وحماية البيانات</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              حظر قطعي لأي تشخيص أو صرف مسكنات عن بعد وفق قانون 25 لعام 2018، وتفعيل بروتوكول الطوارئ السريرية
+              [EMERGENCY_TRIGGER]، مع حماية بيانات المرضى وفق قانون 24 لعام 2023.
             </p>
           </div>
 
-          {/* Pillar 6: Sterilization & Multi-Tenancy */}
-          <div className="bg-slate-900/80 border border-slate-800 p-6 rounded-2xl space-y-3 hover:border-emerald-500/50 transition">
-            <div className="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
-              <Lock className="w-6 h-6" />
+          {/* Card 6: Multi-Practitioner & Chairs Roster */}
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-6 shadow-sm hover:shadow-md transition space-y-3">
+            <div className="w-12 h-12 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center justify-center text-indigo-600">
+              <Users className="w-6 h-6" />
             </div>
-            <h3 className="text-base font-bold text-white">فترة التعقيم الإلزامية 15 دقيقة وعزل RLS</h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
-              إضافة تلقائية لـ 15 دقيقة تعقيم بعد كل موعد في Google Calendar لمنع الحجز المزدوج، وعزل كامل لبيانات
-              العيادات عبر Supabase Row Level Security.
+            <h3 className="text-base font-bold text-slate-900">جدولة الأطباء المتعددين وكراسي الأسنان</h3>
+            <p className="text-xs text-slate-600 leading-relaxed">
+              إدارة مرنة لأطباء المركز وتوزيع الحجوزات حسب التخصص والكرسي المتاح، مع احتساب إلزامي لـ 15 دقيقة تعقيم
+              طبي بين المواعيد المتتابعة.
             </p>
           </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
-        <p>NashmiOps Enterprise (MVP Edition) © 2026 | عيادات الأسنان - المملكة الأردنية الهاشمية (عمان)</p>
+      <footer className="border-t border-slate-200 bg-white py-6 text-center text-xs text-slate-500">
+        <p>نظام ترتيب لإدارة العيادات (Tarteeb Clinic OS) © 2026 | مدعوم بالمساعد الذكي نشمي - عمان، المملكة الأردنية الهاشمية</p>
       </footer>
     </main>
   );
@@ -1487,7 +1503,7 @@ export default function SandboxPage() {
     {
       id: 'm1',
       sender: 'bot',
-      text: 'يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان في عمان 🦷 تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟',
+      text: 'يا هلا والله فيك في نظام ترتيب لإدارة العيادات (المساعد نشمي) 🦷 تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟',
       time: '10:00 ص',
     },
   ]);
@@ -1693,7 +1709,7 @@ export default function SandboxPage() {
       const detectedName = nameMatch ? nameMatch[1] : '';
       const greeting = detectedName ? `أهلاً بك يا ${detectedName}` : 'أهلاً بك يا غالي';
       const fallbackText = isGreeting
-        ? 'وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟'
+        ? 'وعليكم السلام ورحمة الله، يا هلا والله فيك في نظام ترتيب لإدارة العيادات (المساعد نشمي)! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷'
         : `${greeting}، غلبتك صار خطأ بسيط بالاتصال، ممكن تعيدلي طلبك بعد إذنك؟`;
 
       const botMsg: ChatMessage = {
@@ -1723,7 +1739,7 @@ export default function SandboxPage() {
       const detectedName = nameMatch ? nameMatch[1] : '';
       const greeting = detectedName ? `أهلاً بك يا ${detectedName}` : 'أهلاً بك يا غالي';
       const fallbackText = isGreeting
-        ? 'وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟'
+        ? 'وعليكم السلام ورحمة الله، يا هلا والله فيك في نظام ترتيب لإدارة العيادات (المساعد نشمي)! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷'
         : `${greeting}، غلبتك صار خطأ بسيط بالاتصال، ممكن تعيدلي طلبك بعد إذنك؟`;
 
       setMessages((prev) => [
@@ -1762,22 +1778,22 @@ export default function SandboxPage() {
   };
 
   return (
-    <div dir="rtl" className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+    <div dir="rtl" className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
       {/* Top Header */}
-      <header className="px-6 py-3.5 border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50 flex items-center justify-between no-print">
+      <header className="px-6 py-3.5 border-b border-slate-200 bg-white sticky top-0 z-50 flex items-center justify-between no-print shadow-sm">
         <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center font-bold text-white shadow-md shadow-emerald-600/30">
-            🦷
+          <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-teal-600 to-cyan-500 flex items-center justify-center font-bold text-white shadow-md shadow-teal-600/20">
+            ت
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-bold text-base md:text-lg">NashmiOps Enterprise (MVP Edition)</h1>
-              <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono">
+              <h1 className="font-bold text-base md:text-lg text-slate-900">نظام ترتيب (Tarteeb Clinic OS)</h1>
+              <span className="text-[10px] bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded-full font-semibold">
                 عمان - الأردن 🇯🇴
               </span>
             </div>
-            <p className="text-xs text-slate-400">
-              بيئة المحاكاة التفاعلية (Dual-Pane Sandbox) | نظام تشغيل العيادات الذكي
+            <p className="text-xs text-slate-500">
+              لوحة التحكم الطبية والمحاكاة التفاعلية (Clinic ERP Dashboard) | نظام تشغيل العيادات
             </p>
           </div>
         </div>
@@ -1785,7 +1801,7 @@ export default function SandboxPage() {
         <div className="flex items-center gap-2">
           <button
             onClick={fetchTelemetry}
-            className="flex items-center gap-1.5 text-xs text-slate-300 hover:text-white bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700 transition"
+            className="flex items-center gap-1.5 text-xs text-slate-700 hover:text-slate-900 bg-slate-100 hover:bg-slate-200 px-3 py-1.5 rounded-lg border border-slate-200 transition font-medium"
           >
             <RefreshCw className="w-3.5 h-3.5" />
             <span>تحديث البيانات</span>
@@ -1796,22 +1812,22 @@ export default function SandboxPage() {
       {/* Main Dual-Pane Container */}
       <main className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden h-[calc(100vh-65px)]">
         {/* LEFT PANE: WhatsApp Simulator (5 cols on desktop) */}
-        <section className="lg:col-span-5 flex flex-col border-b lg:border-b-0 lg:border-l border-slate-800 bg-slate-950 no-print">
+        <section className="lg:col-span-5 flex flex-col border-b lg:border-b-0 lg:border-l border-slate-200 bg-white no-print">
           {/* WhatsApp Header Simulation */}
-          <div className="px-4 py-3 bg-slate-900/80 border-b border-slate-800 flex items-center justify-between">
+          <div className="px-4 py-3 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="relative">
-                <div className="w-10 h-10 rounded-full bg-emerald-700 flex items-center justify-center text-white font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-teal-600 flex items-center justify-center text-white font-bold text-sm shadow-sm">
                   نشمي
                 </div>
-                <span className="absolute bottom-0 left-0 w-3 h-3 bg-emerald-500 border-2 border-slate-900 rounded-full"></span>
+                <span className="absolute bottom-0 left-0 w-3 h-3 bg-teal-500 border-2 border-white rounded-full"></span>
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <h2 className="text-sm font-semibold text-white">{CLINIC_CONFIG.name}</h2>
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <h2 className="text-sm font-semibold text-slate-900">{CLINIC_CONFIG.name}</h2>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
                 </div>
-                <p className="text-[11px] text-slate-400">متصل الآن عبر واتساب الأعمال • عمان</p>
+                <p className="text-[11px] text-slate-500">متصل الآن عبر واتساب الأعمال • عمان</p>
               </div>
             </div>
 
@@ -1819,22 +1835,22 @@ export default function SandboxPage() {
               <button
                 onClick={handleResetChat}
                 title="بدء محادثة جديدة ومسح السجل"
-                className="flex items-center gap-1 text-[11px] text-slate-300 hover:text-rose-400 bg-slate-800 hover:bg-slate-700/80 px-2 py-1 rounded border border-slate-700 transition"
+                className="flex items-center gap-1 text-[11px] text-slate-600 hover:text-rose-600 bg-white hover:bg-slate-100 px-2.5 py-1 rounded border border-slate-200 transition font-medium"
               >
                 <RotateCcw className="w-3 h-3" />
                 <span>محادثة جديدة</span>
               </button>
-              <span className="text-[10px] text-slate-400 bg-slate-800 px-2 py-1 rounded">
+              <span className="text-[10px] text-slate-600 bg-white border border-slate-200 px-2 py-1 rounded font-mono">
                 +962 7 9000 0000
               </span>
             </div>
           </div>
 
           {/* Quick Scenario Chips */}
-          <div className="p-2.5 bg-slate-900/40 border-b border-slate-800/60 overflow-x-auto flex gap-2 text-xs">
+          <div className="p-2.5 bg-slate-50/80 border-b border-slate-200 overflow-x-auto flex gap-2 text-xs">
             <button
               onClick={() => handleSendMessage('مرحبا، بدي احجز موعد كشف واستشارة بكرة بعد الظهر')}
-              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition"
+              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 shadow-sm transition font-medium"
             >
               🩺 حجز موعد كشف
             </button>
@@ -1842,16 +1858,16 @@ export default function SandboxPage() {
               onClick={() =>
                 handleSendMessage('مرحبا يا دكتور، عندي نزيف مستمر في اللثة مع ورم كبير في خدي ومش قادر اتنفس كويس', false)
               }
-              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-red-950/40 hover:bg-red-900/50 text-red-300 border border-red-800/40 transition flex items-center gap-1"
+              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 shadow-sm transition flex items-center gap-1 font-medium"
             >
-              <AlertTriangle className="w-3 h-3 text-red-400" />
+              <AlertTriangle className="w-3 h-3 text-rose-600" />
               <span>🚨 اختبار طوارئ قانون 25</span>
             </button>
             <button
               onClick={() =>
                 handleSendMessage('بدي احجز موعد تنظيف أسنان لابني عمره 10 سنوات واسمه كرم التميمي', false)
               }
-              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-blue-950/40 hover:bg-blue-900/50 text-blue-300 border border-blue-800/40 transition"
+              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-cyan-50 hover:bg-cyan-100 text-cyan-800 border border-cyan-200 shadow-sm transition font-medium"
             >
               👨‍👩‍👧 حجز لابني (عائلة)
             </button>
@@ -1859,7 +1875,7 @@ export default function SandboxPage() {
               onClick={() =>
                 handleSendMessage('بدي الغي موعدي بكرة لانه عندي ظرف طارئ', false)
               }
-              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-amber-950/40 hover:bg-amber-900/50 text-amber-300 border border-amber-800/40 transition"
+              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 shadow-sm transition font-medium"
             >
               ❌ إلغاء موعد (قناص)
             </button>
@@ -1867,14 +1883,14 @@ export default function SandboxPage() {
               onClick={() =>
                 handleSendMessage('أنا شركة استشارات، بدي فاتورة ضريبية رسمية للشركة باسم شركة الأمل ورقمها الضريبي 102938475', false)
               }
-              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-teal-950/40 hover:bg-teal-900/50 text-teal-300 border border-teal-800/40 transition"
+              className="whitespace-nowrap px-2.5 py-1 rounded-full bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 shadow-sm transition font-medium"
             >
               📜 فاتورة JoFotara B2B
             </button>
           </div>
 
           {/* Messages Feed */}
-          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-[radial-gradient(#1e293b_1px,transparent_1px)] [background-size:16px_16px]">
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-100/60">
             {messages.map((msg) => {
               const isUser = msg.sender === 'user';
               return (
@@ -1883,12 +1899,12 @@ export default function SandboxPage() {
                   className={`flex items-end gap-2 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}
                 >
                   <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 ${
+                    className={`w-7 h-7 rounded-full flex items-center justify-center text-xs shrink-0 shadow-sm ${
                       isUser
-                        ? 'bg-blue-600 text-white'
+                        ? 'bg-slate-800 text-white'
                         : msg.isEmergency
-                        ? 'bg-red-600 text-white animate-pulse'
-                        : 'bg-emerald-600 text-white'
+                        ? 'bg-rose-600 text-white animate-pulse'
+                        : 'bg-teal-100 text-teal-700 border border-teal-200 font-bold'
                     }`}
                   >
                     {isUser ? <User className="w-3.5 h-3.5" /> : <Bot className="w-3.5 h-3.5" />}
@@ -1897,17 +1913,17 @@ export default function SandboxPage() {
                   <div
                     className={`max-w-[85%] rounded-2xl px-3.5 py-2.5 text-xs md:text-sm leading-relaxed shadow-sm ${
                       isUser
-                        ? 'bg-emerald-700 text-white rounded-bl-none'
+                        ? 'bg-teal-600 text-white rounded-bl-none'
                         : msg.isEmergency
-                        ? 'bg-red-950/80 border border-red-700 text-red-100 rounded-br-none'
-                        : 'bg-slate-900 border border-slate-800 text-slate-200 rounded-br-none'
+                        ? 'bg-rose-50 border border-rose-200 text-rose-900 rounded-br-none font-medium'
+                        : 'bg-white border border-slate-200 text-slate-800 rounded-br-none'
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{msg.text}</p>
                     <span
                       suppressHydrationWarning={true}
-                      className={`block text-[10px] mt-1 text-left opacity-60 ${
-                        isUser ? 'text-emerald-200' : 'text-slate-400'
+                      className={`block text-[10px] mt-1 text-left opacity-75 ${
+                        isUser ? 'text-teal-100' : 'text-slate-400'
                       }`}
                     >
                       {isMounted ? msg.time : ''}
@@ -1918,20 +1934,20 @@ export default function SandboxPage() {
             })}
 
             {loading && (
-              <div className="flex items-center gap-2 text-slate-400 text-xs">
-                <Sparkles className="w-4 h-4 animate-spin text-emerald-400" />
-                <span>نشمي يكتب الآن...</span>
+              <div className="flex items-center gap-2 text-slate-500 text-xs">
+                <Sparkles className="w-4 h-4 animate-spin text-teal-600" />
+                <span>المساعد نشمي يكتب الآن...</span>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
 
           {/* Input Area */}
-          <div className="p-3 border-t border-slate-800 bg-slate-900/90 flex items-center gap-2">
+          <div className="p-3 border-t border-slate-200 bg-white flex items-center gap-2">
             <button
               onClick={() => handleSendMessage('يا هلا دكتور، بسجل صوتي عشان أسأل عن موعد تنظيف أسنان الأربعاء الجاي', true)}
               title="إرسال رسالة صوتية تجريبية"
-              className="p-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 transition shrink-0"
+              className="p-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-teal-600 border border-slate-200 transition shrink-0"
             >
               <Mic className="w-4 h-4" />
             </button>
@@ -1947,13 +1963,13 @@ export default function SandboxPage() {
                 }
               }}
               placeholder="اكتب رسالة واتساب كالمريض..."
-              className="flex-1 bg-slate-950 border border-slate-700 focus:border-emerald-500 rounded-xl px-3.5 py-2 text-xs md:text-sm text-slate-100 outline-none resize-none"
+              className="flex-1 bg-slate-50 border border-slate-200 focus:border-teal-500 focus:bg-white rounded-xl px-3.5 py-2 text-xs md:text-sm text-slate-900 outline-none resize-none transition"
             />
 
             <button
               onClick={() => handleSendMessage()}
               disabled={!inputText.trim() || loading}
-              className="p-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 disabled:opacity-40 text-white transition shrink-0"
+              className="p-2.5 rounded-xl bg-teal-600 hover:bg-teal-500 disabled:opacity-40 text-white transition shrink-0 shadow-md shadow-teal-600/20"
             >
               <Send className="w-4 h-4 -rotate-90" />
             </button>
@@ -1961,16 +1977,15 @@ export default function SandboxPage() {
         </section>
 
         {/* RIGHT PANE: Live Telemetry & Control Center (7 cols on desktop) */}
-        <section className="lg:col-span-7 flex flex-col bg-slate-900/50 overflow-hidden">
+        <section className="lg:col-span-7 flex flex-col bg-slate-50 overflow-hidden">
           {/* Tabs Navigation */}
-          {/* Tabs Navigation */}
-          <div className="flex items-center border-b border-slate-800 bg-slate-900 px-4 pt-2 no-print overflow-x-auto">
+          <div className="flex items-center border-b border-slate-200 bg-white px-4 pt-2 no-print overflow-x-auto shadow-sm">
             <button
               onClick={() => setActiveTab('tools')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'tools'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
@@ -1981,14 +1996,14 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('database')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'database'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>قاعدة البيانات</span>
               {telemetry.database?.appointments?.length > 0 && (
-                <span className="text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.2 rounded-full font-mono">
+                <span className="text-[10px] bg-teal-100 text-teal-800 px-1.5 py-0.2 rounded-full font-mono font-bold">
                   {telemetry.database.appointments.length}
                 </span>
               )}
@@ -1998,8 +2013,8 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('roster')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'roster'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Users className="w-3.5 h-3.5" />
@@ -2010,8 +2025,8 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('ehr')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'ehr'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Stethoscope className="w-3.5 h-3.5" />
@@ -2022,14 +2037,14 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('alerts')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'alerts'
-                  ? 'border-rose-500 text-rose-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-rose-600 text-rose-700 bg-rose-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Bell className="w-3.5 h-3.5" />
               <span>تنبيهات الاستقبال</span>
               {liveAlerts.length > 0 && (
-                <span className="text-[10px] bg-rose-500/20 text-rose-300 border border-rose-500/40 px-1.5 py-0.2 rounded-full font-mono animate-pulse">
+                <span className="text-[10px] bg-rose-100 text-rose-800 border border-rose-300 px-1.5 py-0.2 rounded-full font-mono font-bold animate-pulse">
                   {liveAlerts.length}
                 </span>
               )}
@@ -2039,8 +2054,8 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('jofotara')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'jofotara'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <FileCode className="w-3.5 h-3.5" />
@@ -2051,8 +2066,8 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('jobs')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'jobs'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Crosshair className="w-3.5 h-3.5" />
@@ -2063,8 +2078,8 @@ export default function SandboxPage() {
               onClick={() => setActiveTab('apm')}
               className={`flex items-center gap-1.5 px-3 py-2.5 text-xs font-semibold border-b-2 transition whitespace-nowrap ${
                 activeTab === 'apm'
-                  ? 'border-emerald-500 text-emerald-400 bg-slate-800/40'
-                  : 'border-transparent text-slate-400 hover:text-slate-200'
+                  ? 'border-teal-600 text-teal-700 bg-teal-50/60'
+                  : 'border-transparent text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
               <Activity className="w-3.5 h-3.5" />
@@ -2072,11 +2087,11 @@ export default function SandboxPage() {
             </button>
           </div>
 
-          {/* Prominent Live Receptionist Alerts Banner */}
+          {/* Prominent Live Receptionist Alerts Banner (Light Medical High-Contrast) */}
           {liveAlerts.length > 0 && (
-            <div className="bg-rose-950/70 border-b border-rose-800/60 p-3 space-y-2">
+            <div className="bg-rose-50 border-b border-rose-200 p-3 space-y-2">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-rose-300 font-bold text-xs">
+                <div className="flex items-center gap-2 text-rose-900 font-bold text-xs">
                   <span className="relative flex h-2.5 w-2.5">
                     <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
                     <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
@@ -2085,7 +2100,7 @@ export default function SandboxPage() {
                 </div>
                 <button
                   onClick={() => setActiveTab('alerts')}
-                  className="text-[11px] text-rose-300 underline hover:text-white"
+                  className="text-[11px] text-rose-700 font-semibold underline hover:text-rose-900"
                 >
                   فتح لوحة التنبيهات الكاملة
                 </button>
@@ -2094,10 +2109,10 @@ export default function SandboxPage() {
               {liveAlerts.slice(0, 2).map((alert) => (
                 <div
                   key={alert.id}
-                  className={`flex items-center justify-between text-xs p-2 rounded-lg border ${
+                  className={`flex items-center justify-between text-xs p-2.5 rounded-lg border shadow-sm ${
                     alert.type === 'EMERGENCY'
-                      ? 'bg-rose-900/50 border-rose-700/60 text-rose-100'
-                      : 'bg-amber-900/50 border-amber-700/60 text-amber-100'
+                      ? 'bg-white border-rose-200 text-rose-900'
+                      : 'bg-amber-50 border-amber-200 text-amber-900'
                   }`}
                 >
                   <div className="flex items-center gap-2 overflow-hidden text-ellipsis">
@@ -2111,7 +2126,7 @@ export default function SandboxPage() {
                   </div>
                   <button
                     onClick={() => handleDismissAlert(alert.id)}
-                    className="px-2 py-0.5 rounded text-[11px] bg-slate-800 hover:bg-slate-700 border border-slate-600 transition shrink-0 mr-2"
+                    className="px-2.5 py-1 rounded text-[11px] bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 transition shrink-0 mr-2 shadow-xs font-medium"
                   >
                     تمت المتابعة ✓
                   </button>
@@ -2126,40 +2141,40 @@ export default function SandboxPage() {
             {activeTab === 'tools' && (
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                    <Sparkles className="w-4 h-4 text-emerald-400" />
+                  <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                    <Sparkles className="w-4 h-4 text-teal-600" />
                     <span>سجل استدعاء أدوات الذكاء الاصطناعي (Function Declarations)</span>
                   </h3>
-                  <span className="text-[11px] text-slate-400">
+                  <span className="text-[11px] text-slate-500">
                     النموذج: gemini-3.5-flash / gemini-2.5-flash
                   </span>
                 </div>
 
                 {telemetry.toolCalls.length === 0 ? (
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 text-center text-slate-400 text-xs">
+                  <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-slate-500 text-xs shadow-xs">
                     لم يتم تنفيذ أي استدعاء أدوات حتى الآن. جرب إرسال رسالة حجز أو إلغاء في لوحة المحادثة على اليمين!
                   </div>
                 ) : (
                   telemetry.toolCalls.map((call: any, idx: number) => (
                     <div
                       key={idx}
-                      className="bg-slate-900/90 border border-slate-800 rounded-xl p-4 space-y-2 text-xs font-mono"
+                      className="bg-white border border-slate-200 rounded-xl p-4 space-y-2 text-xs font-mono shadow-xs"
                     >
-                      <div className="flex items-center justify-between text-emerald-400 font-semibold border-b border-slate-800 pb-2">
+                      <div className="flex items-center justify-between text-teal-700 font-semibold border-b border-slate-100 pb-2">
                         <span>Tool: {call.name}()</span>
-                        <span className="text-[10px] text-slate-400 bg-slate-800 px-2 py-0.5 rounded">
+                        <span className="text-[10px] text-teal-800 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
                           Success
                         </span>
                       </div>
                       <div>
-                        <span className="text-slate-400 block mb-1">Arguments:</span>
-                        <pre className="bg-slate-950 p-2.5 rounded-lg text-slate-300 overflow-x-auto">
+                        <span className="text-slate-500 block mb-1 font-sans">المعاملات (Arguments):</span>
+                        <pre className="bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-slate-700 overflow-x-auto">
                           {JSON.stringify(call.args, null, 2)}
                         </pre>
                       </div>
                       <div>
-                        <span className="text-slate-400 block mb-1">Execution Result:</span>
-                        <pre className="bg-slate-950 p-2.5 rounded-lg text-emerald-300 overflow-x-auto">
+                        <span className="text-slate-500 block mb-1 font-sans">نتيجة التنفيذ (Execution Result):</span>
+                        <pre className="bg-slate-50 border border-slate-200 p-2.5 rounded-lg text-teal-800 overflow-x-auto">
                           {JSON.stringify(call.result, null, 2)}
                         </pre>
                       </div>
@@ -2175,18 +2190,18 @@ export default function SandboxPage() {
                 {/* Appointments Section */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <h4 className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                      <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+                    <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                      <Calendar className="w-3.5 h-3.5 text-teal-600" />
                       <span>جدول المواعيد (appointments) - شاملاً فترة التعقيم الإلزامية 15 دقيقة</span>
                     </h4>
-                    <span className="text-[10px] text-slate-400 font-mono">
+                    <span className="text-[10px] text-slate-500 font-mono">
                       Clinic ID: {CLINIC_CONFIG.id}
                     </span>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto">
+                  <div className="bg-white border border-slate-200 rounded-xl overflow-x-auto shadow-xs">
                     <table className="w-full text-right text-xs">
-                      <thead className="bg-slate-950/80 text-slate-400 border-b border-slate-800">
+                      <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
                         <tr>
                           <th className="p-2.5">المريض</th>
                           <th className="p-2.5">الخدمة</th>
@@ -2195,15 +2210,15 @@ export default function SandboxPage() {
                           <th className="p-2.5">الحالة</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-800 text-slate-300">
+                      <tbody className="divide-y divide-slate-100 text-slate-700">
                         {telemetry.database.appointments.map((appt: any) => (
-                          <tr key={appt.id} className="hover:bg-slate-800/40">
-                            <td className="p-2.5 font-medium text-white">{appt.patient_name}</td>
-                            <td className="p-2.5 text-slate-400">{appt.service_type}</td>
+                          <tr key={appt.id} className="hover:bg-slate-50/70">
+                            <td className="p-2.5 font-medium text-slate-900">{appt.patient_name}</td>
+                            <td className="p-2.5 text-slate-600">{appt.service_type}</td>
                             <td className="p-2.5 font-mono text-[11px]">
                               {new Date(appt.start_time).toLocaleString('ar-JO')}
                             </td>
-                            <td className="p-2.5 font-mono text-[11px] text-amber-400">
+                            <td className="p-2.5 font-mono text-[11px] text-amber-700 font-medium">
                               {new Date(appt.sterilization_end_time || appt.end_time).toLocaleTimeString(
                                 'ar-JO'
                               )}
@@ -2212,10 +2227,10 @@ export default function SandboxPage() {
                               <span
                                 className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
                                   appt.status === 'CONFIRMED'
-                                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
                                     : appt.status === 'CANCELLED'
-                                    ? 'bg-red-500/10 text-red-400 border border-red-500/30'
-                                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                                    ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
                                 }`}
                               >
                                 {appt.status}
@@ -2230,14 +2245,14 @@ export default function SandboxPage() {
 
                 {/* Waitlist Section */}
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold text-slate-200 flex items-center gap-1.5">
-                    <Crosshair className="w-3.5 h-3.5 text-teal-400" />
+                  <h4 className="text-xs font-bold text-slate-800 flex items-center gap-1.5">
+                    <Crosshair className="w-3.5 h-3.5 text-teal-600" />
                     <span>قائمة الانتظار الذكية (waitlist)</span>
                   </h4>
 
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl overflow-x-auto">
+                  <div className="bg-white border border-slate-200 rounded-xl overflow-x-auto shadow-xs">
                     <table className="w-full text-right text-xs">
-                      <thead className="bg-slate-950/80 text-slate-400 border-b border-slate-800">
+                      <thead className="bg-slate-50 text-slate-600 border-b border-slate-200 font-semibold">
                         <tr>
                           <th className="p-2.5">المريض</th>
                           <th className="p-2.5">الهاتف</th>
@@ -2246,15 +2261,15 @@ export default function SandboxPage() {
                           <th className="p-2.5">الحالة</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-slate-800 text-slate-300">
+                      <tbody className="divide-y divide-slate-100 text-slate-700">
                         {telemetry.database.waitlist.map((wait: any) => (
-                          <tr key={wait.id}>
-                            <td className="p-2.5 text-white">{wait.patient_name}</td>
-                            <td className="p-2.5 font-mono">{wait.patient_phone}</td>
-                            <td className="p-2.5">{wait.requested_service}</td>
-                            <td className="p-2.5 font-mono">{wait.preferred_date}</td>
+                          <tr key={wait.id} className="hover:bg-slate-50/70">
+                            <td className="p-2.5 font-medium text-slate-900">{wait.patient_name}</td>
+                            <td className="p-2.5 font-mono text-slate-600">{wait.patient_phone}</td>
+                            <td className="p-2.5 text-slate-600">{wait.requested_service}</td>
+                            <td className="p-2.5 font-mono text-slate-600">{wait.preferred_date}</td>
                             <td className="p-2.5">
-                              <span className="px-2 py-0.5 rounded-full text-[10px] bg-teal-500/10 text-teal-300 border border-teal-500/30">
+                              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-50 text-teal-700 border border-teal-200">
                                 {wait.status}
                               </span>
                             </td>
@@ -2270,12 +2285,12 @@ export default function SandboxPage() {
             {/* TAB 3: JoFotara Phase 2 UBL 2.1 */}
             {activeTab === 'jofotara' && (
               <div className="space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-4 rounded-xl no-print">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-slate-200 p-4 rounded-xl shadow-xs no-print">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-200">
+                    <h3 className="text-sm font-bold text-slate-800">
                       محرك الفوترة الإلكترونية الوطنية JoFotara (Phase 2)
                     </h3>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       معاينة بصرية كاملة للفاتورة مع طباعة رسمية وتوليد XML مطابق لمعيار UBL 2.1 ورمز TLV QR
                     </p>
                   </div>
@@ -2283,7 +2298,7 @@ export default function SandboxPage() {
                   <div className="flex gap-2">
                     <button
                       onClick={() => executeJobAction('test_jofotara', { invoiceType: 'B2C_SIMPLIFIED' })}
-                      className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition active:scale-95"
+                      className="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-700 text-white text-xs font-semibold shadow-xs transition active:scale-95"
                     >
                       توليد B2C مبسطة
                     </button>
@@ -2295,7 +2310,7 @@ export default function SandboxPage() {
                           buyerTaxId: '109283746',
                         })
                       }
-                      className="px-3 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold shadow-sm transition active:scale-95"
+                      className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold shadow-xs transition active:scale-95"
                     >
                       توليد B2B معتمدة
                     </button>
@@ -2308,7 +2323,7 @@ export default function SandboxPage() {
                     metadata={telemetry.latestInvoiceMeta}
                   />
                 ) : (
-                  <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 text-center text-slate-400 text-xs no-print">
+                  <div className="bg-white border border-slate-200 rounded-xl p-8 text-center text-slate-500 text-xs no-print shadow-xs">
                     اضغط على &quot;توليد B2C مبسطة&quot; أو &quot;توليد B2B معتمدة&quot; لمعاينة الفاتورة أو كود الـ XML الناتج فوراً!
                   </div>
                 )}
@@ -2319,49 +2334,49 @@ export default function SandboxPage() {
             {activeTab === 'jobs' && (
               <div className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-2 shadow-xs">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-bold text-xs text-white">Waitlist Sniper</h4>
-                      <Crosshair className="w-4 h-4 text-emerald-400" />
+                      <h4 className="font-bold text-xs text-slate-900">Waitlist Sniper</h4>
+                      <Crosshair className="w-4 h-4 text-teal-600" />
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-slate-600 leading-relaxed">
                       عند إلغاء موعد، يقنص أقرب مريض في قائمة الانتظار ويرسل له قالب واتساب فوري لملء الشاغر.
                     </p>
                     <button
                       onClick={() => executeJobAction('trigger_waitlist_sniper')}
-                      className="w-full mt-2 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 text-xs font-semibold py-1.5 rounded-lg transition"
+                      className="w-full mt-2 bg-teal-50 hover:bg-teal-100 text-teal-700 border border-teal-200 text-xs font-semibold py-1.5 rounded-lg transition"
                     >
                       تشغيل القناص فوراً
                     </button>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-2 shadow-xs">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-bold text-xs text-white">No-Show Recovery</h4>
-                      <RefreshCw className="w-4 h-4 text-amber-400" />
+                      <h4 className="font-bold text-xs text-slate-900">No-Show Recovery</h4>
+                      <RefreshCw className="w-4 h-4 text-amber-600" />
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-slate-600 leading-relaxed">
                       يرصد المواعيد الفائتة ويرسل رسالة إعادة تفعيل لطيفة بعد ساعة لإعادة جدولة الموعد مجاناً.
                     </p>
                     <button
                       onClick={() => executeJobAction('trigger_no_show_recovery')}
-                      className="w-full mt-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/30 text-xs font-semibold py-1.5 rounded-lg transition"
+                      className="w-full mt-2 bg-amber-50 hover:bg-amber-100 text-amber-700 border border-amber-200 text-xs font-semibold py-1.5 rounded-lg transition"
                     >
                       معالجة الغائبين (No-Show)
                     </button>
                   </div>
 
-                  <div className="bg-slate-900 border border-slate-800 p-4 rounded-xl space-y-2">
+                  <div className="bg-white border border-slate-200 p-4 rounded-xl space-y-2 shadow-xs">
                     <div className="flex items-center justify-between">
-                      <h4 className="font-bold text-xs text-white">Smart Reminders</h4>
-                      <Bell className="w-4 h-4 text-blue-400" />
+                      <h4 className="font-bold text-xs text-slate-900">Smart Reminders</h4>
+                      <Bell className="w-4 h-4 text-blue-600" />
                     </div>
-                    <p className="text-[11px] text-slate-400 leading-relaxed">
+                    <p className="text-[11px] text-slate-600 leading-relaxed">
                       يرسل تذكير قبل 24 ساعة، وتذكير قبل ساعتين يتضمن رابط خرائط جوجل المباشر لعيادة الدوار السابع.
                     </p>
                     <button
                       onClick={() => executeJobAction('trigger_smart_reminders')}
-                      className="w-full mt-2 bg-blue-600/20 hover:bg-blue-600/30 text-blue-300 border border-blue-500/30 text-xs font-semibold py-1.5 rounded-lg transition"
+                      className="w-full mt-2 bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 text-xs font-semibold py-1.5 rounded-lg transition"
                     >
                       فحص التذكيرات الذكية
                     </button>
@@ -2370,22 +2385,22 @@ export default function SandboxPage() {
 
                 {/* Job Execution Logs */}
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-slate-300">سجل تشغيل المهام بالخلفية:</h4>
+                  <h4 className="text-xs font-bold text-slate-700">سجل تشغيل المهام بالخلفية:</h4>
                   {telemetry.jobsLog.length === 0 ? (
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-4 text-center text-slate-400 text-xs">
+                    <div className="bg-white border border-slate-200 rounded-xl p-4 text-center text-slate-500 text-xs shadow-xs">
                       اضغط على أحد أزرار تشغيل المهام بالأعلى لمعاينة نتيجته المباشرة هنا!
                     </div>
                   ) : (
                     telemetry.jobsLog.map((log: any, idx: number) => (
                       <div
                         key={idx}
-                        className="bg-slate-950 border border-slate-800 p-3 rounded-xl text-xs font-mono space-y-1.5"
+                        className="bg-white border border-slate-200 p-3 rounded-xl text-xs font-mono space-y-1.5 shadow-xs"
                       >
-                        <div className="flex items-center justify-between text-slate-400 text-[11px]">
-                          <span className="text-emerald-400 font-bold">{log.action}</span>
+                        <div className="flex items-center justify-between text-slate-500 text-[11px]">
+                          <span className="text-teal-700 font-bold">{log.action}</span>
                           <span>{new Date(log.timestamp).toLocaleTimeString('ar-JO')}</span>
                         </div>
-                        <pre className="text-slate-300 overflow-x-auto text-[11px]">
+                        <pre className="bg-slate-50 border border-slate-200 p-2 rounded text-slate-700 overflow-x-auto text-[11px]">
                           {JSON.stringify(log.result, null, 2)}
                         </pre>
                       </div>
@@ -2400,22 +2415,22 @@ export default function SandboxPage() {
               <div className="space-y-6">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                      <Users className="w-4 h-4 text-emerald-400" />
+                    <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                      <Users className="w-4 h-4 text-teal-600" />
                       <span>كادر الأطباء وكراسي الأسنان (Multi-Practitioner & Multi-Chair Roster)</span>
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       توزيع المواعيد تلقائياً حسب تخصص الطبيب أو الكرسي الطبي المتاح (3 أطباء و 3 كراسي مجهزة)
                     </p>
                   </div>
-                  <span className="text-xs bg-emerald-500/20 text-emerald-300 px-2.5 py-1 rounded-full border border-emerald-500/30">
+                  <span className="text-xs bg-teal-50 text-teal-700 px-2.5 py-1 rounded-full border border-teal-200 font-medium">
                     Phase 2 Active
                   </span>
                 </div>
 
                 {/* Practitioners Section */}
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
                     <span>👨‍⚕️ الأطباء المعتمدون بالمركز (Practitioners):</span>
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -2453,7 +2468,7 @@ export default function SandboxPage() {
                     ]).map((doc: any) => (
                       <div
                         key={doc.id}
-                        className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 hover:border-slate-700 transition"
+                        className="bg-white border border-slate-200 rounded-xl p-4 space-y-3 hover:border-slate-300 transition shadow-xs"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
@@ -2461,14 +2476,14 @@ export default function SandboxPage() {
                               className="w-3 h-3 rounded-full"
                               style={{ backgroundColor: doc.color_code || '#0d9488' }}
                             />
-                            <h5 className="font-bold text-sm text-slate-100">{doc.name_ar}</h5>
+                            <h5 className="font-bold text-sm text-slate-900">{doc.name_ar}</h5>
                           </div>
-                          <span className="text-[10px] bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded-full border border-emerald-500/20 font-medium">
+                          <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 font-medium">
                             نشط بالدوام
                           </span>
                         </div>
-                        <p className="text-xs text-slate-300 font-medium">{doc.specialty_ar}</p>
-                        <div className="text-[11px] text-slate-400 space-y-1 font-mono">
+                        <p className="text-xs text-slate-600 font-medium">{doc.specialty_ar}</p>
+                        <div className="text-[11px] text-slate-500 space-y-1 font-mono">
                           <div>الترخيص: {doc.license_number || 'JDA-LIC-2026'}</div>
                           <div>الهاتف المباشر: {doc.phone || '+962790000000'}</div>
                         </div>
@@ -2479,7 +2494,7 @@ export default function SandboxPage() {
 
                 {/* Dental Chairs Section */}
                 <div className="space-y-3">
-                  <h4 className="text-xs font-bold text-slate-300 flex items-center gap-1.5">
+                  <h4 className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
                     <span>🪑 كراسي وأجنحة الأسنان المجهزة (Dental Chairs):</span>
                   </h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -2508,18 +2523,18 @@ export default function SandboxPage() {
                     ]).map((chair: any) => (
                       <div
                         key={chair.id}
-                        className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-2.5 hover:border-slate-700 transition"
+                        className="bg-white border border-slate-200 rounded-xl p-4 space-y-2.5 hover:border-slate-300 transition shadow-xs"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                          <span className="text-xs font-bold text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200">
                             كرسي #{chair.chair_number}
                           </span>
-                          <span className="text-[10px] bg-slate-800 text-slate-300 px-2 py-0.5 rounded">
+                          <span className="text-[10px] bg-slate-100 text-slate-700 px-2 py-0.5 rounded border border-slate-200 font-medium">
                             جاهز ومُعقم
                           </span>
                         </div>
-                        <h5 className="font-bold text-xs text-slate-200">{chair.name_ar}</h5>
-                        <p className="text-[11px] text-slate-400 leading-relaxed">
+                        <h5 className="font-bold text-xs text-slate-900">{chair.name_ar}</h5>
+                        <p className="text-[11px] text-slate-600 leading-relaxed">
                           {chair.description_ar}
                         </p>
                       </div>
@@ -2534,15 +2549,15 @@ export default function SandboxPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                      <Stethoscope className="w-4 h-4 text-emerald-400" />
+                    <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                      <Stethoscope className="w-4 h-4 text-teal-600" />
                       <span>السجل الطبي السريري ومخطط الأسنان (Clinical EHR & Odontogram)</span>
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       توثيق الملاحظات الطبية، التشخيص، الوصفات، ومخطط الأسنان FDI وفق قانون المسؤولية الطبية رقم 25
                     </p>
                   </div>
-                  <span className="text-xs bg-blue-500/10 text-blue-300 px-2.5 py-1 rounded-full border border-blue-500/20">
+                  <span className="text-xs bg-blue-50 text-blue-700 px-2.5 py-1 rounded-full border border-blue-200 font-medium">
                     حفظ إلزامي 5 سنوات
                   </span>
                 </div>
@@ -2572,19 +2587,19 @@ export default function SandboxPage() {
                   ]).map((rec: any) => (
                     <div
                       key={rec.id}
-                      className="bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3 text-xs leading-relaxed"
+                      className="bg-white border border-slate-200 rounded-xl p-4 space-y-3 text-xs leading-relaxed shadow-xs"
                     >
-                      <div className="flex items-center justify-between border-b border-slate-800 pb-2">
+                      <div className="flex items-center justify-between border-b border-slate-100 pb-2">
                         <div className="flex items-center gap-2">
-                          <span className="font-bold text-slate-100 text-sm">{rec.patient_name || 'مريض نشمي'}</span>
+                          <span className="font-bold text-slate-900 text-sm">{rec.patient_name || 'مريض ترتيب'}</span>
                           <span className="text-slate-400 font-mono text-[11px]">({rec.id})</span>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className="text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-medium">
+                          <span className="text-teal-700 bg-teal-50 px-2 py-0.5 rounded border border-teal-200 font-medium">
                             طبيب معالج: {rec.practitioner_name}
                           </span>
                           {rec.informed_consent_signed && (
-                            <span className="text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20">
+                            <span className="text-blue-700 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-medium">
                               موافقة مستنيرة موثقة ✓
                             </span>
                           )}
@@ -2592,42 +2607,42 @@ export default function SandboxPage() {
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        <div className="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                          <span className="text-amber-400 font-bold block mb-1">الشكوى الرئيسية (Chief Complaint):</span>
-                          <p className="text-slate-300">{rec.chief_complaint}</p>
+                        <div className="bg-amber-50/50 p-3 rounded-lg border border-amber-200/60">
+                          <span className="text-amber-800 font-bold block mb-1">الشكوى الرئيسية (Chief Complaint):</span>
+                          <p className="text-slate-700">{rec.chief_complaint}</p>
                         </div>
-                        <div className="bg-slate-900/60 p-3 rounded-lg border border-slate-800/80">
-                          <span className="text-emerald-400 font-bold block mb-1">التشخيص السريري (Diagnosis):</span>
-                          <p className="text-slate-300">{rec.diagnosis}</p>
+                        <div className="bg-teal-50/50 p-3 rounded-lg border border-teal-200/60">
+                          <span className="text-teal-800 font-bold block mb-1">التشخيص السريري (Diagnosis):</span>
+                          <p className="text-slate-700">{rec.diagnosis}</p>
                         </div>
                       </div>
 
-                      <div className="bg-slate-900/40 p-3 rounded-lg border border-slate-800/80">
-                        <span className="text-blue-400 font-bold block mb-1">الإجراء العلاجي المنفذ (Treatment Rendered):</span>
-                        <p className="text-slate-300">{rec.treatment_rendered}</p>
+                      <div className="bg-blue-50/40 p-3 rounded-lg border border-blue-200/60">
+                        <span className="text-blue-800 font-bold block mb-1">الإجراء العلاجي المنفذ (Treatment Rendered):</span>
+                        <p className="text-slate-700">{rec.treatment_rendered}</p>
                       </div>
 
                       {/* FDI Odontogram representation */}
                       {Array.isArray(rec.odontogram) && rec.odontogram.length > 0 && (
                         <div className="space-y-1.5 pt-1">
-                          <span className="text-slate-400 font-bold block">مخطط الأسنان (FDI Odontogram Record):</span>
+                          <span className="text-slate-700 font-bold block">مخطط الأسنان (FDI Odontogram Record):</span>
                           <div className="flex flex-wrap gap-2">
                             {rec.odontogram.map((tooth: any, tIdx: number) => (
                               <div
                                 key={tIdx}
-                                className="bg-slate-900 border border-slate-700 px-2.5 py-1.5 rounded-lg flex items-center gap-2"
+                                className="bg-slate-50 border border-slate-200 px-2.5 py-1.5 rounded-lg flex items-center gap-2"
                               >
-                                <span className="font-bold font-mono text-emerald-400">سن #{tooth.tooth_number}</span>
-                                <span className="text-[10px] bg-slate-800 text-slate-300 px-1.5 py-0.2 rounded font-mono">
+                                <span className="font-bold font-mono text-teal-700">سن #{tooth.tooth_number}</span>
+                                <span className="text-[10px] bg-slate-200/70 text-slate-700 px-1.5 py-0.5 rounded font-mono font-medium">
                                   {tooth.surface || 'ALL'}
                                 </span>
                                 <span
-                                  className={`text-[10px] px-1.5 py-0.5 rounded font-medium ${
+                                  className={`text-[10px] px-1.5 py-0.5 rounded font-semibold ${
                                     tooth.status === 'ROOT_CANAL'
-                                      ? 'bg-purple-900/50 text-purple-300 border border-purple-700/50'
+                                      ? 'bg-purple-100 text-purple-800 border border-purple-200'
                                       : tooth.status === 'CARIES'
-                                      ? 'bg-red-900/50 text-red-300 border border-red-700/50'
-                                      : 'bg-teal-900/50 text-teal-300 border border-teal-700/50'
+                                      ? 'bg-rose-100 text-rose-800 border border-rose-200'
+                                      : 'bg-teal-100 text-teal-800 border border-teal-200'
                                   }`}
                                 >
                                   {tooth.status}
@@ -2648,11 +2663,11 @@ export default function SandboxPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                      <Bell className="w-4 h-4 text-rose-400" />
+                    <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                      <Bell className="w-4 h-4 text-rose-600" />
                       <span>تنبيهات الاستجابة الفورية لطاقم الاستقبال (Receptionist Live Alerts)</span>
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       إشعارات فورية متصلة بـ Supabase Realtime عند رصد حالات طوارئ سريرية حرجة أو تعذر تسليم رسائل واتساب للمرضى
                     </p>
                   </div>
@@ -2679,7 +2694,7 @@ export default function SandboxPage() {
                           console.warn(e);
                         }
                       }}
-                      className="bg-rose-600 hover:bg-rose-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
+                      className="bg-rose-600 hover:bg-rose-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition shadow-xs"
                     >
                       🚨 محاكاة تنبيه طوارئ (Test Emergency)
                     </button>
@@ -2689,17 +2704,17 @@ export default function SandboxPage() {
                 {/* Alerts Stream */}
                 <div className="space-y-3">
                   {liveAlerts.length === 0 ? (
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 text-center text-slate-400 text-xs">
+                    <div className="bg-white border border-slate-200 rounded-xl p-8 text-center text-slate-500 text-xs shadow-xs">
                       لا توجد أي تنبيهات معلقة لطاقم الاستقبال حالياً. جميع الرسائل تم إرسالها بنجاح ولا توجد حالات طوارئ حرجة!
                     </div>
                   ) : (
                     liveAlerts.map((alert) => (
                       <div
                         key={alert.id}
-                        className={`border p-4 rounded-xl space-y-2.5 transition ${
+                        className={`border p-4 rounded-xl space-y-2.5 transition shadow-xs ${
                           alert.type === 'EMERGENCY'
-                            ? 'bg-rose-950/40 border-rose-800/80 shadow-lg shadow-rose-950/30'
-                            : 'bg-amber-950/40 border-amber-800/80'
+                            ? 'bg-rose-50 border-rose-200 text-rose-900'
+                            : 'bg-amber-50 border-amber-200 text-amber-900'
                         }`}
                       >
                         <div className="flex items-center justify-between">
@@ -2707,17 +2722,17 @@ export default function SandboxPage() {
                             <span
                               className={`text-[10px] font-bold px-2 py-0.5 rounded ${
                                 alert.severity === 'CRITICAL'
-                                  ? 'bg-red-500/20 text-red-300 border border-red-500/40 animate-pulse'
-                                  : 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
+                                  ? 'bg-rose-200/80 text-rose-900 border border-rose-300 animate-pulse'
+                                  : 'bg-amber-200/80 text-amber-900 border border-amber-300'
                               }`}
                             >
                               {alert.type === 'EMERGENCY' ? 'طوارئ سريرية حرجة' : 'فشل إرسال واتساب'}
                             </span>
-                            <span className="font-semibold text-xs text-white">
+                            <span className="font-semibold text-xs text-slate-900">
                               {alert.title}
                             </span>
                           </div>
-                          <span className="text-[10px] text-slate-400 font-mono">
+                          <span className="text-[10px] text-slate-500 font-mono">
                             {new Date(alert.timestamp).toLocaleTimeString('ar-JO', {
                               hour: '2-digit',
                               minute: '2-digit',
@@ -2726,18 +2741,18 @@ export default function SandboxPage() {
                           </span>
                         </div>
 
-                        <p className="text-xs text-slate-200 leading-relaxed font-sans">
+                        <p className="text-xs text-slate-800 leading-relaxed font-sans">
                           {alert.description}
                         </p>
 
-                        <div className="flex items-center justify-between pt-2 border-t border-slate-800/60 text-xs">
-                          <div className="flex items-center gap-3 text-slate-400 font-mono text-[11px]">
+                        <div className="flex items-center justify-between pt-2 border-t border-slate-200 text-xs">
+                          <div className="flex items-center gap-3 text-slate-600 font-mono text-[11px]">
                             {alert.patient_phone && <span>الهاتف: {alert.patient_phone}</span>}
                             {alert.patient_name && <span>الاسم: {alert.patient_name}</span>}
                           </div>
                           <button
                             onClick={() => handleDismissAlert(alert.id)}
-                            className="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1"
+                            className="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 px-3 py-1 rounded-lg text-xs font-semibold transition flex items-center gap-1 shadow-xs"
                           >
                             <span>تم التعامل مع التنبيه وحله</span>
                             <span>✓</span>
@@ -2755,11 +2770,11 @@ export default function SandboxPage() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-bold text-slate-200 flex items-center gap-2">
-                      <Activity className="w-4 h-4 text-emerald-400" />
+                    <h3 className="text-sm font-bold text-slate-800 flex items-center gap-2">
+                      <Activity className="w-4 h-4 text-teal-600" />
                       <span>مراقبة الأخطاء والأداء الحية (Real-Time APM & Error Tracking)</span>
                     </h3>
-                    <p className="text-xs text-slate-400 mt-1">
+                    <p className="text-xs text-slate-500 mt-0.5">
                       محرك تتبع الاستثناءات البرمجية والتحذيرات التشغيلية عبر الـ API والـ Webhook لحظياً
                     </p>
                   </div>
@@ -2776,7 +2791,7 @@ export default function SandboxPage() {
                         console.warn(err);
                       }
                     }}
-                    className="bg-amber-600 hover:bg-amber-500 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
+                    className="bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition shadow-xs"
                   >
                     ⚡ اختبار تنبيه تشخيصي (Test APM)
                   </button>
@@ -2785,39 +2800,39 @@ export default function SandboxPage() {
                 {/* Event stream */}
                 <div className="space-y-2.5">
                   {(telemetry.database?.apm_events || []).length === 0 ? (
-                    <div className="bg-slate-900 border border-slate-800 rounded-xl p-8 text-center text-slate-400 text-xs">
+                    <div className="bg-white border border-slate-200 rounded-xl p-8 text-center text-slate-500 text-xs shadow-xs">
                       لا توجد أخطاء مسجلة حالياً. النظام يعمل باستقرار تام وبمعدل استجابة 100%!
                     </div>
                   ) : (
                     (telemetry.database?.apm_events || []).map((ev: any) => (
                       <div
                         key={ev.id}
-                        className="bg-slate-950 border border-slate-800 p-3.5 rounded-xl space-y-2 text-xs"
+                        className="bg-white border border-slate-200 p-3.5 rounded-xl space-y-2 text-xs shadow-xs"
                       >
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2">
                             <span
                               className={`text-[10px] font-bold px-2 py-0.5 rounded ${
                                 ev.severity === 'ERROR' || ev.severity === 'CRITICAL'
-                                  ? 'bg-red-500/20 text-red-400 border border-red-500/30'
+                                  ? 'bg-rose-100 text-rose-800 border border-rose-200'
                                   : ev.severity === 'WARNING'
-                                  ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
-                                  : 'bg-blue-500/20 text-blue-400 border border-blue-500/30'
+                                  ? 'bg-amber-100 text-amber-800 border border-amber-200'
+                                  : 'bg-blue-100 text-blue-800 border border-blue-200'
                               }`}
                             >
                               {ev.severity}
                             </span>
-                            <span className="font-mono text-slate-300 text-[11px]">
+                            <span className="font-mono text-slate-600 text-[11px]">
                               {ev.context?.route || ev.context?.endpoint || '/api'}
                             </span>
                           </div>
-                          <span className="text-[10px] text-slate-500 font-mono">
+                          <span className="text-[10px] text-slate-400 font-mono">
                             {new Date(ev.timestamp).toLocaleTimeString('ar-JO')}
                           </span>
                         </div>
-                        <p className="text-slate-200 font-medium">{ev.message}</p>
+                        <p className="text-slate-800 font-medium">{ev.message}</p>
                         {ev.stack_trace && (
-                          <pre className="text-[10px] font-mono bg-slate-900 p-2 rounded text-red-300 overflow-x-auto max-h-24">
+                          <pre className="text-[10px] font-mono bg-rose-50 border border-rose-200 p-2 rounded text-rose-800 overflow-x-auto max-h-24">
                             {ev.stack_trace}
                           </pre>
                         )}
@@ -2847,16 +2862,17 @@ import fs from 'fs';
 import path from 'path';
 
 const projectRoot = process.cwd();
-const outputFile = path.join(projectRoot, 'nashmi_ops_full_codebase.md');
+const outputFile = path.join(projectRoot, 'tarteeb_medical_os.md');
 const artifactOutput = path.join(
   'C:\\Users\\Toshiba\\.gemini\\antigravity-ide\\brain\\c32f6ced-e9df-4b0f-ba5a-b0db496385c3',
-  'nashmi_ops_full_codebase.md'
+  'tarteeb_medical_os.md'
 );
 
 const includeExtensions = ['.ts', '.tsx', '.js', '.mjs', '.json', '.css', '.sql', '.md'];
 const excludeDirs = ['node_modules', '.next', '.git', 'dist', 'coverage', '.cache'];
 const excludeFiles = [
   'package-lock.json',
+  'tarteeb_medical_os.md',
   'nashmi_ops_full_codebase.md',
   'project.zip',
   'tsconfig.tsbuildinfo',
@@ -2932,7 +2948,7 @@ allFiles.sort((a, b) => {
 
 console.log(`Found ${allFiles.length} files to aggregate.`);
 
-let mdContent = `# 🦷 كود مشروع مركز نشمي لطب الأسنان (NashmiOps Enterprise MVP)
+let mdContent = `# 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
 > **تاريخ التصدير:** ${new Date().toLocaleString('ar-JO', { timeZone: 'Asia/Amman' })}  
 > **عدد الملفات:** ${allFiles.length} ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
@@ -2971,21 +2987,30 @@ for (const file of allFiles) {
 
 // Write to project root
 fs.writeFileSync(outputFile, mdContent, 'utf-8');
-console.log(`✅ Saved bundle to: ${outputFile} (${(Buffer.byteLength(mdContent) / 1024).toFixed(1)} KB)`);
+const legacyOutputFile = path.join(projectRoot, 'nashmi_ops_full_codebase.md');
+fs.writeFileSync(legacyOutputFile, mdContent, 'utf-8');
+console.log(`✅ Saved bundle to: ${outputFile} and ${legacyOutputFile} (${(Buffer.byteLength(mdContent) / 1024).toFixed(1)} KB)`);
 
 // Also copy to artifacts directory
 try {
   fs.writeFileSync(artifactOutput, mdContent, 'utf-8');
-  console.log(`✅ Saved copy to artifact: ${artifactOutput}`);
+  const legacyArtifactOutput = path.join(
+    'C:\\Users\\Toshiba\\.gemini\\antigravity-ide\\brain\\c32f6ced-e9df-4b0f-ba5a-b0db496385c3',
+    'nashmi_ops_full_codebase.md'
+  );
+  fs.writeFileSync(legacyArtifactOutput, mdContent, 'utf-8');
+  console.log(`✅ Saved copies to artifacts directory`);
 } catch (e) {
   console.warn('Could not write to artifact dir:', e);
 }
 
 // Copy to public directory for download links
 try {
-  const publicOutput = path.join(projectRoot, 'public', 'nashmi_ops_full_codebase.md');
+  const publicOutput = path.join(projectRoot, 'public', 'tarteeb_medical_os.md');
+  const legacyPublicOutput = path.join(projectRoot, 'public', 'nashmi_ops_full_codebase.md');
   fs.writeFileSync(publicOutput, mdContent, 'utf-8');
-  console.log(`✅ Saved copy to public: ${publicOutput}`);
+  fs.writeFileSync(legacyPublicOutput, mdContent, 'utf-8');
+  console.log(`✅ Saved copies to public directory`);
 } catch (e) {
   console.warn('Could not write to public dir:', e);
 }
@@ -3227,15 +3252,15 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
       `}</style>
 
       {/* Control Bar: View Toggle + Print Button */}
-      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-900 border border-slate-800 p-3 rounded-xl no-print">
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-100 border border-slate-200 p-3 rounded-xl no-print">
         {/* Toggle Switch */}
-        <div className="flex items-center bg-slate-950 p-1 rounded-lg border border-slate-800">
+        <div className="flex items-center bg-white p-1 rounded-lg border border-slate-200 shadow-sm">
           <button
             onClick={() => setViewMode('preview')}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition ${
               viewMode === 'preview'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-teal-600 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <FileText className="w-3.5 h-3.5" />
@@ -3245,8 +3270,8 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
             onClick={() => setViewMode('xml')}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-semibold transition ${
               viewMode === 'xml'
-                ? 'bg-emerald-600 text-white shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                ? 'bg-teal-600 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             <Code className="w-3.5 h-3.5" />
@@ -3259,15 +3284,15 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
           {viewMode === 'preview' && (
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold shadow-sm transition active:scale-95"
+              className="flex items-center gap-2 px-3.5 py-1.5 rounded-lg bg-teal-600 hover:bg-teal-500 text-white text-xs font-semibold shadow-sm transition active:scale-95"
             >
               <Printer className="w-3.5 h-3.5" />
               <span>طباعة الفاتورة (Print / PDF)</span>
             </button>
           )}
 
-          <div className="flex items-center gap-1.5 text-[11px] text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1.5 rounded-lg">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+          <div className="flex items-center gap-1.5 text-[11px] text-teal-700 bg-teal-50 border border-teal-200 px-2.5 py-1.5 rounded-lg font-medium">
+            <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
             <span>معتمدة ضريبياً (JoFotara Phase 2)</span>
           </div>
         </div>
@@ -3276,41 +3301,41 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
       {/* VIEW 1: Raw XML View */}
       {viewMode === 'xml' && (
         <div className="space-y-3 no-print">
-          <div className="bg-slate-900 border border-slate-800 rounded-xl p-3 flex items-center justify-between text-xs">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-3 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
-              <span className="text-slate-400">رمز TLV Base64 QR:</span>
-              <code className="text-emerald-400 font-mono text-[11px]">
+              <span className="text-slate-600 font-medium">رمز TLV Base64 QR:</span>
+              <code className="text-teal-700 font-mono text-[11px] bg-white px-2 py-0.5 rounded border border-slate-200">
                 {tlvQrCode ? `${tlvQrCode.substring(0, 45)}...` : 'N/A'}
               </code>
             </div>
-            <span className="text-[10px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded">
+            <span className="text-[10px] bg-teal-50 text-teal-700 border border-teal-200 px-2 py-0.5 rounded font-mono font-medium">
               UBL 2.1 ISO/IEC 19845
             </span>
           </div>
 
-          <div className="bg-slate-950 border border-slate-800 rounded-xl p-4 font-mono text-xs overflow-x-auto text-emerald-300 max-h-[550px]">
+          <div className="bg-slate-50 border border-slate-200 rounded-xl p-4 font-mono text-xs overflow-x-auto text-slate-800 max-h-[550px] shadow-xs">
             <pre className="whitespace-pre-wrap">{rawXml || '<!-- لم يتم توليد XML بعد -->'}</pre>
           </div>
         </div>
       )}
 
-      {/* VIEW 2: Visual Invoice Card (Printable) */}
+      {/* VIEW 2: Visual Invoice Card (Printable - White Official Paper) */}
       {viewMode === 'preview' && (
         <div className="printable-invoice-wrapper">
-          <div className="printable-invoice-card bg-slate-900 border border-slate-800 rounded-2xl shadow-xl overflow-hidden p-6 md:p-8 space-y-6 text-slate-100">
+          <div className="printable-invoice-card bg-white border border-slate-200 rounded-2xl shadow-lg overflow-hidden p-6 md:p-8 space-y-6 text-slate-800">
             {/* Top National Header */}
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 border-b border-slate-200 pb-6">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <span className="text-xl">🇯🇴</span>
-                  <span className="text-xs font-bold text-slate-300 tracking-wider">
+                  <span className="text-xs font-bold text-slate-600 tracking-wider">
                     المملكة الأردنية الهاشمية - دائرة ضريبة الدخل والمبيعات (ISTD)
                   </span>
                 </div>
-                <h2 className="text-xl md:text-2xl font-black text-white flex items-center gap-2">
+                <h2 className="text-xl md:text-2xl font-black text-slate-900 flex items-center gap-2">
                   <span>{CLINIC_CONFIG.name}</span>
                 </h2>
-                <p className="text-xs text-slate-400 flex flex-wrap items-center gap-2">
+                <p className="text-xs text-slate-500 flex flex-wrap items-center gap-2">
                   <span>{CLINIC_CONFIG.address}</span>
                   <span>•</span>
                   <span>هاتف: {CLINIC_CONFIG.phone}</span>
@@ -3320,64 +3345,64 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
               </div>
 
               {/* Invoice Type Badge */}
-              <div className="text-left md:text-left self-stretch md:self-auto flex flex-col items-start md:items-end justify-center bg-slate-950/70 border border-slate-800 p-3 rounded-xl min-w-[200px]">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-400 mb-1">
-                  <CheckCircle2 className="w-3.5 h-3.5" />
+              <div className="text-left md:text-left self-stretch md:self-auto flex flex-col items-start md:items-end justify-center bg-slate-50 border border-slate-200 p-3.5 rounded-xl min-w-[200px] shadow-sm">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-teal-700 mb-1">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-teal-600" />
                   <span>
                     {isB2B
                       ? 'فاتورة ضريبية عامة معتمدة (B2B)'
                       : 'فاتورة ضريبية مبسطة (B2C)'}
                   </span>
                 </div>
-                <div className="text-[11px] font-mono text-slate-300">
-                  <span className="text-slate-400">رقم الفاتورة: </span>
-                  <span className="font-bold text-white">{invoiceNumber}</span>
+                <div className="text-[11px] font-mono text-slate-700">
+                  <span className="text-slate-500">رقم الفاتورة: </span>
+                  <span className="font-bold text-slate-900">{invoiceNumber}</span>
                 </div>
-                <div className="text-[10px] font-mono text-slate-400">
+                <div className="text-[10px] font-mono text-slate-600">
                   <span>الرقم الضريبي للمركز (TIN): </span>
-                  <span className="text-emerald-400 font-semibold">{CLINIC_CONFIG.taxNumber}</span>
+                  <span className="text-teal-700 font-semibold">{CLINIC_CONFIG.taxNumber}</span>
                 </div>
               </div>
             </div>
 
             {/* Invoice Meta Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs">
               <div>
-                <span className="text-slate-400 block mb-0.5 flex items-center gap-1">
+                <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
                   <Calendar className="w-3 h-3 text-slate-400" />
                   تاريخ الإصدار:
                 </span>
-                <span className="font-semibold text-white font-mono">{issueDate}</span>
+                <span className="font-semibold text-slate-900 font-mono">{issueDate}</span>
               </div>
               <div>
-                <span className="text-slate-400 block mb-0.5 flex items-center gap-1">
+                <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
                   <Clock className="w-3 h-3 text-slate-400" />
                   وقت الإصدار:
                 </span>
-                <span className="font-semibold text-white font-mono">{issueTime}</span>
+                <span className="font-semibold text-slate-900 font-mono">{issueTime}</span>
               </div>
               <div>
-                <span className="text-slate-400 block mb-0.5 flex items-center gap-1">
+                <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
                   <User className="w-3 h-3 text-slate-400" />
                   العميل / المشتري:
                 </span>
-                <span className="font-semibold text-white truncate block">{buyerName}</span>
+                <span className="font-semibold text-slate-900 truncate block">{buyerName}</span>
               </div>
               <div>
-                <span className="text-slate-400 block mb-0.5 flex items-center gap-1">
+                <span className="text-slate-500 block mb-0.5 flex items-center gap-1">
                   <Hash className="w-3 h-3 text-slate-400" />
                   {isB2B ? 'الرقم الضريبي للمشتري:' : 'الرقم الوطني / الهوية:'}
                 </span>
-                <span className="font-semibold text-white font-mono">
+                <span className="font-semibold text-slate-900 font-mono">
                   {buyerTaxId || buyerNationalId || 'غير محدد (نقدي)'}
                 </span>
               </div>
             </div>
 
             {/* Line Items Table */}
-            <div className="border border-slate-800 rounded-xl overflow-hidden bg-slate-950/40">
+            <div className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm">
               <table className="w-full text-right text-xs">
-                <thead className="bg-slate-950 text-slate-300 font-bold border-b border-slate-800">
+                <thead className="bg-slate-50 text-slate-700 font-bold border-b border-slate-200">
                   <tr>
                     <th className="p-3 w-10 text-center">#</th>
                     <th className="p-3">الإجراء الطبي / الخدمة</th>
@@ -3387,17 +3412,17 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
                     <th className="p-3 text-left w-28">الإجمالي (د.أ)</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-800 text-slate-200">
+                <tbody className="divide-y divide-slate-100 text-slate-700">
                   {parsedItems.map((item, idx) => (
-                    <tr key={idx} className="hover:bg-slate-800/30">
-                      <td className="p-3 text-center text-slate-400 font-mono">{idx + 1}</td>
-                      <td className="p-3 font-medium text-white">{item.name}</td>
+                    <tr key={idx} className="hover:bg-slate-50/80 transition">
+                      <td className="p-3 text-center text-slate-500 font-mono">{idx + 1}</td>
+                      <td className="p-3 font-semibold text-slate-900">{item.name}</td>
                       <td className="p-3 text-center font-mono">{item.quantity}</td>
                       <td className="p-3 text-left font-mono">{item.unitPrice.toFixed(3)}</td>
                       <td className="p-3 text-left font-mono">
                         {item.taxRate > 0 ? `${(item.taxRate * 100).toFixed(0)}%` : 'معفى 0%'}
                       </td>
-                      <td className="p-3 text-left font-mono font-bold text-white">
+                      <td className="p-3 text-left font-mono font-bold text-slate-900">
                         {item.total.toFixed(3)}
                       </td>
                     </tr>
@@ -3409,8 +3434,8 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
             {/* Financial Summary & QR Code Section */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center pt-2">
               {/* QR Code & Cryptographic Seals */}
-              <div className="flex items-center gap-4 bg-slate-950/60 p-4 rounded-xl border border-slate-800">
-                <div className="bg-white p-2 rounded-lg shadow-md flex-shrink-0">
+              <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div className="bg-white p-2 rounded-lg shadow-sm border border-slate-200 flex-shrink-0">
                   {qrCodeDataUrl ? (
                     <img
                       src={qrCodeDataUrl}
@@ -3425,36 +3450,36 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
                 </div>
 
                 <div className="space-y-1.5 text-[11px] leading-relaxed">
-                  <div className="flex items-center gap-1 text-emerald-400 font-bold">
-                    <ShieldCheck className="w-3.5 h-3.5" />
+                  <div className="flex items-center gap-1 text-teal-700 font-bold">
+                    <ShieldCheck className="w-3.5 h-3.5 text-teal-600" />
                     <span>رمز الاستجابة السريعة (TLV Base64 QR)</span>
                   </div>
-                  <p className="text-slate-400 text-[10px]">
+                  <p className="text-slate-600 text-[10px]">
                     مشفر وفق اشتراطات الفوترة الإلكترونية الأردنية JoFotara (محددات التاج من 1 إلى 5).
                   </p>
-                  <div className="font-mono text-[9px] text-slate-400 bg-slate-900 px-2 py-1 rounded border border-slate-800 truncate max-w-[200px]">
+                  <div className="font-mono text-[9px] text-slate-600 bg-white px-2 py-1 rounded border border-slate-200 truncate max-w-[200px]">
                     UUID: {uuid}
                   </div>
                 </div>
               </div>
 
               {/* Totals Box */}
-              <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs">
-                <div className="flex justify-between text-slate-400">
+              <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs shadow-sm">
+                <div className="flex justify-between text-slate-600">
                   <span>المجموع الخاضع للضريبة (Subtotal):</span>
-                  <span className="font-mono font-semibold text-white">
+                  <span className="font-mono font-semibold text-slate-900">
                     {subtotalVal.toFixed(3)} دينار
                   </span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-slate-600">
                   <span>ضريبة المبيعات العامة (VAT 16%):</span>
-                  <span className="font-mono font-semibold text-white">
+                  <span className="font-mono font-semibold text-slate-900">
                     {taxAmountVal.toFixed(3)} دينار
                   </span>
                 </div>
-                <div className="border-t border-slate-800 pt-2 flex justify-between items-center">
-                  <span className="font-bold text-sm text-white">المجموع الإجمالي الكلي (Total):</span>
-                  <span className="font-bold text-base md:text-lg text-emerald-400 font-mono">
+                <div className="border-t border-slate-200 pt-2 flex justify-between items-center">
+                  <span className="font-bold text-sm text-slate-900">المجموع الإجمالي الكلي (Total):</span>
+                  <span className="font-bold text-base md:text-lg text-teal-700 font-mono">
                     {totalAmountVal.toFixed(3)} د.أ
                   </span>
                 </div>
@@ -3462,21 +3487,21 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
             </div>
 
             {/* Tamper-Proof SHA-256 Hash Chaining Footer */}
-            <div className="border-t border-slate-800/80 pt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[10px] text-slate-400 font-mono">
+            <div className="border-t border-slate-200 pt-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-2 text-[10px] text-slate-500 font-mono">
               <div className="flex items-center gap-2 truncate max-w-full">
-                <span className="text-slate-400">SHA-256 Chaining Hash:</span>
-                <span className="text-slate-300 truncate max-w-[280px] md:max-w-[400px]">
+                <span className="text-slate-500">SHA-256 Chaining Hash:</span>
+                <span className="text-slate-700 truncate max-w-[280px] md:max-w-[400px]">
                   {invoiceHash}
                 </span>
                 <button
                   onClick={handleCopyHash}
-                  className="text-slate-400 hover:text-white p-1 rounded transition no-print"
+                  className="text-slate-500 hover:text-slate-800 p-1 rounded transition no-print"
                   title="نسخ الهاش"
                 >
-                  {copiedHash ? <Check className="w-3 h-3 text-emerald-400" /> : <Copy className="w-3 h-3" />}
+                  {copiedHash ? <Check className="w-3 h-3 text-teal-600" /> : <Copy className="w-3 h-3" />}
                 </button>
               </div>
-              <div className="text-left md:text-left text-slate-400">
+              <div className="text-left md:text-left text-slate-500">
                 <span>تخضع لأحكام قانون ضريبة الدخل رقم 34 لعام 2014 ونظام الفوترة الوطني</span>
               </div>
             </div>
@@ -3495,11 +3520,11 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
 
 ```markdown
 // File: GEMINI.md
-# NashmiOps Enterprise (MVP Edition) - Architectural & Regulatory Master Specification
+# Tarteeb Medical OS (نظام ترتيب لإدارة العيادات) - Architectural & Regulatory Master Specification
 
 ## 1. Overview
-**NashmiOps Enterprise (نشمي أوبس)** is a frictionless, multi-tenant B2B Clinic Operating System engineered exclusively for the Jordanian healthcare market. It eliminates all upfront CliQ deposits and focuses on an autonomous operational workflow powered by:
-- Conversational Voice & Text AI (Gemini 3.5 Flash)
+**Tarteeb Medical OS (نظام ترتيب)** is a frictionless, multi-tenant B2B Clinic Operating System engineered exclusively for the Jordanian healthcare market, featuring the autonomous AI receptionist assistant **"نشمي (Nashmi)"**. It eliminates all upfront CliQ deposits and focuses on an autonomous operational workflow powered by:
+- Conversational Voice & Text AI (Gemini 3.5 Flash) via the "Nashmi" Assistant
 - ISTD JoFotara Phase 2 E-Invoicing (UBL 2.1 XML + TLV QR)
 - Smart Waitlist Sniper
 - Autonomous Reminders & No-Show Recovery
@@ -4795,7 +4820,7 @@ export function isGreetingMessage(text?: string): boolean {
 }
 
 export function getMasterSystemInstruction(): string {
-  return `أنت موظف استقبال وسكرتير محترف، ذكي، وودود للغاية في "مركز نشمي لطب وجراحة الأسنان" في عمان، الأردن. تتحدث حصراً عبر رسائل واتساب مع المرضى.
+  return `أنت المساعد الذكي "نشمي" - موظف استقبال وسكرتير محترف، ذكي، وودود للغاية يعمل ضمن "نظام ترتيب لإدارة العيادات (Tarteeb Clinic OS)" في مركز الأسنان بعمان، الأردن. تتحدث حصراً عبر رسائل واتساب مع المرضى.
 
 ## 1. السياق الزمني والمرجعي الحالي (محسوب آلياً):
 - التاريخ والوقت الحالي للسيرفر: ${new Date().toLocaleString('ar-JO', { timeZone: 'Asia/Amman' })}. استخدم هذا التوقيت حصراً كمرجع لأي إشارة إلى "اليوم"، "بكرا"، أو حساب المواعيد.
@@ -5422,8 +5447,8 @@ export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult
   const envApiSecret = process.env.API_SECRET_KEY;
 
   // If env variables are explicitly defined, use them strictly; otherwise allow default dev secret in non-production
-  const cronSecret = envCronSecret || (process.env.NODE_ENV !== 'production' ? 'nashmi_cron_secret_token_2026' : undefined);
-  const apiSecret = envApiSecret || (process.env.NODE_ENV !== 'production' ? 'nashmi_secure_api_secret_key_2026' : undefined);
+  const cronSecret = envCronSecret || (process.env.NODE_ENV !== 'production' ? 'tarteeb_cron_secret_token_2026' : undefined);
+  const apiSecret = envApiSecret || (process.env.NODE_ENV !== 'production' ? 'tarteeb_secure_api_secret_key_2026' : undefined);
 
   const authHeader = req.headers.get('authorization') || '';
   const xApiKey = req.headers.get('x-api-key') || '';
@@ -5841,8 +5866,8 @@ export async function bookFrictionlessAppointment(
   const calendar = getCalendarClient();
   if (calendar) {
     try {
-      const summaryText = `[نشمي أوبس] ${service.nameAr} - ${input.patientName}`;
-      const descriptionText = `حجز موعد عيادة نشمي (NashmiOps Enterprise MVP)
+      const summaryText = `[نظام ترتيب] ${service.nameAr} - ${input.patientName}`;
+      const descriptionText = `حجز موعد عيادة عبر نظام ترتيب لإدارة العيادات (المساعد نشمي)
 المريض: ${input.patientName} (${input.familyRelation === 'self' ? 'صاحب الرقم' : `أحد أفراد العائلة: ${input.familyRelation}`})
 رقم الهاتف: ${input.phone}
 الخدمة: ${service.nameAr} (${service.durationMinutes} دقيقة)
@@ -5949,8 +5974,8 @@ import { ServiceDefinition, ServiceType } from '@/types';
 
 export const CLINIC_CONFIG = {
   id: 'clinic-amman-nashmi-001',
-  name: 'مركز نشمي لطب وجراحة الأسنان',
-  nameEn: 'Nashmi Dental & Oral Surgery Center',
+  name: 'نظام ترتيب - العيادة التجريبية',
+  nameEn: 'Tarteeb Medical OS - Demo Clinic',
   phone: '+96265000000',
   whatsappPhone: '+962790000000',
   address: 'عمان - الدوار السابع - مجمع النشامى الطبي - الطابق الثالث',
@@ -9184,10 +9209,10 @@ export default nextConfig;
 ```json
 // File: package.json
 {
-  "name": "nashmi-ops",
+  "name": "tarteeb-medical-os",
   "version": "1.0.0",
   "private": true,
-  "description": "NashmiOps Enterprise (نشمي أوبس) - Autonomous AI Operations & Clinic OS for Jordanian Healthcare",
+  "description": "Tarteeb Medical OS (نظام ترتيب) - Autonomous AI Operations & Clinic OS for Jordanian Healthcare",
   "scripts": {
     "dev": "next dev -H 0.0.0.0 -p 3000",
     "build": "next build",
@@ -9829,18 +9854,44 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        tarteeb: {
+          50: "#f0fdfa",
+          100: "#ccfbf1",
+          200: "#99f6e4",
+          300: "#5eead4",
+          400: "#2dd4bf",
+          500: "#14b8a6",
+          600: "#0d9488",
+          700: "#0f766e",
+          800: "#115e59",
+          900: "#134e4a",
+          950: "#042f2e",
+        },
+        navy: {
+          50: "#f8fafc",
+          100: "#f1f5f9",
+          200: "#e2e8f0",
+          300: "#cbd5e1",
+          400: "#94a3b8",
+          500: "#64748b",
+          600: "#475569",
+          700: "#334155",
+          800: "#1e293b",
+          900: "#0f172a",
+          950: "#020617",
+        },
         nashmi: {
-          50: "#f0fdf4",
-          100: "#dcfce7",
-          200: "#bbf7d0",
-          300: "#86efac",
-          400: "#4ade80",
-          500: "#22c55e",
-          600: "#16a34a",
-          700: "#15803d",
-          800: "#166534",
-          900: "#14532d",
-          dark: "#0b2015"
+          50: "#f0fdfa",
+          100: "#ccfbf1",
+          200: "#99f6e4",
+          300: "#5eead4",
+          400: "#2dd4bf",
+          500: "#14b8a6",
+          600: "#0d9488",
+          700: "#0f766e",
+          800: "#115e59",
+          900: "#134e4a",
+          dark: "#042f2e",
         },
         jordan: {
           red: "#ce1126",
@@ -11253,7 +11304,7 @@ async function runTests() {
   const authorizedApiKeyReq = new NextRequest('https://api.nashmiops.jo/api/jobs', {
     headers: {
       host: 'api.nashmiops.jo',
-      'x-api-key': process.env.API_SECRET_KEY || 'nashmi_secure_api_secret_key_2026',
+      'x-api-key': process.env.API_SECRET_KEY || 'tarteeb_secure_api_secret_key_2026',
     },
   });
   const authApiKeyRes = verifyApiAuthorization(authorizedApiKeyReq);
@@ -11263,7 +11314,7 @@ async function runTests() {
   const authorizedCronReq = new NextRequest('https://api.nashmiops.jo/api/jobs', {
     headers: {
       host: 'api.nashmiops.jo',
-      authorization: `Bearer ${process.env.CRON_SECRET || 'nashmi_cron_secret_token_2026'}`,
+      authorization: `Bearer ${process.env.CRON_SECRET || 'tarteeb_cron_secret_token_2026'}`,
     },
   });
   const authCronRes = verifyApiAuthorization(authorizedCronReq);
@@ -12055,11 +12106,11 @@ export interface APMEvent {
   "crons": [
     {
       "path": "/api/jobs?action=trigger_smart_reminders",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/jobs?action=trigger_no_show_recovery",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 18 * * *"
     }
   ]
 }

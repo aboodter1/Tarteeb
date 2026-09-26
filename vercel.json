@@ -3,11 +3,11 @@
   "crons": [
     {
       "path": "/api/jobs?action=trigger_smart_reminders",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 6 * * *"
     },
     {
       "path": "/api/jobs?action=trigger_no_show_recovery",
-      "schedule": "*/15 * * * *"
+      "schedule": "0 18 * * *"
     }
   ]
 }
