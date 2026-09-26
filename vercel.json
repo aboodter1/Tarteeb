@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/jobs?action=trigger_smart_reminders",
+      "schedule": "*/15 * * * *"
+    },
+    {
+      "path": "/api/jobs?action=trigger_no_show_recovery",
+      "schedule": "*/15 * * * *"
+    }
+  ]
+}

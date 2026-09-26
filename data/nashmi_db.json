@@ -1,0 +1,2423 @@
+{
+  "clinics": [
+    {
+      "id": "clinic-amman-nashmi-001",
+      "name": "مركز نشمي لطب وجراحة الأسنان",
+      "phone": "+96265000000",
+      "address": "عمان - الدوار السابع - مجمع النشامى الطبي - الطابق الثالث",
+      "license_number": "MOH-JO-2024-9981",
+      "tax_number": "100492837",
+      "created_at": "2026-09-26T17:10:22.309Z"
+    }
+  ],
+  "patients": [
+    {
+      "id": "patient-demo-001",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962791234567",
+      "full_name": "أحمد التميمي",
+      "national_id": "9901020304",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "pdpl_consent": true,
+      "pdpl_consent_timestamp": "2026-09-26T17:10:22.311Z",
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:10:22.311Z",
+      "updated_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "patient-demo-002",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962799887766",
+      "full_name": "سارة عبد الله",
+      "national_id": "9951020305",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "pdpl_consent": true,
+      "pdpl_consent_timestamp": "2026-09-26T17:10:22.311Z",
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:10:22.311Z",
+      "updated_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "pat-1790442749216-2lzq0",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795556677",
+      "full_name": "أحمد",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962795556677",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:12:29.216Z",
+      "updated_at": "2026-09-26T22:21:17.023Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:21:17.023Z"
+    },
+    {
+      "id": "pat-1790442750516-73muz",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795556677",
+      "full_name": "خالد",
+      "is_head_of_family": false,
+      "family_relation": "companion",
+      "primary_contact_phone": "+962795556677",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:12:30.516Z",
+      "updated_at": "2026-09-26T22:21:18.911Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:21:18.911Z"
+    },
+    {
+      "id": "pat-1790442754248-rsm3z",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962798889900",
+      "full_name": "طارق",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962798889900",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:12:34.248Z",
+      "updated_at": "2026-09-26T22:21:23.569Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:21:23.569Z"
+    },
+    {
+      "id": "pat-1790442793302-bezbh",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795554433",
+      "full_name": "طارق زياد",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962795554433",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:13:13.302Z",
+      "updated_at": "2026-09-26T22:02:55.541Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:02:55.541Z"
+    },
+    {
+      "id": "pat-1790442794562-9erxt",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795554433",
+      "full_name": "عمر زياد",
+      "is_head_of_family": false,
+      "family_relation": "companion",
+      "primary_contact_phone": "+962795554433",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:13:14.562Z",
+      "updated_at": "2026-09-26T22:02:57.748Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:02:57.748Z"
+    },
+    {
+      "id": "pat-1790444085527-po41e",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962797771122",
+      "full_name": "هيثم المناصير",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962797771122",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:34:45.527Z",
+      "updated_at": "2026-09-26T22:04:18.389Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:04:18.389Z"
+    },
+    {
+      "id": "pat-1790444100000-3wx8n",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962797771122",
+      "full_name": "زيد المناصير",
+      "is_head_of_family": false,
+      "family_relation": "companion",
+      "primary_contact_phone": "+962797771122",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:35:00.000Z",
+      "updated_at": "2026-09-26T22:04:51.354Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:04:51.354Z"
+    },
+    {
+      "id": "pat-1790444811791-u0wb6",
+      "clinic_id": "amman-main-001",
+      "whatsapp_phone": "+962792222222",
+      "full_name": "سامر قاسم",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962792222222",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:46:51.791Z",
+      "updated_at": "2026-09-26T17:46:51.797Z",
+      "pdpl_consent_timestamp": "2026-09-26T17:46:51.797Z"
+    },
+    {
+      "id": "pat-1790444853542-80gs5",
+      "clinic_id": "amman-main-001",
+      "whatsapp_phone": "+962791111111",
+      "full_name": "عمر التميمي",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962791111111",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T17:47:33.542Z",
+      "updated_at": "2026-09-26T22:05:10.344Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:05:10.344Z"
+    },
+    {
+      "id": "pat-1790448122757-6icu1",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962791110001",
+      "full_name": "مريض د. قاسم",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962791110001",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T18:42:02.757Z",
+      "updated_at": "2026-09-26T22:20:48.099Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:20:48.099Z"
+    },
+    {
+      "id": "pat-1790448150975-j6dq5",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962791110003",
+      "full_name": "مريض دكتورة ديما",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962791110003",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T18:42:30.975Z",
+      "updated_at": "2026-09-26T22:20:50.407Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:20:50.407Z"
+    },
+    {
+      "id": "pat-1790458127045-8zcm4",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795556677",
+      "full_name": "أحمد وخالد",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962795556677",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T21:28:47.045Z",
+      "updated_at": "2026-09-26T21:28:47.388Z",
+      "pdpl_consent_timestamp": "2026-09-26T21:28:47.388Z"
+    },
+    {
+      "id": "pat-1790458476871-1xdrw",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795554433",
+      "full_name": "عمر القضاة",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962795554433",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T21:34:36.871Z",
+      "updated_at": "2026-09-26T22:03:19.296Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:03:19.296Z"
+    },
+    {
+      "id": "pat-1790458479630-phdly",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962795554433",
+      "full_name": "زيد القضاة",
+      "is_head_of_family": false,
+      "family_relation": "child",
+      "primary_contact_phone": "+962795554433",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T21:34:39.630Z",
+      "updated_at": "2026-09-26T22:03:21.305Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:03:21.305Z"
+    },
+    {
+      "id": "pat-1790458585535-36wxm",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "whatsapp_phone": "+962798889900",
+      "full_name": "محمود النابلسي",
+      "is_head_of_family": true,
+      "family_relation": "self",
+      "primary_contact_phone": "+962798889900",
+      "pdpl_consent": true,
+      "is_deleted": false,
+      "created_at": "2026-09-26T21:36:25.535Z",
+      "updated_at": "2026-09-26T22:03:23.868Z",
+      "pdpl_consent_timestamp": "2026-09-26T22:03:23.868Z"
+    }
+  ],
+  "appointments": [
+    {
+      "id": "appt-demo-001",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "patient-demo-001",
+      "patient_name": "أحمد التميمي",
+      "patient_phone": "+962791234567",
+      "service_type": "consultation",
+      "start_time": "2026-09-27T17:10:22.311Z",
+      "end_time": "2026-09-27T17:40:22.311Z",
+      "sterilization_end_time": "2026-09-27T17:55:22.311Z",
+      "status": "CONFIRMED",
+      "created_at": "2026-09-26T17:10:22.311Z",
+      "updated_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "appt-1790442622314-52sd2",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-test-101",
+      "patient_name": "أيهم القضاة",
+      "patient_phone": "+962791234567",
+      "service_type": "cleaning",
+      "appointment_date": "2026-09-30",
+      "start_time": "2026-09-30T10:00:00.000Z",
+      "end_time": "2026-09-30T10:45:00.000Z",
+      "sterilization_end_time": "2026-09-30T11:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص الإدراج الدائم بقاعدة البيانات",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:10:22.314Z",
+      "updated_at": "2026-09-26T17:10:22.314Z"
+    },
+    {
+      "id": "appt-1790444049857-3zhp0",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-ssot-001",
+      "patient_name": "عصام العبداللات",
+      "patient_phone": "+962795551122",
+      "service_type": "consultation",
+      "appointment_date": "2026-10-01",
+      "start_time": "2026-10-01T07:00:00.000Z",
+      "end_time": "2026-10-01T07:45:00.000Z",
+      "sterilization_end_time": "2026-10-01T08:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص مصدر الحقيقة الموحد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:34:09.857Z",
+      "updated_at": "2026-09-26T17:34:09.857Z"
+    },
+    {
+      "id": "appt-1790444797666-9cxpm",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-test-1",
+      "patient_name": "عمر التميمي",
+      "patient_phone": "+962791111111",
+      "service_type": "consultation",
+      "appointment_date": "2026-10-15",
+      "start_time": "2026-10-15T10:00:00.000Z",
+      "end_time": "2026-10-15T10:45:00.000Z",
+      "sterilization_end_time": "2026-10-15T11:00:00.000Z",
+      "status": "CONFIRMED",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:46:37.666Z",
+      "updated_at": "2026-09-26T17:46:37.666Z"
+    },
+    {
+      "id": "appt-1790444818851-qjnjx",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-1790444811791-u0wb6",
+      "patient_name": "سامر قاسم",
+      "patient_phone": "+962792222222",
+      "service_type": "consultation",
+      "appointment_date": "2026-10-15",
+      "start_time": "2026-10-15T07:00:00.000Z",
+      "end_time": "2026-10-15T07:30:00.000Z",
+      "sterilization_end_time": "2026-10-15T07:45:00.000Z",
+      "status": "CONFIRMED",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:46:58.851Z",
+      "updated_at": "2026-09-26T17:46:58.851Z"
+    },
+    {
+      "id": "appt-1790444860603-tm30q",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-1790444853542-80gs5",
+      "patient_name": "عمر التميمي",
+      "patient_phone": "+962791111111",
+      "service_type": "consultation",
+      "appointment_date": "2026-10-15",
+      "start_time": "2026-10-15T11:00:00.000Z",
+      "end_time": "2026-10-15T11:30:00.000Z",
+      "sterilization_end_time": "2026-10-15T11:45:00.000Z",
+      "status": "CONFIRMED",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:47:40.603Z",
+      "updated_at": "2026-09-26T17:47:40.603Z"
+    },
+    {
+      "id": "appt-1790444944532-euvpw",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-1790444853542-80gs5",
+      "patient_name": "عمر التميمي",
+      "patient_phone": "+962791111111",
+      "service_type": "consultation",
+      "appointment_date": "2027-10-08",
+      "start_time": "2027-10-08T11:00:00.000Z",
+      "end_time": "2027-10-08T11:30:00.000Z",
+      "sterilization_end_time": "2027-10-08T11:45:00.000Z",
+      "status": "CONFIRMED",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:49:04.532Z",
+      "updated_at": "2026-09-26T17:49:04.532Z"
+    },
+    {
+      "id": "appt-1790445005879-5a8lk",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-ssot-001",
+      "patient_name": "عصام العبداللات",
+      "patient_phone": "+962795551122",
+      "service_type": "consultation",
+      "appointment_date": "2027-07-24",
+      "start_time": "2027-07-24T07:00:00.000Z",
+      "end_time": "2027-07-24T07:45:00.000Z",
+      "sterilization_end_time": "2027-07-24T08:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص مصدر الحقيقة الموحد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T17:50:05.879Z",
+      "updated_at": "2026-09-26T17:50:05.879Z"
+    },
+    {
+      "id": "appt-1790445662220-o76x8",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-1790444853542-80gs5",
+      "patient_name": "عمر التميمي",
+      "patient_phone": "+962791111111",
+      "service_type": "consultation",
+      "appointment_date": "2028-02-10",
+      "start_time": "2028-02-10T11:00:00.000Z",
+      "end_time": "2028-02-10T11:30:00.000Z",
+      "sterilization_end_time": "2028-02-10T11:45:00.000Z",
+      "status": "CONFIRMED",
+      "is_emergency": false,
+      "created_at": "2026-09-26T18:01:02.220Z",
+      "updated_at": "2026-09-26T18:01:02.220Z"
+    },
+    {
+      "id": "appt-1790458228832-93wqu",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-test-101",
+      "patient_name": "أيهم القضاة",
+      "patient_phone": "+962791234567",
+      "service_type": "cleaning",
+      "practitioner_id": "doc-rami-003",
+      "practitioner_name": "د. رامي عبيدات",
+      "chair_id": "chair-003",
+      "chair_number": 3,
+      "appointment_date": "2026-11-20",
+      "start_time": "2026-11-20T10:00:00.000Z",
+      "end_time": "2026-11-20T10:45:00.000Z",
+      "sterilization_end_time": "2026-11-20T11:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص الإدراج الدائم بقاعدة البيانات",
+      "is_emergency": false,
+      "created_at": "2026-09-26T21:30:28.832Z",
+      "updated_at": "2026-09-26T21:30:28.832Z"
+    },
+    {
+      "id": "appt-1790458259704-u3xa5",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-test-101",
+      "patient_name": "أيهم القضاة",
+      "patient_phone": "+962791234567",
+      "service_type": "cleaning",
+      "practitioner_id": "doc-rami-003",
+      "practitioner_name": "د. رامي عبيدات",
+      "chair_id": "chair-003",
+      "chair_number": 3,
+      "appointment_date": "2028-10-22",
+      "start_time": "2028-10-22T05:00:00.000Z",
+      "end_time": "2028-10-22T05:45:00.000Z",
+      "sterilization_end_time": "2028-10-22T06:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص الإدراج الدائم بقاعدة البيانات",
+      "is_emergency": false,
+      "created_at": "2026-09-26T21:30:59.704Z",
+      "updated_at": "2026-09-26T21:30:59.704Z"
+    },
+    {
+      "id": "appt-1790458272891-n5s5c",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-1790444853542-80gs5",
+      "patient_name": "عمر التميمي",
+      "patient_phone": "+962791111111",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2028-02-02",
+      "start_time": "2028-02-02T22:00:00.000Z",
+      "end_time": "2028-02-02T22:30:00.000Z",
+      "sterilization_end_time": "2028-02-02T22:45:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "42b2e9f2a3e19cfeb1cc2dl0t0",
+      "is_emergency": false,
+      "created_at": "2026-09-26T21:31:12.891Z",
+      "updated_at": "2026-09-26T21:31:12.891Z"
+    },
+    {
+      "id": "appt-1790458289680-c0son",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-ssot-001",
+      "patient_name": "عصام العبداللات",
+      "patient_phone": "+962795551122",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2027-07-26",
+      "start_time": "2027-07-26T17:00:00.000Z",
+      "end_time": "2027-07-26T17:45:00.000Z",
+      "sterilization_end_time": "2027-07-26T18:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص مصدر الحقيقة الموحد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T21:31:29.680Z",
+      "updated_at": "2026-09-26T21:31:29.680Z"
+    },
+    {
+      "id": "appt-1790458324805-cr5gv",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-ssot-001",
+      "patient_name": "عصام العبداللات",
+      "patient_phone": "+962795551122",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2026-10-24",
+      "start_time": "2026-10-24T17:00:00.000Z",
+      "end_time": "2026-10-24T17:45:00.000Z",
+      "sterilization_end_time": "2026-10-24T18:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص مصدر الحقيقة الموحد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T21:32:04.805Z",
+      "updated_at": "2026-09-26T21:32:04.805Z"
+    },
+    {
+      "id": "appt-1790458346310-ukdns",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-ssot-001",
+      "patient_name": "عصام العبداللات",
+      "patient_phone": "+962795551122",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2027-04-01",
+      "start_time": "2027-04-01T17:00:00.000Z",
+      "end_time": "2027-04-01T17:45:00.000Z",
+      "sterilization_end_time": "2027-04-01T18:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص مصدر الحقيقة الموحد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T21:32:26.310Z",
+      "updated_at": "2026-09-26T21:32:26.310Z"
+    },
+    {
+      "id": "appt-1790460200689-n10ah",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790458476871-1xdrw",
+      "patient_name": "عمر القضاة",
+      "patient_phone": "+962795554433",
+      "service_type": "cleaning",
+      "practitioner_id": "doc-rami-003",
+      "practitioner_name": "د. رامي عبيدات",
+      "chair_id": "chair-003",
+      "chair_number": 3,
+      "appointment_date": "2026-09-27",
+      "start_time": "2026-09-27T18:00:00.000Z",
+      "end_time": "2026-09-27T18:45:00.000Z",
+      "sterilization_end_time": "2026-09-27T19:00:00.000Z",
+      "status": "CANCELLED",
+      "google_calendar_event_id": "c4kpl38kpdds702rblirrge4jo",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:03:20.689Z",
+      "updated_at": "2026-09-26T22:03:23.252Z"
+    },
+    {
+      "id": "appt-1790460202492-1765a",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790458479630-phdly",
+      "patient_name": "زيد القضاة",
+      "patient_phone": "+962795554433",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2026-09-27",
+      "start_time": "2026-09-27T21:00:00.000Z",
+      "end_time": "2026-09-27T21:30:00.000Z",
+      "sterilization_end_time": "2026-09-27T21:45:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "dt5avn8f7audnv12agd78e9b1s",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:03:22.492Z",
+      "updated_at": "2026-09-26T22:03:22.492Z"
+    },
+    {
+      "id": "appt-1790460228982-kti8e",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-ssot-001",
+      "patient_name": "عصام العبداللات",
+      "patient_phone": "+962795551122",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2027-01-23",
+      "start_time": "2027-01-23T18:00:00.000Z",
+      "end_time": "2027-01-23T18:45:00.000Z",
+      "sterilization_end_time": "2027-01-23T19:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص مصدر الحقيقة الموحد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:03:48.982Z",
+      "updated_at": "2026-09-26T22:03:48.982Z"
+    },
+    {
+      "id": "appt-1790460290725-uzy54",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790444085527-po41e",
+      "patient_name": "هيثم المناصير",
+      "patient_phone": "+962797771122",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2027-03-09",
+      "start_time": "2027-03-09T22:00:00.000Z",
+      "end_time": "2027-03-09T22:30:00.000Z",
+      "sterilization_end_time": "2027-03-09T22:45:00.000Z",
+      "status": "CONFIRMED",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:04:50.725Z",
+      "updated_at": "2026-09-26T22:04:50.725Z"
+    },
+    {
+      "id": "appt-1790460292579-nec0l",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790444100000-3wx8n",
+      "patient_name": "زيد المناصير",
+      "patient_phone": "+962797771122",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2027-03-09",
+      "start_time": "2027-03-09T23:00:00.000Z",
+      "end_time": "2027-03-09T23:30:00.000Z",
+      "sterilization_end_time": "2027-03-09T23:45:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "18ipsecmg30t7vsh3brq0v2kik",
+      "notes": "مرافق مع هيثم المناصير",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:04:52.579Z",
+      "updated_at": "2026-09-26T22:04:52.579Z"
+    },
+    {
+      "id": "appt-1790460311680-hplwm",
+      "clinic_id": "amman-main-001",
+      "patient_id": "pat-1790444853542-80gs5",
+      "patient_name": "عمر التميمي",
+      "patient_phone": "+962791111111",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2027-09-01",
+      "start_time": "2027-09-01T21:00:00.000Z",
+      "end_time": "2027-09-01T21:30:00.000Z",
+      "sterilization_end_time": "2027-09-01T21:45:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "7iut8qdqpb2vsn9t8kg3uuq2p0",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:05:11.680Z",
+      "updated_at": "2026-09-26T22:05:11.680Z"
+    },
+    {
+      "id": "appt-1790460323751-uiolv",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-test-101",
+      "patient_name": "أيهم القضاة",
+      "patient_phone": "+962791234567",
+      "service_type": "cleaning",
+      "practitioner_id": "doc-rami-003",
+      "practitioner_name": "د. رامي عبيدات",
+      "chair_id": "chair-003",
+      "chair_number": 3,
+      "appointment_date": "2029-08-10",
+      "start_time": "2029-08-10T15:00:00.000Z",
+      "end_time": "2029-08-10T15:45:00.000Z",
+      "sterilization_end_time": "2029-08-10T16:00:00.000Z",
+      "status": "CONFIRMED",
+      "notes": "اختبار فحص الإدراج الدائم بقاعدة البيانات",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:05:23.751Z",
+      "updated_at": "2026-09-26T22:05:23.751Z"
+    },
+    {
+      "id": "appt-1790461249478-py5bn",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790448122757-6icu1",
+      "patient_name": "مريض د. قاسم",
+      "patient_phone": "+962791110001",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2026-10-11",
+      "start_time": "2026-10-11T17:00:00.000Z",
+      "end_time": "2026-10-11T17:30:00.000Z",
+      "sterilization_end_time": "2026-10-11T17:45:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "4sn8kfo6f15r8077bkcuc5ao9o",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:20:49.478Z",
+      "updated_at": "2026-09-26T22:20:49.478Z"
+    },
+    {
+      "id": "appt-1790461251558-vk588",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790448150975-j6dq5",
+      "patient_name": "مريض دكتورة ديما",
+      "patient_phone": "+962791110003",
+      "service_type": "orthodontics_check",
+      "practitioner_id": "doc-dima-002",
+      "practitioner_name": "د. ديما التميمي",
+      "chair_id": "chair-002",
+      "chair_number": 2,
+      "appointment_date": "2026-10-11",
+      "start_time": "2026-10-11T17:00:00.000Z",
+      "end_time": "2026-10-11T17:30:00.000Z",
+      "sterilization_end_time": "2026-10-11T17:45:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "8niursvfmtaf48oo5nls5q8g20",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:20:51.558Z",
+      "updated_at": "2026-09-26T22:20:51.558Z"
+    },
+    {
+      "id": "appt-1790461278306-hwef3",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790442749216-2lzq0",
+      "patient_name": "أحمد",
+      "patient_phone": "+962795556677",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2026-09-28",
+      "start_time": "2026-09-28T18:30:00.000Z",
+      "end_time": "2026-09-28T19:00:00.000Z",
+      "sterilization_end_time": "2026-09-28T19:15:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "qhi0rnpt60smtoivo5ebmrh8oc",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:21:18.306Z",
+      "updated_at": "2026-09-26T22:21:18.306Z"
+    },
+    {
+      "id": "appt-1790461280083-lhjug",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790442750516-73muz",
+      "patient_name": "خالد",
+      "patient_phone": "+962795556677",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2026-09-28",
+      "start_time": "2026-09-28T19:30:00.000Z",
+      "end_time": "2026-09-28T20:00:00.000Z",
+      "sterilization_end_time": "2026-09-28T20:15:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "jq45sock2pgrh2s7urqulbavq4",
+      "notes": "مرافق مع أحمد",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:21:20.083Z",
+      "updated_at": "2026-09-26T22:21:20.083Z"
+    },
+    {
+      "id": "appt-1790461284728-cu4yg",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-1790442754248-rsm3z",
+      "patient_name": "طارق",
+      "patient_phone": "+962798889900",
+      "service_type": "consultation",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chair_id": "chair-001",
+      "chair_number": 1,
+      "appointment_date": "2026-09-27",
+      "start_time": "2026-09-27T23:30:00.000Z",
+      "end_time": "2026-09-28T00:00:00.000Z",
+      "sterilization_end_time": "2026-09-28T00:15:00.000Z",
+      "status": "CONFIRMED",
+      "google_calendar_event_id": "o6rms1d924q52e303rmmemp7bk",
+      "is_emergency": false,
+      "created_at": "2026-09-26T22:21:24.728Z",
+      "updated_at": "2026-09-26T22:21:24.728Z"
+    }
+  ],
+  "waitlist": [
+    {
+      "id": "wait-1790460202925-b2pgd",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "pat-wait-99",
+      "patient_name": "روان المصري",
+      "patient_phone": "+962791122334",
+      "requested_service": "cleaning",
+      "preferred_date": "2026-09-27",
+      "preferred_time_range": "any",
+      "status": "NOTIFIED",
+      "created_at": "2026-09-26T22:03:22.925Z",
+      "notified_at": "2026-09-26T22:03:23.567Z"
+    }
+  ],
+  "invoices": [
+    {
+      "id": "inv-1790447257297",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-1231",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "d4b8dee4-8814-4482-9c65-3a21e532172f",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "4a9233c42403dab3cc7ed4be0808e2ca2a9bc563d6cec0acc88ab5ae52e4d529",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6Mjc6MzdaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-1231</cbc:ID>\n  <cbc:UUID>d4b8dee4-8814-4482-9c65-3a21e532172f</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>21:27:37</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6Mjc6MzdaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790447257297-frjlp",
+      "submitted_at": "2026-09-26T18:27:37.297Z",
+      "created_at": "2026-09-26T18:27:37.297Z"
+    },
+    {
+      "id": "inv-1790448094281",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-7834",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "94d65aab-a399-46fb-a39e-a3747f50c895",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "a8a8a4b61943a007df88fc2e016fc58ce30cbe78bb4e4cd5e8ed8fa592c175c9",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6NDE6MzRaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-7834</cbc:ID>\n  <cbc:UUID>94d65aab-a399-46fb-a39e-a3747f50c895</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>21:41:34</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6NDE6MzRaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790448094281-ue9yz",
+      "submitted_at": "2026-09-26T18:41:34.281Z",
+      "created_at": "2026-09-26T18:41:34.281Z"
+    },
+    {
+      "id": "inv-1790448259465",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-4417",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "662f4afc-0b1b-4b45-a16e-caa0c23e222d",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "4d2464e1f0984b8f8a7695f7b5705cf140c746cc65abf4690164cf3f1bd1de62",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6NDQ6MTlaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-4417</cbc:ID>\n  <cbc:UUID>662f4afc-0b1b-4b45-a16e-caa0c23e222d</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>21:44:19</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6NDQ6MTlaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790448259465-ld1jw",
+      "submitted_at": "2026-09-26T18:44:19.465Z",
+      "created_at": "2026-09-26T18:44:19.465Z"
+    },
+    {
+      "id": "inv-1790448334084",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-3570",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "a95078ca-6c5a-498f-bc86-c3019d934d62",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "05570fdb18025c1aa4950eed42aa5f71033dfa55ae08bc6cd77f0ae734336de6",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6NDU6MzRaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-3570</cbc:ID>\n  <cbc:UUID>a95078ca-6c5a-498f-bc86-c3019d934d62</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>21:45:34</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMjE6NDU6MzRaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790448334084-1cdxw",
+      "submitted_at": "2026-09-26T18:45:34.085Z",
+      "created_at": "2026-09-26T18:45:34.085Z"
+    },
+    {
+      "id": "inv-1790458101917",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-7797",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "1cff0d64-4892-463b-ba85-08d1742eb8de",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "7af360051c977926d83c771a2b997609346e9ab7c0058746d1ea47181edc7279",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMTQ6Mjg6MjFaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-7797</cbc:ID>\n  <cbc:UUID>1cff0d64-4892-463b-ba85-08d1742eb8de</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>14:28:21</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMTQ6Mjg6MjFaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790458101917-05geq",
+      "submitted_at": "2026-09-26T21:28:21.917Z",
+      "created_at": "2026-09-26T21:28:21.917Z"
+    },
+    {
+      "id": "inv-1790460132917",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-6279",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "87e83ff4-f3c3-4eb0-b726-1ed2508fffc2",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "2b2c3ccf06aa63393b0f52439687fb4fe055e50cfa008ec2b93aefa258a6703b",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMTU6MDI6MTJaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-6279</cbc:ID>\n  <cbc:UUID>87e83ff4-f3c3-4eb0-b726-1ed2508fffc2</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>15:02:12</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMTU6MDI6MTJaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790460132917-r0is5",
+      "submitted_at": "2026-09-26T22:02:12.917Z",
+      "created_at": "2026-09-26T22:02:12.917Z"
+    },
+    {
+      "id": "inv-1790461245846",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "invoice_number": "INV-2026-8816",
+      "invoice_type": "B2C_SIMPLIFIED",
+      "buyer_name": "عمر التميمي",
+      "currency": "JOD",
+      "subtotal": 25,
+      "tax_amount": 4,
+      "total_amount": 29,
+      "invoice_uuid": "7a32bb91-987c-4458-b93b-c8300028839b",
+      "previous_invoice_hash": "NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2",
+      "invoice_hash": "1fb1cd6935a860c76d717b693ffa5386cc65a08122d0f7ee78c53038389c68d4",
+      "qr_code_tlv": "ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMTU6MjA6NDVaBAYyOS4wMDAFBTQuMDAw",
+      "ubl_xml": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<Invoice xmlns=\"urn:oasis:names:specification:ubl:schema:xsd:Invoice-2\"\n         xmlns:cac=\"urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2\"\n         xmlns:cbc=\"urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2\"\n         xmlns:ext=\"urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2\">\n  <ext:UBLExtensions>\n    <ext:UBLExtension>\n      <ext:ExtensionURI>urn:oasis:names:specification:ubl:dsig:enveloped:xades</ext:ExtensionURI>\n      <ext:ExtensionContent>\n        <sig:UBLDocumentSignatures xmlns:sig=\"urn:oasis:names:specification:ubl:schema:xsd:CommonSignatureComponents-2\">\n          <sac:SignatureInformation xmlns:sac=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureAggregateComponents-2\">\n            <cbc:ID>urn:oasis:names:specification:ubl:signature:1</cbc:ID>\n            <sbc:ReferencedSignatureID xmlns:sbc=\"urn:oasis:names:specification:ubl:schema:xsd:SignatureBasicComponents-2\">urn:oasis:names:specification:ubl:signature:Invoice</sbc:ReferencedSignatureID>\n          </sac:SignatureInformation>\n        </sig:UBLDocumentSignatures>\n      </ext:ExtensionContent>\n    </ext:UBLExtension>\n  </ext:UBLExtensions>\n  <cbc:ProfileID>reporting:1.0</cbc:ProfileID>\n  <cbc:ID>INV-2026-8816</cbc:ID>\n  <cbc:UUID>7a32bb91-987c-4458-b93b-c8300028839b</cbc:UUID>\n  <cbc:IssueDate>2026-09-26</cbc:IssueDate>\n  <cbc:IssueTime>15:20:45</cbc:IssueTime>\n  <cbc:InvoiceTypeCode name=\"0111110\">388</cbc:InvoiceTypeCode>\n  <cbc:DocumentCurrencyCode>JOD</cbc:DocumentCurrencyCode>\n  <cbc:TaxCurrencyCode>JOD</cbc:TaxCurrencyCode>\n\n  <!-- Cryptographic Chaining: Previous Invoice Hash (PIH) -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>PIH</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Embedded Cryptographic TLV QR Code -->\n  <cac:AdditionalDocumentReference>\n    <cbc:ID>QR</cbc:ID>\n    <cac:Attachment>\n      <cac:EmbeddedDocumentBinaryObject mimeCode=\"text/plain\">ATTZhdix2YPYsiDZhti02YXZiiDZhNi32Kgg2YjYrNix2KfYrdipINin2YTYo9iz2YbYp9mGAgkxMDA0OTI4MzcDFDIwMjYtMDktMjZUMTU6MjA6NDVaBAYyOS4wMDAFBTQuMDAw</cac:EmbeddedDocumentBinaryObject>\n    </cac:Attachment>\n  </cac:AdditionalDocumentReference>\n\n  <!-- Seller Party (Nashmi Dental Clinic) -->\n  <cac:AccountingSupplierParty>\n    <cac:Party>\n      <cac:PartyIdentification>\n        <cbc:ID schemeID=\"TIN\">100492837</cbc:ID>\n      </cac:PartyIdentification>\n      <cac:PartyName>\n        <cbc:Name>مركز نشمي لطب وجراحة الأسنان</cbc:Name>\n      </cac:PartyName>\n      <cac:PostalAddress>\n        <cbc:CityName>Amman</cbc:CityName>\n        <cbc:CountrySubentity>Amman Governorate</cbc:CountrySubentity>\n        <cac:Country>\n          <cbc:IdentificationCode>JO</cbc:IdentificationCode>\n        </cac:Country>\n      </cac:PostalAddress>\n      <cac:PartyTaxScheme>\n        <cbc:CompanyID>100492837</cbc:CompanyID>\n        <cac:TaxScheme>\n          <cbc:ID>VAT</cbc:ID>\n        </cac:TaxScheme>\n      </cac:PartyTaxScheme>\n    </cac:Party>\n  </cac:AccountingSupplierParty>\n\n  <!-- Buyer Party -->\n  \n    <cac:AccountingCustomerParty>\n      <cac:Party>\n        <cac:PartyName>\n          <cbc:Name>عمر التميمي</cbc:Name>\n        </cac:PartyName>\n        \n      </cac:Party>\n    </cac:AccountingCustomerParty>\n\n  <!-- Legal Monetary Total -->\n  <cac:TaxTotal>\n    <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n  </cac:TaxTotal>\n  <cac:LegalMonetaryTotal>\n    <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n    <cbc:TaxExclusiveAmount currencyID=\"JOD\">25.000</cbc:TaxExclusiveAmount>\n    <cbc:TaxInclusiveAmount currencyID=\"JOD\">29.000</cbc:TaxInclusiveAmount>\n    <cbc:PayableAmount currencyID=\"JOD\">29.000</cbc:PayableAmount>\n  </cac:LegalMonetaryTotal>\n\n  <!-- Invoice Lines -->\n  \n    <cac:InvoiceLine>\n      <cbc:ID>1</cbc:ID>\n      <cbc:InvoicedQuantity unitCode=\"EA\">1</cbc:InvoicedQuantity>\n      <cbc:LineExtensionAmount currencyID=\"JOD\">25.000</cbc:LineExtensionAmount>\n      <cac:TaxTotal>\n        <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n        <cac:TaxSubtotal>\n          <cbc:TaxableAmount currencyID=\"JOD\">25.000</cbc:TaxableAmount>\n          <cbc:TaxAmount currencyID=\"JOD\">4.000</cbc:TaxAmount>\n          <cac:TaxCategory>\n            <cbc:ID>S</cbc:ID>\n            <cbc:Percent>16.00</cbc:Percent>\n            <cac:TaxScheme>\n              <cbc:ID>VAT</cbc:ID>\n            </cac:TaxScheme>\n          </cac:TaxCategory>\n        </cac:TaxSubtotal>\n      </cac:TaxTotal>\n      <cac:Item>\n        <cbc:Description>كشف واستشارة طبية</cbc:Description>\n        <cbc:Name>كشف واستشارة طبية</cbc:Name>\n      </cac:Item>\n      <cac:Price>\n        <cbc:PriceAmount currencyID=\"JOD\">25.000</cbc:PriceAmount>\n      </cac:Price>\n    </cac:InvoiceLine>\n</Invoice>",
+      "status": "REPORTED",
+      "clearance_status": "REPORTED_TO_ISTD",
+      "istd_submission_id": "istd-sim-1790461245846-x555y",
+      "submitted_at": "2026-09-26T22:20:45.846Z",
+      "created_at": "2026-09-26T22:20:45.846Z"
+    }
+  ],
+  "clinic_faqs": [
+    {
+      "id": "faq-hours",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "category": "hours",
+      "question_ar": "ما هي أوقات دوام وساعات العمل في العيادة؟",
+      "answer_ar": "نستقبلكم يومياً من السبت إلى الخميس من الساعة 9:00 صباحاً حتى 9:00 مساءً. يوم الجمعة عطلة أسبوعية.",
+      "keywords": [
+        "دوام",
+        "ساعات",
+        "اوقات",
+        "متى",
+        "فاتحين",
+        "تسكير",
+        "الجمعة",
+        "السبت"
+      ],
+      "created_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "faq-location",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "category": "location",
+      "question_ar": "أين موقع مركز نشمي وهل تتوفر مواقف سيارات؟",
+      "answer_ar": "موقعنا في عمان، الشميساني - مقابل المستشفى التخصصي. يتوفر لدينا مواقف سيارات مجانية خاصة بالمراجعين مع خدمة فاليه مجانية لراحتكم.",
+      "keywords": [
+        "موقع",
+        "مكان",
+        "وين",
+        "عنوان",
+        "باركنج",
+        "مواقف",
+        "فاليه",
+        "صفة",
+        "سيارة",
+        "الشميساني"
+      ],
+      "created_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "faq-insurance",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "category": "insurance",
+      "question_ar": "ما هي شركات وشبكات التأمين الطبي المعتمدة لديكم؟",
+      "answer_ar": "معتمدون لدى كبرى شركات التأمين في الأردن: نات هيلث (NatHealth)، ميدنت (MedNet)، الشرق العربي للتأمين، GIG، والأولى للتأمين، بنسب تغطية تصل من 80% إلى 100% حسب فئة بطاقتك.",
+      "keywords": [
+        "تأمين",
+        "شبكة",
+        "نات هيلث",
+        "ميدنت",
+        "الشرق العربي",
+        "gig",
+        "تغطية",
+        "بطاقة"
+      ],
+      "created_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "faq-pricing",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "category": "pricing",
+      "question_ar": "كم أسعار الكشفية والعلاجات وتنظيف الأسنان؟",
+      "answer_ar": "الكشفية والاستشارة مع خطة العلاج 15-20 دينار (تُخصم من قيمة المعالجة عند البدء). تنظيف وتلميع الأسنان يبدأ من 25 دينار، وتبييض الأسنان بالليزر يبدأ من 80 دينار، والحشوات التجميلية تبدأ من 30 دينار. ولا يوجد أي رسوم عربون أو دفعة مسبقة للحجز.",
+      "keywords": [
+        "سعر",
+        "اسعار",
+        "كشفية",
+        "تكلفة",
+        "تنظيف",
+        "تبييض",
+        "حشوة",
+        "كم يكلف",
+        "عربون",
+        "فلوس"
+      ],
+      "created_at": "2026-09-26T17:10:22.311Z"
+    },
+    {
+      "id": "faq-services",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "category": "services",
+      "question_ar": "ما هي الخدمات والإجراءات الطبية المتوفرة في المركز؟",
+      "answer_ar": "نقدم خدمات طب وجراحة الأسنان الشاملة: زراعة الأسنان الرقمية، تقويم الأسنان الشفاف والمعدني، ابتسامة هوليود والعدسات الخزفية، علاج العصب والجذور بجلسة واحدة، طب أسنان الأطفال، وتنظيف وتبييض الأسنان.",
+      "keywords": [
+        "خدمات",
+        "علاج",
+        "زراعة",
+        "تقويم",
+        "ابتسامة",
+        "هوليود",
+        "عصب",
+        "أطفال",
+        "تجميل"
+      ],
+      "created_at": "2026-09-26T17:10:22.311Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv-1790442625010-ntpos",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962791234567",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "مرحبا، بدي احجز موعد لتنظيف الأسنان",
+          "timestamp": "2026-09-26T17:10:25.301Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا والله فيك بمركز نشمي! في عندنا موعد الأربعاء 10:00 ص مناسبك؟",
+          "timestamp": "2026-09-26T17:10:25.730Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، بدي احجز موعد لتنظيف الأسنان",
+          "timestamp": "2026-09-26T21:30:29.577Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا والله فيك بمركز نشمي! في عندنا موعد الأربعاء 10:00 ص مناسبك؟",
+          "timestamp": "2026-09-26T21:30:29.892Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، بدي احجز موعد لتنظيف الأسنان",
+          "timestamp": "2026-09-26T21:31:00.404Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا والله فيك بمركز نشمي! في عندنا موعد الأربعاء 10:00 ص مناسبك؟",
+          "timestamp": "2026-09-26T21:31:00.731Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، بدي احجز موعد لتنظيف الأسنان",
+          "timestamp": "2026-09-26T22:05:24.459Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا والله فيك بمركز نشمي! في عندنا موعد الأربعاء 10:00 ص مناسبك؟",
+          "timestamp": "2026-09-26T22:05:24.805Z"
+        }
+      ],
+      "updated_at": "2026-09-26T22:05:24.805Z"
+    },
+    {
+      "id": "conv-1790442764114-nnxtn",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962797778899",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "مرحبا، شو أوقات الدوام عندكم بالعيادة وكم سعر كشفية الأسنان؟",
+          "timestamp": "2026-09-26T17:12:44.411Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا والله! الدوام عنا من السبت للخميس من الساعة 9 الصبح لحد 9 الظهر. وبخصوص الكشفية، بتعتمد على الحالة بس بتشمل فحص كامل. تحب أحجزلك موعد تناسبك أموره؟",
+          "timestamp": "2026-09-26T17:12:46.222Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، شو أوقات الدوام عندكم بالعيادة وكم سعر كشفية الأسنان؟",
+          "timestamp": "2026-09-26T17:13:16.730Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بيك من جديد! منورنا. الدوام عنا زي ما خبرتك من السبت للخميس من 9 الصبح لـ 9 بالليل. تحب أحجزلك موعد تناسبك أموره وتيجي تشرفنا؟",
+          "timestamp": "2026-09-26T17:13:18.494Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، شو أوقات الدوام عندكم بالعيادة وكم سعر كشفية الأسنان؟",
+          "timestamp": "2026-09-26T21:32:54.801Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T21:32:55.193Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، شو أوقات الدوام عندكم بالعيادة وكم سعر كشفية الأسنان؟",
+          "timestamp": "2026-09-26T21:34:20.797Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا والله! أوقات الدوام عنا من السبت للخميس من الساعة 9 الصبح لغاية 9 بالليل. تحب أحجزلك موعد كشفية يناسب وقتك؟",
+          "timestamp": "2026-09-26T21:34:22.608Z"
+        },
+        {
+          "role": "user",
+          "text": "مرحبا، شو أوقات الدوام عندكم بالعيادة وكم سعر كشفية الأسنان؟",
+          "timestamp": "2026-09-26T22:03:00.682Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك! أوقات الدوام عنا من السبت للخميس من 9 الصبح لـ 9 بالليل. تحب أحجزلك موعد كشفية بكرا الساعة 11:30 الصبح ولا 4:30 العصر؟",
+          "timestamp": "2026-09-26T22:03:06.649Z"
+        }
+      ],
+      "updated_at": "2026-09-26T22:03:06.649Z"
+    },
+    {
+      "id": "conv-1790444035735-wbxue",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962799990001",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T17:33:55.750Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T17:33:55.756Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T17:49:24.002Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T17:49:24.309Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T17:49:51.238Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T17:49:51.337Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T21:31:27.652Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T21:31:28.067Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T21:32:02.614Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T21:32:03.074Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T21:32:24.077Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان بعمان! تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟ 🦷",
+          "timestamp": "2026-09-26T21:32:24.525Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T22:03:45.664Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله فيك! تفضل، كيف بقدر أساعدك اليوم؟",
+          "timestamp": "2026-09-26T22:03:47.248Z"
+        },
+        {
+          "role": "user",
+          "text": "السلام عليكم ورحمة الله",
+          "timestamp": "2026-09-26T22:04:12.644Z"
+        },
+        {
+          "role": "model",
+          "text": "وعليكم السلام ورحمة الله، يا هلا والله! تفضل يا غالي، كيف بقدر أساعدك اليوم؟",
+          "timestamp": "2026-09-26T22:04:14.423Z"
+        }
+      ],
+      "updated_at": "2026-09-26T22:04:14.423Z"
+    },
+    {
+      "id": "conv-1790444042803-mi5ra",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962799990002",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T17:34:02.808Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T17:34:02.813Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T17:49:24.314Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T17:49:24.320Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T17:49:51.344Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T17:49:51.351Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T21:31:28.384Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T21:31:28.742Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T21:32:03.393Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T21:32:03.706Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T21:32:24.868Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T21:32:25.287Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T22:03:47.584Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T22:03:47.918Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T22:04:14.743Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T22:04:15.051Z"
+        }
+      ],
+      "updated_at": "2026-09-26T22:04:15.051Z"
+    },
+    {
+      "id": "conv-1790457969099-x0y3h",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962791112233",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T21:26:09.104Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T21:26:10.004Z"
+        },
+        {
+          "role": "user",
+          "text": "بدي احجز موعد إلي ولقريبي بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T21:26:10.050Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم واسم قريبك/المرافق عشان أثبتلكم المواعيد فوراً.",
+          "timestamp": "2026-09-26T21:26:10.089Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T21:28:40.161Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T21:28:40.575Z"
+        },
+        {
+          "role": "user",
+          "text": "بدي احجز موعد إلي ولقريبي بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T21:28:40.898Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم واسم قريبك/المرافق عشان أثبتلكم المواعيد فوراً.",
+          "timestamp": "2026-09-26T21:28:41.239Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T21:29:21.788Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T21:29:22.214Z"
+        },
+        {
+          "role": "user",
+          "text": "بدي احجز موعد إلي ولقريبي بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T21:29:22.562Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم واسم قريبك/المرافق عشان أثبتلكم المواعيد فوراً.",
+          "timestamp": "2026-09-26T21:29:22.875Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T22:02:29.756Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T22:02:30.171Z"
+        },
+        {
+          "role": "user",
+          "text": "بدي احجز موعد إلي ولقريبي بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T22:02:30.595Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم واسم قريبك/المرافق عشان أثبتلكم المواعيد فوراً.",
+          "timestamp": "2026-09-26T22:02:30.907Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الساعة 11:30 الصبح",
+          "timestamp": "2026-09-26T22:21:11.180Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم عشان أثبتلك الموعد فوراً.",
+          "timestamp": "2026-09-26T22:21:11.661Z"
+        },
+        {
+          "role": "user",
+          "text": "بدي احجز موعد إلي ولقريبي بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T22:21:12.003Z"
+        },
+        {
+          "role": "model",
+          "text": "تمام! بس اعطيني اسمك الكريم واسم قريبك/المرافق عشان أثبتلكم المواعيد فوراً.",
+          "timestamp": "2026-09-26T22:21:12.344Z"
+        }
+      ],
+      "updated_at": "2026-09-26T22:21:12.344Z"
+    },
+    {
+      "id": "conv-1790457977163-kgmx6",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962795556677",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "أنا أحمد ومعي قريبي خالد وبدنا موعد بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T21:26:17.165Z"
+        },
+        {
+          "role": "model",
+          "text": "أهلاً بك يا أحمد، عذراً منك واجهنا ضغط مؤقت في شبكة الاتصال، ممكن تعيدلي طلبك بعد إذنك؟",
+          "timestamp": "2026-09-26T21:26:18.296Z"
+        },
+        {
+          "role": "user",
+          "text": "أنا أحمد ومعي قريبي خالد وبدنا موعد بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T21:28:41.610Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا أحمد، تم تثبيت مواعيدك أنت وخالد تمام الساعة 11:30 بكرا. بانتظاركم وتنورونا! \nالموقع: الشميساني، عمان (متوفر مواقف مجانية وخدمة فاليه لراحة المرضى).",
+          "timestamp": "2026-09-26T21:28:54.310Z",
+          "toolCalls": [
+            {
+              "name": "check_calendar",
+              "args": {
+                "preferred_date": "بكرا"
+              },
+              "result": {
+                "date": "2026-09-27",
+                "service": "consultation",
+                "practitioner": "جميع أطباء المركز",
+                "available_slots": [
+                  "10:00",
+                  "11:30",
+                  "14:00",
+                  "16:30",
+                  "18:00"
+                ],
+                "working_hours": "من السبت إلى الخميس: 09:00 صباحاً - 08:00 مساءً (الجمعة عطلة)",
+                "sterilization_buffer_enforced": "15 دقيقة تعقيم بعد كل موعد",
+                "message": "المواعيد الشاغرة ليوم (2026-09-27) هي: 10:00، 11:30، 14:00، 16:30، 18:00."
+              },
+              "iteration": 1
+            },
+            {
+              "name": "create_appointment",
+              "args": {
+                "time_str": "11:30",
+                "date_str": "2026-09-27",
+                "patient_name": "أحمد وخالد",
+                "patients": [
+                  "أحمد",
+                  "خالد"
+                ]
+              },
+              "result": {
+                "success": true,
+                "multi_person_booking": true,
+                "total_patients": 3,
+                "booked_patients": [
+                  {
+                    "name": "أحمد وخالد",
+                    "time": "11:30",
+                    "appointment_id": "appt-1790458128768-fn5v7",
+                    "scheduled_start": "2026-09-27T18:30:00.000Z"
+                  },
+                  {
+                    "name": "أحمد",
+                    "time": "12:30",
+                    "appointment_id": "appt-1790458130756-5600r",
+                    "scheduled_start": "2026-09-27T19:30:00.000Z"
+                  },
+                  {
+                    "name": "خالد",
+                    "time": "13:30",
+                    "appointment_id": "appt-1790458132703-hxwxs",
+                    "scheduled_start": "2026-09-27T20:30:00.000Z"
+                  }
+                ],
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت الموعدين المتتابعين تمام: أحمد وخالد (الساعة 11:30)، وأحمد (الساعة 12:30)، وخالد (الساعة 13:30)، بانتظاركم وتنورونا! الموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه)."
+              },
+              "iteration": 2
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "أنا أحمد ومعي قريبي خالد وبدنا موعد بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T21:29:23.225Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا أحمد، تم تثبيت الموعدين تمام: إلك (الساعة 11:30) ولقريبك خالد (الساعة 12:30). \n\nبانتظاركم وتنورونا! \nالموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه لراحتكم).",
+          "timestamp": "2026-09-26T21:29:30.530Z",
+          "toolCalls": [
+            {
+              "name": "create_appointment",
+              "args": {
+                "date_str": "بكرا",
+                "patients": [
+                  "أحمد",
+                  "خالد"
+                ],
+                "time_str": "11:30"
+              },
+              "result": {
+                "success": true,
+                "multi_person_booking": true,
+                "total_patients": 2,
+                "booked_patients": [
+                  {
+                    "name": "أحمد",
+                    "time": "11:30",
+                    "appointment_id": "appt-1790458167014-nm4n3",
+                    "scheduled_start": "2026-09-27T18:30:00.000Z"
+                  },
+                  {
+                    "name": "خالد",
+                    "time": "12:30",
+                    "appointment_id": "appt-1790458168969-zb0ge",
+                    "scheduled_start": "2026-09-27T19:30:00.000Z"
+                  }
+                ],
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت الموعدين المتتابعين تمام: أحمد (الساعة 11:30)، وخالد (الساعة 12:30)، بانتظاركم وتنورونا! الموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه)."
+              },
+              "iteration": 1
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "أنا أحمد ومعي قريبي خالد وبدنا موعد بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T22:02:31.220Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا أحمد، تم تثبيت الموعدين المتتابعين تمام: موعدك الساعة 11:30، وموعد قريبي خالد الساعة 12:30. بانتظاركم وتنورونا! الموقع في الشميساني، عمان (متوفر مواقف مجانية وخدمة فاليه لراحتكم).",
+          "timestamp": "2026-09-26T22:02:38.728Z",
+          "toolCalls": [
+            {
+              "name": "create_appointment",
+              "args": {
+                "time_str": "11:30",
+                "patients": [
+                  "أحمد",
+                  "خالد"
+                ],
+                "patient_name": "أحمد",
+                "date_str": "بكرا"
+              },
+              "result": {
+                "success": true,
+                "multi_person_booking": true,
+                "total_patients": 2,
+                "booked_patients": [
+                  {
+                    "name": "أحمد",
+                    "time": "11:30",
+                    "appointment_id": "appt-1790460154996-fccc4",
+                    "scheduled_start": "2026-09-27T18:30:00.000Z"
+                  },
+                  {
+                    "name": "خالد",
+                    "time": "12:30",
+                    "appointment_id": "appt-1790460157147-1kzhj",
+                    "scheduled_start": "2026-09-27T19:30:00.000Z"
+                  }
+                ],
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت الموعدين المتتابعين تمام: أحمد (الساعة 11:30)، وخالد (الساعة 12:30)، بانتظاركم وتنورونا! الموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه)."
+              },
+              "iteration": 1
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "أنا أحمد ومعي قريبي خالد وبدنا موعد بكرا الساعة 11:30",
+          "timestamp": "2026-09-26T22:21:12.667Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا أحمد، تم تثبيت الموعدين المتتابعين تمام: موعدك الساعة 11:30، وموعد قريبك خالد الساعة 12:30. \n\nبانتظاركم وتنورونا! موقعنا في الشميساني (متوفر مواقف مجانية وخدمة فاليه).",
+          "timestamp": "2026-09-26T22:21:21.710Z",
+          "toolCalls": [
+            {
+              "name": "check_calendar",
+              "args": {
+                "preferred_date": "بكرا"
+              },
+              "result": {
+                "date": "2026-09-27",
+                "service": "consultation",
+                "practitioner": "جميع أطباء المركز",
+                "available_slots": [
+                  "10:00",
+                  "11:30",
+                  "14:00",
+                  "16:30",
+                  "18:00"
+                ],
+                "working_hours": "من السبت إلى الخميس: 09:00 صباحاً - 08:00 مساءً (الجمعة عطلة)",
+                "sterilization_buffer_enforced": "15 دقيقة تعقيم بعد كل موعد",
+                "message": "المواعيد الشاغرة ليوم (2026-09-27) هي: 10:00، 11:30، 14:00، 16:30، 18:00."
+              },
+              "iteration": 1
+            },
+            {
+              "name": "create_appointment",
+              "args": {
+                "date_str": "2026-09-28",
+                "patients": [
+                  "أحمد",
+                  "خالد"
+                ],
+                "time_str": "11:30",
+                "patient_name": "أحمد"
+              },
+              "result": {
+                "success": true,
+                "multi_person_booking": true,
+                "total_patients": 2,
+                "booked_patients": [
+                  {
+                    "name": "أحمد",
+                    "time": "11:30",
+                    "appointment_id": "appt-1790461278306-hwef3",
+                    "scheduled_start": "2026-09-28T18:30:00.000Z"
+                  },
+                  {
+                    "name": "خالد",
+                    "time": "12:30",
+                    "appointment_id": "appt-1790461280083-lhjug",
+                    "scheduled_start": "2026-09-28T19:30:00.000Z"
+                  }
+                ],
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت الموعدين المتتابعين تمام: أحمد (الساعة 11:30)، وخالد (الساعة 12:30)، بانتظاركم وتنورونا! الموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه)."
+              },
+              "iteration": 2
+            }
+          ]
+        }
+      ],
+      "updated_at": "2026-09-26T22:21:21.710Z"
+    },
+    {
+      "id": "conv-1790457985374-sgfns",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962798889900",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "أنا طارق وبناسبني موعد بكرا 16:30",
+          "timestamp": "2026-09-26T21:26:25.376Z"
+        },
+        {
+          "role": "model",
+          "text": "أهلاً بك يا طارق، عذراً منك واجهنا ضغط مؤقت في شبكة الاتصال، ممكن تعيدلي طلبك بعد إذنك؟",
+          "timestamp": "2026-09-26T21:26:26.327Z"
+        },
+        {
+          "role": "user",
+          "text": "أنا طارق وبناسبني موعد بكرا 16:30",
+          "timestamp": "2026-09-26T21:28:54.652Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا طارق، تم تثبيت موعدك تمام، بانتظارك وتنورنا! \nالموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه لراحتك).",
+          "timestamp": "2026-09-26T21:28:59.130Z",
+          "toolCalls": [
+            {
+              "name": "create_appointment",
+              "args": {
+                "patient_name": "طارق",
+                "time_str": "16:30",
+                "date_str": "بكرا"
+              },
+              "result": {
+                "success": true,
+                "appointment_id": "appt-1790458137720-8ibjm",
+                "scheduled_start": "2026-09-27T23:30:00.000Z",
+                "sterilization_end": "2026-09-28T00:15:00.000Z",
+                "practitioner_name": "د. قاسم نشمي",
+                "chair_number": 1,
+                "status": "CONFIRMED",
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت موعدك تمام، بانتظارك وتنورنا!\nاليوم: الأحد، ٢٧ أيلول ٢٠٢٦\nالساعة: ٠٤:٣٠ م\nالخدمة: كشف واستشارة طبية شاملة\nالطبيب المعالج: د. قاسم نشمي\nالعيادة / الكرسي: كرسي رقم 1\nالمركز: مركز نشمي لطب وجراحة الأسنان (عمان - الدوار السابع - مجمع النشامى الطبي - الطابق الثالث)"
+              },
+              "iteration": 1
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "أنا طارق وبناسبني موعد بكرا 16:30",
+          "timestamp": "2026-09-26T21:29:30.854Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا طارق، تم تثبيت موعدك تمام، بانتظارك وتنورنا! \nالموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه لراحتك).",
+          "timestamp": "2026-09-26T21:29:35.309Z",
+          "toolCalls": [
+            {
+              "name": "create_appointment",
+              "args": {
+                "time_str": "16:30",
+                "date_str": "بكرا",
+                "patient_name": "طارق"
+              },
+              "result": {
+                "success": true,
+                "appointment_id": "appt-1790458173773-vucis",
+                "scheduled_start": "2026-09-27T23:30:00.000Z",
+                "sterilization_end": "2026-09-28T00:15:00.000Z",
+                "practitioner_name": "د. قاسم نشمي",
+                "chair_number": 1,
+                "status": "CONFIRMED",
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت موعدك تمام، بانتظارك وتنورنا!\nاليوم: الأحد، ٢٧ أيلول ٢٠٢٦\nالساعة: ٠٤:٣٠ م\nالخدمة: كشف واستشارة طبية شاملة\nالطبيب المعالج: د. قاسم نشمي\nالعيادة / الكرسي: كرسي رقم 1\nالمركز: مركز نشمي لطب وجراحة الأسنان (عمان - الدوار السابع - مجمع النشامى الطبي - الطابق الثالث)"
+              },
+              "iteration": 1
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "أنا طارق وبناسبني موعد بكرا 16:30",
+          "timestamp": "2026-09-26T22:02:39.059Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا طارق، تم تثبيت موعدك تمام، بانتظارك وتنورنا! \nالموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه لراحتك).",
+          "timestamp": "2026-09-26T22:02:45.216Z",
+          "toolCalls": [
+            {
+              "name": "create_appointment",
+              "args": {
+                "date_str": "بكرا",
+                "patient_name": "طارق",
+                "time_str": "16:30"
+              },
+              "result": {
+                "success": true,
+                "appointment_id": "appt-1790460163829-z7yrx",
+                "scheduled_start": "2026-09-27T23:30:00.000Z",
+                "sterilization_end": "2026-09-28T00:15:00.000Z",
+                "practitioner_name": "د. قاسم نشمي",
+                "chair_number": 1,
+                "status": "CONFIRMED",
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت موعدك تمام، بانتظارك وتنورنا!\nاليوم: الأحد، ٢٧ أيلول ٢٠٢٦\nالساعة: ٠٤:٣٠ م\nالخدمة: كشف واستشارة طبية شاملة\nالطبيب المعالج: د. قاسم نشمي\nالعيادة / الكرسي: كرسي رقم 1\nالمركز: مركز نشمي لطب وجراحة الأسنان (عمان - الدوار السابع - مجمع النشامى الطبي - الطابق الثالث)"
+              },
+              "iteration": 1
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "أنا طارق وبناسبني موعد بكرا 16:30",
+          "timestamp": "2026-09-26T22:21:22.067Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك يا طارق، تم تثبيت موعدك تمام، بانتظارك وتنورنا! \n\nالموقع: الشميساني، عمان (متوفر مواقف مجانية وفاليه لراحتك).",
+          "timestamp": "2026-09-26T22:21:26.036Z",
+          "toolCalls": [
+            {
+              "name": "create_appointment",
+              "args": {
+                "date_str": "بكرا",
+                "time_str": "16:30",
+                "patient_name": "طارق"
+              },
+              "result": {
+                "success": true,
+                "appointment_id": "appt-1790461284728-cu4yg",
+                "scheduled_start": "2026-09-27T23:30:00.000Z",
+                "sterilization_end": "2026-09-28T00:15:00.000Z",
+                "practitioner_name": "د. قاسم نشمي",
+                "chair_number": 1,
+                "status": "CONFIRMED",
+                "location_address": "الشميساني، عمان - متوفر مواقف مجانية وخدمة فاليه لراحة المرضى",
+                "google_maps_link": "https://maps.google.com/?q=Amman+Shmeisani+Nashmi+Dental",
+                "message": "يا هلا بك، تم تثبيت موعدك تمام، بانتظارك وتنورنا!\nاليوم: الأحد، ٢٧ أيلول ٢٠٢٦\nالساعة: ٠٤:٣٠ م\nالخدمة: كشف واستشارة طبية شاملة\nالطبيب المعالج: د. قاسم نشمي\nالعيادة / الكرسي: كرسي رقم 1\nالمركز: مركز نشمي لطب وجراحة الأسنان (عمان - الدوار السابع - مجمع النشامى الطبي - الطابق الثالث)"
+              },
+              "iteration": 1
+            }
+          ]
+        }
+      ],
+      "updated_at": "2026-09-26T22:21:26.036Z"
+    },
+    {
+      "id": "conv-1790458588287-48wvl",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962791112222",
+      "chat_history": [
+        {
+          "role": "user",
+          "text": "عندي نزيف مستمر في أسناني وورم كبير بالفك ومش قادر اتنفس",
+          "timestamp": "2026-09-26T21:36:28.588Z"
+        },
+        {
+          "role": "model",
+          "text": "سلامتك ألف سلامة يا غالي! ولا تقلق، هذا وضع طارئ ومحتاج تدخل فوري. \nتوجه لعناية المركز في الشميساني فوراً، وطبيب الطوارئ المناوب صار على بينة وجاهز لاستقبالك بحالة طارئة بدون انتظار. الله يقويك!",
+          "timestamp": "2026-09-26T21:36:31.544Z",
+          "toolCalls": [
+            {
+              "name": "trigger_emergency_handover",
+              "args": {
+                "symptoms": "نزيف مستمر في أسناني وورم كبير بالفك ومش قادر اتنفس",
+                "patient_name": "مريض طارئ",
+                "patient_phone": "غير متوفر"
+              },
+              "result": {
+                "success": true,
+                "emergency_code": "[EMERGENCY_TRIGGER]",
+                "physician_notified": true,
+                "advisory": "⚠️ تنبيه طبي عاجل: تم تفعيل بروتوكول الطوارئ الفوري وفق قانون المسؤولية الطبية رقم 25 لسنة 2018.\nيرجى التوجه فوراً إلى العيادة أو أقرب قسم طوارئ. تم إرسال تنبيه عاجل للطبيب المناوب للمتابعة معك هاتفياً فوراً."
+              },
+              "iteration": 1
+            }
+          ]
+        },
+        {
+          "role": "user",
+          "text": "عندي نزيف مستمر في أسناني وورم كبير بالفك ومش قادر اتنفس",
+          "timestamp": "2026-09-26T22:03:25.728Z"
+        },
+        {
+          "role": "model",
+          "text": "سلامتك ألف سلامة يا غالي، ولا يهمك أبداً. \n\nهاد ظرف طارئ ولازم تتوجه فوراً للمركز عنا في الشميساني، طبيب الطوارئ المناوب صار على بينة ومستنيك فوراً عشان يتدخل ويساعدك. توجه لعنا حالاً!",
+          "timestamp": "2026-09-26T22:03:28.354Z",
+          "toolCalls": [
+            {
+              "name": "trigger_emergency_handover",
+              "args": {
+                "patient_name": "مريض طوارئ",
+                "symptoms": "نزيف مستمر في الأسنان وورم كبير بالفك وصعوبة في التنفس",
+                "patient_phone": "غير متوفر"
+              },
+              "result": {
+                "success": true,
+                "emergency_code": "[EMERGENCY_TRIGGER]",
+                "physician_notified": true,
+                "advisory": "⚠️ تنبيه طبي عاجل: تم تفعيل بروتوكول الطوارئ الفوري وفق قانون المسؤولية الطبية رقم 25 لسنة 2018.\nيرجى التوجه فوراً إلى العيادة أو أقرب قسم طوارئ. تم إرسال تنبيه عاجل للطبيب المناوب للمتابعة معك هاتفياً فوراً."
+              },
+              "iteration": 1
+            }
+          ]
+        }
+      ],
+      "updated_at": "2026-09-26T22:03:28.354Z"
+    },
+    {
+      "id": "conv-1790461172888-9149j",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "phone_number": "+962799988776",
+      "patient_name": "أحمد العبادي",
+      "summary": "اسم المريض: أحمد العبادي | الخدمات: تنظيف وتلميع أسنان | آخر سياق ملخص: \"رسالة تجريبية من المريض رقم 11 بخصوص تنظيف الأسنان\"",
+      "summary_updated_at": "2026-09-26T22:20:30.346Z",
+      "chat_history": [
+        {
+          "role": "model",
+          "text": "رد الموظف رقم 12",
+          "timestamp": "2026-09-26T22:20:27.401Z"
+        },
+        {
+          "role": "user",
+          "text": "رسالة تجريبية من المريض رقم 13 بخصوص تنظيف الأسنان",
+          "timestamp": "2026-09-26T22:20:27.715Z"
+        },
+        {
+          "role": "model",
+          "text": "رد الموظف رقم 14",
+          "timestamp": "2026-09-26T22:20:28.029Z"
+        },
+        {
+          "role": "user",
+          "text": "رسالة تجريبية من المريض رقم 15 بخصوص تنظيف الأسنان",
+          "timestamp": "2026-09-26T22:20:28.363Z"
+        },
+        {
+          "role": "model",
+          "text": "رد الموظف رقم 16",
+          "timestamp": "2026-09-26T22:20:28.674Z"
+        },
+        {
+          "role": "user",
+          "text": "رسالة تجريبية من المريض رقم 17 بخصوص تنظيف الأسنان",
+          "timestamp": "2026-09-26T22:20:29.010Z"
+        },
+        {
+          "role": "model",
+          "text": "رد الموظف رقم 18",
+          "timestamp": "2026-09-26T22:20:29.346Z"
+        },
+        {
+          "role": "user",
+          "text": "بدي أعرف كم كشفية زراعة الأسنان في فرع الشميساني؟",
+          "timestamp": "2026-09-26T22:20:29.698Z"
+        },
+        {
+          "role": "model",
+          "text": "يا هلا بك أخ أحمد، كشفية الزراعة 15 دينار شاملة الفحص.",
+          "timestamp": "2026-09-26T22:20:30.016Z"
+        },
+        {
+          "role": "user",
+          "text": "بناسبني موعد بكرا الأحد الصبح الساعة 11:30.",
+          "timestamp": "2026-09-26T22:20:30.345Z"
+        },
+        {
+          "role": "model",
+          "text": "تكرم عيونك يا غالي، جاري التثبيت.",
+          "timestamp": "2026-09-26T22:20:30.660Z"
+        }
+      ],
+      "updated_at": "2026-09-26T22:20:30.660Z"
+    }
+  ],
+  "processed_messages": [
+    {
+      "message_id": "wamid.test_1790445612535_y87ie",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T18:00:19.967Z"
+    },
+    {
+      "message_id": "wamid.test_1790446351739_4jqmc",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T18:12:39.207Z"
+    },
+    {
+      "message_id": "wamid.test_1790447249645_1qckg",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T18:27:37.038Z"
+    },
+    {
+      "message_id": "wamid.recent_1790447257323",
+      "processed_at": "2026-09-26T18:27:37.323Z"
+    },
+    {
+      "message_id": "wamid.test_1790448086561_frk0y",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T18:41:34.031Z"
+    },
+    {
+      "message_id": "wamid.recent_1790448094300",
+      "processed_at": "2026-09-26T18:41:34.300Z"
+    },
+    {
+      "message_id": "wamid.test_1790448251909_rs8ud",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T18:44:19.350Z"
+    },
+    {
+      "message_id": "wamid.recent_1790448259494",
+      "processed_at": "2026-09-26T18:44:19.494Z"
+    },
+    {
+      "message_id": "wamid.test_1790448326396_viiwv",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T18:45:33.844Z"
+    },
+    {
+      "message_id": "wamid.recent_1790448334105",
+      "processed_at": "2026-09-26T18:45:34.105Z"
+    },
+    {
+      "message_id": "wamid.test_1790458010163_z0tyw",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T21:26:51.767Z"
+    },
+    {
+      "message_id": "wamid.test_1790458100839_5xkqm",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T21:28:21.486Z"
+    },
+    {
+      "message_id": "wamid.recent_1790458102601",
+      "processed_at": "2026-09-26T21:28:22.601Z"
+    },
+    {
+      "message_id": "wamid.test_1790460112285_jecgi",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T22:02:12.458Z"
+    },
+    {
+      "message_id": "wamid.recent_1790460133614",
+      "processed_at": "2026-09-26T22:02:13.614Z"
+    },
+    {
+      "message_id": "wamid.test_1790461241470_wwpkd",
+      "sender_phone": "+962791234567",
+      "message_type": "text",
+      "processed_at": "2026-09-26T22:20:45.414Z"
+    },
+    {
+      "message_id": "wamid.recent_1790461246585",
+      "processed_at": "2026-09-26T22:20:46.585Z"
+    }
+  ],
+  "failed_outbound_messages": [
+    {
+      "id": "fail-1790447257318-vxbdp",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T18:27:37.318Z"
+    },
+    {
+      "id": "fail-1790448094295-nhtvp",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T18:41:34.295Z"
+    },
+    {
+      "id": "fail-1790448259489-b38e4",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T18:44:19.489Z"
+    },
+    {
+      "id": "fail-1790448334097-g5ziq",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T18:45:34.097Z"
+    },
+    {
+      "id": "fail-1790458102287-nhmhj",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T21:28:22.287Z"
+    },
+    {
+      "id": "fail-1790460133261-t4v09",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T22:02:13.261Z"
+    },
+    {
+      "id": "fail-1790461180755-lkz5n",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962798887766",
+      "message_text": "تذكير بموعدك غداً الساعة 11:00 صباحاً",
+      "error_reason": "Meta Graph API 400: Recipient phone number not on WhatsApp",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T22:19:40.755Z"
+    },
+    {
+      "id": "fail-1790461231224-ffixb",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962798887766",
+      "message_text": "تذكير بموعدك غداً الساعة 11:00 صباحاً",
+      "error_reason": "Meta Graph API 400: Recipient phone number not on WhatsApp",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T22:20:31.224Z"
+    },
+    {
+      "id": "fail-1790461246197-iddfh",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "recipient_phone": "+962799990000",
+      "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+      "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "status": "PENDING_HUMAN_REVIEW",
+      "created_at": "2026-09-26T22:20:46.197Z"
+    }
+  ],
+  "practitioners": [
+    {
+      "id": "doc-qasim-001",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "name_ar": "د. قاسم نشمي",
+      "name_en": "Dr. Qasim Nashmi",
+      "specialty": "implantology_and_surgery",
+      "specialty_ar": "استشاري زراعة وجراحة الفكين والأسنان",
+      "phone": "+962791000001",
+      "license_number": "MOH-JO-DEN-8821",
+      "color_code": "#0d9488",
+      "is_active": true,
+      "created_at": "2026-09-26T18:41:17.821Z"
+    },
+    {
+      "id": "doc-dima-002",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "name_ar": "د. ديما التميمي",
+      "name_en": "Dr. Dima Tamimi",
+      "specialty": "orthodontics",
+      "specialty_ar": "أخصائية تقويم الأسنان والفكين والابتسامة",
+      "phone": "+962791000002",
+      "license_number": "MOH-JO-DEN-9014",
+      "color_code": "#6366f1",
+      "is_active": true,
+      "created_at": "2026-09-26T18:41:17.821Z"
+    },
+    {
+      "id": "doc-rami-003",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "name_ar": "د. رامي عبيدات",
+      "name_en": "Dr. Rami Obeidat",
+      "specialty": "general_and_endodontics",
+      "specialty_ar": "طبيب أسنان عام وتجميل وعلاج عصب الأسنان",
+      "phone": "+962791000003",
+      "license_number": "MOH-JO-DEN-9542",
+      "color_code": "#f59e0b",
+      "is_active": true,
+      "created_at": "2026-09-26T18:41:17.821Z"
+    }
+  ],
+  "dental_chairs": [
+    {
+      "id": "chair-001",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "chair_number": 1,
+      "name_ar": "كرسي 1 - جناح الجراحة والزراعة الرقمية",
+      "description_ar": "مجهز بنظام 3D CBCT وجهاز جراحة الفكين بالموجات بيزو",
+      "is_active": true,
+      "created_at": "2026-09-26T18:41:17.821Z"
+    },
+    {
+      "id": "chair-002",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "chair_number": 2,
+      "name_ar": "كرسي 2 - جناح التقويم والابتسامة الرقمية",
+      "description_ar": "مجهز بالماسح الرقمي الفموي Intraoral Scanner",
+      "is_active": true,
+      "created_at": "2026-09-26T18:41:17.821Z"
+    },
+    {
+      "id": "chair-003",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "chair_number": 3,
+      "name_ar": "كرسي 3 - جناح المعالجات الترميمية والجذور",
+      "description_ar": "مجهز بميكروسكوب جراحة العصب وجهاز التبييض بالليزر",
+      "is_active": true,
+      "created_at": "2026-09-26T18:41:17.821Z"
+    }
+  ],
+  "clinical_records": [
+    {
+      "id": "ehr-demo-001",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "patient-demo-001",
+      "appointment_id": "appt-demo-001",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chief_complaint": "ألم حاد في الضرس السفلي الأيمن مع حساسية شديدة على السوائل الباردة والساخنة",
+      "diagnosis": "التهاب لب سني غير ردود (Irreversible Pulpitis) في الضرس رقم 46 مع تسوس عميق",
+      "clinical_notes": "تم فحص المريض سريرياً وإجراء صورة أشعة رقمية كشفت وصول التسوس للب السني. تم تخدير موضعي وفتح حجرة اللب واستئصال العصب وتوسيع القنوات.",
+      "treatment_rendered": "بدء علاج عصب الضرس (Root Canal Treatment - Phase 1) ووضع حشوة مؤقتة علاجية",
+      "prescriptions": [
+        {
+          "drug_name": "Amoxicillin 500mg",
+          "dosage": "500 mg",
+          "frequency": "كل 8 ساعات",
+          "duration": "5 أيام"
+        },
+        {
+          "drug_name": "Ibuprofen 400mg",
+          "dosage": "400 mg",
+          "frequency": "عند اللزوم بعد الطعام",
+          "duration": "3 أيام"
+        }
+      ],
+      "odontogram": [
+        {
+          "tooth_number": 46,
+          "surface": "MOD",
+          "status": "ROOT_CANAL",
+          "notes": "بدء علاج عصب وحشوة مؤقتة"
+        },
+        {
+          "tooth_number": 16,
+          "surface": "O",
+          "status": "FILLED",
+          "notes": "حشوة كمبوزيت تجميلية سليمة"
+        }
+      ],
+      "allergies": [
+        "Penicillin (Moderate allergy)"
+      ],
+      "chronic_conditions": [],
+      "informed_consent_signed": true,
+      "created_at": "2026-09-26T18:41:17.821Z",
+      "updated_at": "2026-09-26T18:41:17.821Z"
+    },
+    {
+      "id": "ehr-1790448383768-7fwo4",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "patient-demo-001",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chief_complaint": "تسوس في الضرس العلوي الأيمن",
+      "diagnosis": "تسوس سطح الإطباق (Occlusal Caries) بالضرس 16",
+      "clinical_notes": "تم الفحص والتصوير بالأشعة",
+      "treatment_rendered": "حشوة كمبوزيت تجميلية",
+      "allergies": [],
+      "chronic_conditions": [],
+      "odontogram": [
+        {
+          "tooth_number": 16,
+          "status": "FILLED"
+        }
+      ],
+      "prescriptions": [],
+      "informed_consent_signed": true,
+      "created_at": "2026-09-26T18:46:23.768Z",
+      "updated_at": "2026-09-26T18:46:23.768Z"
+    },
+    {
+      "id": "ehr-1790458108393-rd42y",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "patient-demo-001",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chief_complaint": "تسوس في الضرس العلوي الأيمن",
+      "diagnosis": "تسوس سطح الإطباق (Occlusal Caries) بالضرس 16",
+      "clinical_notes": "تم الفحص والتصوير بالأشعة",
+      "treatment_rendered": "حشوة كمبوزيت تجميلية",
+      "allergies": [],
+      "chronic_conditions": [],
+      "odontogram": [
+        {
+          "tooth_number": 16,
+          "status": "FILLED"
+        }
+      ],
+      "prescriptions": [],
+      "informed_consent_signed": true,
+      "created_at": "2026-09-26T21:28:28.393Z",
+      "updated_at": "2026-09-26T21:28:28.393Z"
+    },
+    {
+      "id": "ehr-1790460139009-boyag",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "patient-demo-001",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chief_complaint": "تسوس في الضرس العلوي الأيمن",
+      "diagnosis": "تسوس سطح الإطباق (Occlusal Caries) بالضرس 16",
+      "clinical_notes": "تم الفحص والتصوير بالأشعة",
+      "treatment_rendered": "حشوة كمبوزيت تجميلية",
+      "allergies": [],
+      "chronic_conditions": [],
+      "odontogram": [
+        {
+          "tooth_number": 16,
+          "status": "FILLED"
+        }
+      ],
+      "prescriptions": [],
+      "informed_consent_signed": true,
+      "created_at": "2026-09-26T22:02:19.009Z",
+      "updated_at": "2026-09-26T22:02:19.009Z"
+    },
+    {
+      "id": "ehr-1790461251883-7kolo",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "patient_id": "patient-demo-001",
+      "practitioner_id": "doc-qasim-001",
+      "practitioner_name": "د. قاسم نشمي",
+      "chief_complaint": "تسوس في الضرس العلوي الأيمن",
+      "diagnosis": "تسوس سطح الإطباق (Occlusal Caries) بالضرس 16",
+      "clinical_notes": "تم الفحص والتصوير بالأشعة",
+      "treatment_rendered": "حشوة كمبوزيت تجميلية",
+      "allergies": [],
+      "chronic_conditions": [],
+      "odontogram": [
+        {
+          "tooth_number": 16,
+          "status": "FILLED"
+        }
+      ],
+      "prescriptions": [],
+      "informed_consent_signed": true,
+      "created_at": "2026-09-26T22:20:51.883Z",
+      "updated_at": "2026-09-26T22:20:51.883Z"
+    }
+  ],
+  "receptionist_alerts": [
+    {
+      "id": "alert-1790461246544-udmpq",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "type": "OUTBOUND_FAILURE",
+      "title": "⚠️ تعذر إرسال رسالة واتساب للمريض",
+      "description": "فشل الإرسال إلى +962799990000: Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed",
+      "patient_phone": "+962799990000",
+      "severity": "WARNING",
+      "timestamp": "2026-09-26T22:20:46.544Z",
+      "metadata": {
+        "message_text": "تذكير بموعدك غداً الساعة 10:00 صباحاً",
+        "error_reason": "Meta API HTTP 400: (#131047) Re-engagement message: 24h window closed"
+      }
+    },
+    {
+      "id": "alert-1790461231630-67rm7",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "type": "EMERGENCY",
+      "title": "🚨 تنبيه طوارئ سريرية حرجة [EMERGENCY_TRIGGER]",
+      "description": "المريض: طارق الزعبي (+962795554433) - الأعراض: انتفاخ حاد جداً في الفك مع نزيف مستمر وارتفاع بالحرارة",
+      "patient_name": "طارق الزعبي",
+      "patient_phone": "+962795554433",
+      "severity": "CRITICAL",
+      "timestamp": "2026-09-26T22:20:31.630Z",
+      "metadata": {
+        "symptoms": "انتفاخ حاد جداً في الفك مع نزيف مستمر وارتفاع بالحرارة",
+        "guardrail": "Jordanian Medical Liability Law No. 25 of 2018"
+      }
+    },
+    {
+      "id": "alert-1790461231558-v99o9",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "type": "OUTBOUND_FAILURE",
+      "title": "⚠️ تعذر إرسال رسالة واتساب للمريض",
+      "description": "فشل الإرسال إلى +962798887766: Meta Graph API 400: Recipient phone number not on WhatsApp",
+      "patient_phone": "+962798887766",
+      "severity": "WARNING",
+      "timestamp": "2026-09-26T22:20:31.558Z",
+      "metadata": {
+        "message_text": "تذكير بموعدك غداً الساعة 11:00 صباحاً",
+        "error_reason": "Meta Graph API 400: Recipient phone number not on WhatsApp"
+      }
+    },
+    {
+      "id": "alert-1790461181143-p8c3e",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "type": "EMERGENCY",
+      "title": "🚨 تنبيه طوارئ سريرية حرجة [EMERGENCY_TRIGGER]",
+      "description": "المريض: طارق الزعبي (+962795554433) - الأعراض: انتفاخ حاد جداً في الفك مع نزيف مستمر وارتفاع بالحرارة",
+      "patient_name": "طارق الزعبي",
+      "patient_phone": "+962795554433",
+      "severity": "CRITICAL",
+      "timestamp": "2026-09-26T22:19:41.143Z",
+      "metadata": {
+        "symptoms": "انتفاخ حاد جداً في الفك مع نزيف مستمر وارتفاع بالحرارة",
+        "guardrail": "Jordanian Medical Liability Law No. 25 of 2018"
+      }
+    },
+    {
+      "id": "alert-1790461181068-2zw62",
+      "clinic_id": "clinic-amman-nashmi-001",
+      "type": "OUTBOUND_FAILURE",
+      "title": "⚠️ تعذر إرسال رسالة واتساب للمريض",
+      "description": "فشل الإرسال إلى +962798887766: Meta Graph API 400: Recipient phone number not on WhatsApp",
+      "patient_phone": "+962798887766",
+      "severity": "WARNING",
+      "timestamp": "2026-09-26T22:19:41.068Z",
+      "metadata": {
+        "message_text": "تذكير بموعدك غداً الساعة 11:00 صباحاً",
+        "error_reason": "Meta Graph API 400: Recipient phone number not on WhatsApp"
+      }
+    }
+  ]
+}
