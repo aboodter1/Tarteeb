@@ -14,8 +14,6 @@ import {
 } from '@/lib/db/supabase';
 import { captureException } from '@/lib/monitoring/apm';
 
-export { sendWhatsAppTextMessage };
-
 /**
  * Meta Webhook Verification Handshake (GET)
  */

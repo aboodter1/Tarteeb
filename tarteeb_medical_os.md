@@ -1,5 +1,5 @@
 # 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
-> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٢:٥٤:٠٧ ص  
+> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:٠٧:٢٤ ص  
 > **عدد الملفات:** 55 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -656,8 +656,6 @@ import {
   broadcastReceptionistAlert,
 } from '@/lib/db/supabase';
 import { captureException } from '@/lib/monitoring/apm';
-
-export { sendWhatsAppTextMessage };
 
 /**
  * Meta Webhook Verification Handshake (GET)
