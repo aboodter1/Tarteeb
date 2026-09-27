@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import QRCode from 'qrcode';
 import {
   FileText,
   Code,
@@ -160,16 +159,27 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
       setQrCodeDataUrl('');
       return;
     }
-    QRCode.toDataURL(tlvQrCode, {
-      width: 170,
-      margin: 1,
-      color: {
-        dark: '#0f172a',
-        light: '#ffffff',
-      },
-    })
-      .then((url) => setQrCodeDataUrl(url))
+    let isMounted = true;
+    import('qrcode')
+      .then((mod) => {
+        const QRCode = mod.default || mod;
+        return QRCode.toDataURL(tlvQrCode, {
+          width: 170,
+          margin: 1,
+          color: {
+            dark: '#0f172a',
+            light: '#ffffff',
+          },
+        });
+      })
+      .then((url: string) => {
+        if (isMounted) setQrCodeDataUrl(url);
+      })
       .catch((err) => console.warn('QR Code generation error:', err));
+
+    return () => {
+      isMounted = false;
+    };
   }, [tlvQrCode]);
 
   const handlePrint = () => {
