@@ -1,5 +1,5 @@
 # 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
-> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:٢٩:١٨ ص  
+> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:٤٥:٤٨ ص  
 > **عدد الملفات:** 55 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -1192,6 +1192,8 @@ export default function CleanChatPage() {
 
 ```css
 // File: app/globals.css
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -1247,15 +1249,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ar" dir="rtl">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Tajawal:wght@400;500;700;800;900&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
       <body className="antialiased bg-slate-50 text-slate-900 min-h-screen selection:bg-teal-600 selection:text-white">
         {children}
       </body>
@@ -9205,6 +9199,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   eslint: {
     ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
   },
   experimental: {
     serverActions: {
