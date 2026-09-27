@@ -1,5 +1,5 @@
 # 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
-> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:٤٥:٤٨ ص  
+> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:٥١:٣٧ ص  
 > **عدد الملفات:** 55 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -660,7 +660,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { waitUntil } from '@vercel/functions';
 import { runReactAgent } from '@/lib/ai/react-agent';
 import {
-  sendWhatsAppTextMessage,
+  sendWhatsAppTextMessage as dispatchWhatsAppText,
   fetchWhatsAppAudioMedia,
 } from '@/lib/whatsapp/client';
 import {
@@ -782,7 +782,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Outbound Meta WhatsApp Cloud API Dispatch
-        const dispatchResult = await sendWhatsAppTextMessage(senderPhone, agentResult.replyText);
+        const dispatchResult = await dispatchWhatsAppText(senderPhone, agentResult.replyText);
         console.log(`[WhatsApp Webhook] Reply dispatched to ${senderPhone} (Status: ${dispatchResult.success ? 'Delivered' : 'Failed'})`);
       } catch (bgErr: any) {
         captureException(bgErr, {

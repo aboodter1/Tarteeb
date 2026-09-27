@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { waitUntil } from '@vercel/functions';
 import { runReactAgent } from '@/lib/ai/react-agent';
 import {
-  sendWhatsAppTextMessage,
+  sendWhatsAppTextMessage as dispatchWhatsAppText,
   fetchWhatsAppAudioMedia,
 } from '@/lib/whatsapp/client';
 import {
@@ -127,7 +127,7 @@ export async function POST(req: NextRequest) {
         }
 
         // Outbound Meta WhatsApp Cloud API Dispatch
-        const dispatchResult = await sendWhatsAppTextMessage(senderPhone, agentResult.replyText);
+        const dispatchResult = await dispatchWhatsAppText(senderPhone, agentResult.replyText);
         console.log(`[WhatsApp Webhook] Reply dispatched to ${senderPhone} (Status: ${dispatchResult.success ? 'Delivered' : 'Failed'})`);
       } catch (bgErr: any) {
         captureException(bgErr, {
