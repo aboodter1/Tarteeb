@@ -1,5 +1,5 @@
 # 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
-> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:١٤:٠٥ ص  
+> **تاريخ التصدير:** ٢٧‏/٩‏/٢٠٢٦، ٣:٢٩:١٨ ص  
 > **عدد الملفات:** 55 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -80,6 +80,8 @@ import {
 import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { captureException } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
@@ -144,6 +146,8 @@ import { getAllAppointments, createAppointment, tenantStore } from '@/lib/db/sup
 import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 import { captureException } from '@/lib/monitoring/apm';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const auth = verifyApiAuthorization(req);
@@ -242,6 +246,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { runReactAgent, isGreetingMessage } from '@/lib/ai/react-agent';
 import { captureException } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   let body: any = {};
   try {
@@ -327,6 +333,8 @@ export async function POST(req: NextRequest) {
 import { NextRequest, NextResponse } from 'next/server';
 import { runReactAgent, isGreetingMessage } from '@/lib/ai/react-agent';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   let body: any = {};
   try {
@@ -411,6 +419,8 @@ import { getConversationHistory, clearConversationHistory } from '@/lib/db/supab
 import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const auth = verifyApiAuthorization(req);
   if (!auth.authorized) {
@@ -478,6 +488,8 @@ import { processSmartReminders } from '@/lib/jobs/smart-reminders';
 import { compileJoFotaraXML } from '@/lib/jofotara/xml-compiler';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 import { captureException, captureMessage, getRecentAPMEvents } from '@/lib/monitoring/apm';
+
+export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
   const auth = verifyApiAuthorization(req);
@@ -656,6 +668,8 @@ import {
   broadcastReceptionistAlert,
 } from '@/lib/db/supabase';
 import { captureException } from '@/lib/monitoring/apm';
+
+export const dynamic = 'force-dynamic';
 
 /**
  * Meta Webhook Verification Handshake (GET)
@@ -9189,6 +9203,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",

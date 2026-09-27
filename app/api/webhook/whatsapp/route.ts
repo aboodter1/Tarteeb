@@ -14,6 +14,8 @@ import {
 } from '@/lib/db/supabase';
 import { captureException } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * Meta Webhook Verification Handshake (GET)
  */

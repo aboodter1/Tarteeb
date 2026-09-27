@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { runReactAgent, isGreetingMessage } from '@/lib/ai/react-agent';
 import { captureException } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   let body: any = {};
   try {

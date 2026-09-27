@@ -10,6 +10,8 @@ import {
 import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { captureException } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);

@@ -7,6 +7,8 @@ import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 import { captureException } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const auth = verifyApiAuthorization(req);
   if (!auth.authorized) {

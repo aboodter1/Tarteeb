@@ -3,6 +3,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { runReactAgent, isGreetingMessage } from '@/lib/ai/react-agent';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   let body: any = {};
   try {

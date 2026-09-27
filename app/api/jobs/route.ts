@@ -9,6 +9,8 @@ import { compileJoFotaraXML } from '@/lib/jofotara/xml-compiler';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 import { captureException, captureMessage, getRecentAPMEvents } from '@/lib/monitoring/apm';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const auth = verifyApiAuthorization(req);
   if (!auth.authorized) {

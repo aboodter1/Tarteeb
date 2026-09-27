@@ -6,6 +6,8 @@ import { getConversationHistory, clearConversationHistory } from '@/lib/db/supab
 import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   const auth = verifyApiAuthorization(req);
   if (!auth.authorized) {
