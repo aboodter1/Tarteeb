@@ -185,14 +185,24 @@ export default function SandboxPage() {
     try {
       const res = await fetch('/api/jobs');
       const data = await res.json();
-      setTelemetry((prev: any) => ({
-        ...prev,
-        database: data,
-      }));
-      if (Array.isArray(data.receptionist_alerts)) {
-        setLiveAlerts(data.receptionist_alerts);
+      if (data && typeof data === 'object') {
+        setTelemetry((prev: any) => ({
+          ...prev,
+          database: {
+            ...prev.database,
+            ...data,
+            appointments: Array.isArray(data.appointments) ? data.appointments : (prev.database?.appointments || []),
+            waitlist: Array.isArray(data.waitlist) ? data.waitlist : (prev.database?.waitlist || []),
+            patients: Array.isArray(data.patients) ? data.patients : (prev.database?.patients || []),
+            invoices: Array.isArray(data.invoices) ? data.invoices : (prev.database?.invoices || []),
+          },
+          apiError: data.error || (!res.ok ? `HTTP ${res.status}` : null),
+        }));
+        if (Array.isArray(data.receptionist_alerts)) {
+          setLiveAlerts(data.receptionist_alerts);
+        }
       }
-    } catch (err) {
+    } catch (err: any) {
       console.warn('Failed to fetch telemetry:', err);
     }
   };
@@ -617,7 +627,7 @@ export default function SandboxPage() {
             >
               <Calendar className="w-3.5 h-3.5" />
               <span>قاعدة البيانات</span>
-              {telemetry.database?.appointments?.length > 0 && (
+              {Boolean(telemetry.database?.appointments && telemetry.database.appointments.length > 0) && (
                 <span className="text-[10px] bg-teal-100 text-teal-800 px-1.5 py-0.2 rounded-full font-mono font-bold">
                   {telemetry.database.appointments.length}
                 </span>
@@ -802,6 +812,13 @@ export default function SandboxPage() {
             {/* TAB 2: Supabase Multi-Tenant RLS */}
             {activeTab === 'database' && (
               <div className="space-y-6">
+                {telemetry.apiError && (
+                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs text-amber-800 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-600 shrink-0" />
+                    <span>تنبيه حالة المزامنة: {telemetry.apiError}</span>
+                  </div>
+                )}
+
                 {/* Appointments Section */}
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
@@ -826,33 +843,45 @@ export default function SandboxPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-slate-700">
-                        {telemetry.database.appointments.map((appt: any) => (
-                          <tr key={appt.id} className="hover:bg-slate-50/70">
-                            <td className="p-2.5 font-medium text-slate-900">{appt.patient_name}</td>
-                            <td className="p-2.5 text-slate-600">{appt.service_type}</td>
-                            <td className="p-2.5 font-mono text-[11px]">
-                              {new Date(appt.start_time).toLocaleString('ar-JO')}
-                            </td>
-                            <td className="p-2.5 font-mono text-[11px] text-amber-700 font-medium">
-                              {new Date(appt.sterilization_end_time || appt.end_time).toLocaleTimeString(
-                                'ar-JO'
-                              )}
-                            </td>
-                            <td className="p-2.5">
-                              <span
-                                className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
-                                  appt.status === 'CONFIRMED'
-                                    ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                                    : appt.status === 'CANCELLED'
-                                    ? 'bg-rose-50 text-rose-700 border border-rose-200'
-                                    : 'bg-amber-50 text-amber-700 border border-amber-200'
-                                }`}
-                              >
-                                {appt.status}
-                              </span>
+                        {(!telemetry.database?.appointments || telemetry.database.appointments.length === 0) ? (
+                          <tr>
+                            <td colSpan={5} className="p-6 text-center text-slate-400 text-xs">
+                              لا توجد مواعيد مسجلة حالياً في قاعدة البيانات
                             </td>
                           </tr>
-                        ))}
+                        ) : (
+                          (telemetry.database?.appointments || []).map((appt: any) => {
+                            const startTimeStr = appt.start_time && !isNaN(new Date(appt.start_time).getTime())
+                              ? new Date(appt.start_time).toLocaleString('ar-JO')
+                              : '—';
+                            const endTimeVal = appt.sterilization_end_time || appt.end_time;
+                            const endTimeStr = endTimeVal && !isNaN(new Date(endTimeVal).getTime())
+                              ? new Date(endTimeVal).toLocaleTimeString('ar-JO')
+                              : '—';
+
+                            return (
+                              <tr key={appt.id || Math.random()} className="hover:bg-slate-50/70">
+                                <td className="p-2.5 font-medium text-slate-900">{appt.patient_name || 'مجهول'}</td>
+                                <td className="p-2.5 text-slate-600">{appt.service_type || 'استشارة'}</td>
+                                <td className="p-2.5 font-mono text-[11px]">{startTimeStr}</td>
+                                <td className="p-2.5 font-mono text-[11px] text-amber-700 font-medium">{endTimeStr}</td>
+                                <td className="p-2.5">
+                                  <span
+                                    className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                                      appt.status === 'CONFIRMED'
+                                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                                        : appt.status === 'CANCELLED'
+                                        ? 'bg-rose-50 text-rose-700 border border-rose-200'
+                                        : 'bg-amber-50 text-amber-700 border border-amber-200'
+                                    }`}
+                                  >
+                                    {appt.status || 'PENDING'}
+                                  </span>
+                                </td>
+                              </tr>
+                            );
+                          })
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -877,19 +906,27 @@ export default function SandboxPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100 text-slate-700">
-                        {telemetry.database.waitlist.map((wait: any) => (
-                          <tr key={wait.id} className="hover:bg-slate-50/70">
-                            <td className="p-2.5 font-medium text-slate-900">{wait.patient_name}</td>
-                            <td className="p-2.5 font-mono text-slate-600">{wait.patient_phone}</td>
-                            <td className="p-2.5 text-slate-600">{wait.requested_service}</td>
-                            <td className="p-2.5 font-mono text-slate-600">{wait.preferred_date}</td>
-                            <td className="p-2.5">
-                              <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-50 text-teal-700 border border-teal-200">
-                                {wait.status}
-                              </span>
+                        {(!telemetry.database?.waitlist || telemetry.database.waitlist.length === 0) ? (
+                          <tr>
+                            <td colSpan={5} className="p-6 text-center text-slate-400 text-xs">
+                              قائمة الانتظار فارغة حالياً
                             </td>
                           </tr>
-                        ))}
+                        ) : (
+                          (telemetry.database?.waitlist || []).map((wait: any) => (
+                            <tr key={wait.id || Math.random()} className="hover:bg-slate-50/70">
+                              <td className="p-2.5 font-medium text-slate-900">{wait.patient_name || 'مجهول'}</td>
+                              <td className="p-2.5 font-mono text-slate-600">{wait.patient_phone || '—'}</td>
+                              <td className="p-2.5 text-slate-600">{wait.requested_service || '—'}</td>
+                              <td className="p-2.5 font-mono text-slate-600">{wait.preferred_date || '—'}</td>
+                              <td className="p-2.5">
+                                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-teal-50 text-teal-700 border border-teal-200">
+                                  {wait.status || 'ACTIVE'}
+                                </span>
+                              </td>
+                            </tr>
+                          ))
+                        )}
                       </tbody>
                     </table>
                   </div>

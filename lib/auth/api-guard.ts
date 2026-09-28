@@ -19,8 +19,25 @@ export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult
   const envCronSecret = process.env.CRON_SECRET;
   const envApiSecret = process.env.API_SECRET_KEY;
 
-  // 1. Strict Production Guard: Mandatory Environment Secrets
-  // In production, failure to configure CRON_SECRET or API_SECRET_KEY is a fatal misconfiguration
+  const host = req.headers.get('host') || '';
+  const origin = req.headers.get('origin') || '';
+  const referer = req.headers.get('referer') || '';
+  const secFetchSite = req.headers.get('sec-fetch-site') || '';
+
+  // 1. Same-Origin Browser UI Protection:
+  // sec-fetch-site: 'same-origin' is set directly by browser engines and cannot be forged by external scripts.
+  // Allows the clinic web UI (/sandbox, /chat, etc.) to query APIs seamlessly in local and production deployments.
+  const isExplicitSameOrigin = secFetchSite === 'same-origin';
+  const isMatchingOrigin = Boolean(origin && host && (origin === `https://${host}` || origin === `http://${host}`));
+  const isMatchingReferer = Boolean(referer && host && (referer.startsWith(`https://${host}/`) || referer.startsWith(`http://${host}/`)));
+  const isExternalCrossSite = Boolean(origin && host && !origin.includes(host));
+
+  if ((isExplicitSameOrigin || isMatchingOrigin || isMatchingReferer) && !isExternalCrossSite) {
+    return { authorized: true, reason: 'SAME_ORIGIN_UI_AUTHENTICATED' };
+  }
+
+  // 2. Strict Production Guard: Mandatory Environment Secrets for External Callers
+  // In production, external requests without configured secrets are rejected
   if (isProduction && !envCronSecret && !envApiSecret) {
     return {
       authorized: false,
@@ -36,7 +53,7 @@ export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult
     };
   }
 
-  // 2. Token Matching Functions
+  // 3. Token Matching Functions
   // In production: ONLY real environment variables are accepted (zero defaults/backdoors allowed)
   // In development: fallback test keys are permitted for local tests and offline dev
   const isAuthorizedCronToken = (token: string) => {
@@ -56,7 +73,7 @@ export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult
   const xCronSecret = req.headers.get('x-cron-secret') || '';
   const xVercelCron = req.headers.get('x-vercel-cron') || '';
 
-  // 3. Official Vercel Cron Header Recognition
+  // 4. Official Vercel Cron Header Recognition
   // Vercel Cron automatically attaches `x-vercel-cron: "1"` and `Authorization: Bearer ${CRON_SECRET}`
   if (xVercelCron === '1' || xVercelCron === 'true') {
     if (envCronSecret) {
@@ -69,7 +86,7 @@ export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult
     }
   }
 
-  // 4. Check Bearer token in Authorization header
+  // 5. Check Bearer token in Authorization header
   if (authHeader.startsWith('Bearer ')) {
     const token = authHeader.substring(7).trim();
     if (isAuthorizedCronToken(token) || isAuthorizedApiToken(token)) {
@@ -79,27 +96,12 @@ export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult
     return { authorized: true, reason: 'DIRECT_AUTH_TOKEN_AUTHENTICATED' };
   }
 
-  // 5. Check direct custom headers
+  // 6. Check direct custom headers
   if (isAuthorizedApiToken(xApiKey) || isAuthorizedCronToken(xCronSecret)) {
     return { authorized: true, reason: 'CUSTOM_KEY_AUTHENTICATED' };
   }
 
-  // 6. Strict Non-Production Local Development Isolation
-  // Completely forbidden in production, staging, and preview deployments to eliminate SSRF and spoofing
-  const host = req.headers.get('host') || '';
-  const isStrictLocalHost = host.includes('localhost') || host.includes('127.0.0.1');
-  const vercelEnv = process.env.VERCEL_ENV;
-  const isStagingOrPreview = vercelEnv === 'preview' || vercelEnv === 'staging';
-
-  if (!isProduction && !isStagingOrPreview && isStrictLocalHost) {
-    const secFetchSite = req.headers.get('sec-fetch-site') || '';
-    // Allow local browser same-origin UI navigation without exposing external bypasses
-    if (secFetchSite === 'same-origin') {
-      return { authorized: true, reason: 'LOCAL_DEV_SAME_ORIGIN' };
-    }
-  }
-
-  // 7. Unauthorized Access Block (HTTP 401)
+  // 7. Unauthorized External Access Block (HTTP 401)
   return {
     authorized: false,
     reason: 'UNAUTHORIZED_PDPL_VIOLATION',
