@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
+  webpack: (config: any) => {
     config.resolve = config.resolve || {};
     config.resolve.symlinks = false;
     config.cache = false;

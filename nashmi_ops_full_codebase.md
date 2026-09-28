@@ -1,5 +1,5 @@
 # 🦷 كود مشروع نظام ترتيب لإدارة العيادات (Tarteeb Medical OS)
-> **تاريخ التصدير:** ٢٨‏/٩‏/٢٠٢٦، ١٠:٤٨:٠٩ ص  
+> **تاريخ التصدير:** ٢٨‏/٩‏/٢٠٢٦، ١٢:١٢:٤٤ م  
 > **عدد الملفات:** 66 ملفاً برمجياً  
 > **البنية:** Next.js 15, TypeScript, Supabase, Google GenAI (Gemini 3.5), JoFotara UBL 2.1 XML
 
@@ -3615,7 +3615,9 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
   return (
     <div className="space-y-4">
       {/* Print Stylesheet injection */}
-      <style jsx global>{`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @media print {
           body {
             background-color: white !important;
@@ -3653,7 +3655,9 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
             color: #0f172a !important;
           }
         }
-      `}</style>
+      `,
+        }}
+      />
 
       {/* Control Bar: View Toggle + Print Button */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-100 border border-slate-200 p-3 rounded-xl no-print">
@@ -11797,7 +11801,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  webpack: (config) => {
+  webpack: (config: any) => {
     config.resolve = config.resolve || {};
     config.resolve.symlinks = false;
     config.cache = false;
@@ -11842,10 +11846,11 @@ export default nextConfig;
     "date-fns-tz": "^3.2.0",
     "googleapis": "^144.0.0",
     "lucide-react": "^0.475.0",
-    "next": "^15.1.7",
+    "next": "^15.5.26",
     "qrcode": "^1.5.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "sharp": "^0.35.5",
     "tailwind-merge": "^3.0.1"
   },
   "devDependencies": {
@@ -15279,7 +15284,7 @@ runTests().catch((err) => {
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "package"]
 }
 
 ```

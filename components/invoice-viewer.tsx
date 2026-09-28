@@ -196,7 +196,9 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
   return (
     <div className="space-y-4">
       {/* Print Stylesheet injection */}
-      <style jsx global>{`
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @media print {
           body {
             background-color: white !important;
@@ -234,7 +236,9 @@ export function InvoiceViewer({ xml, metadata }: InvoiceViewerProps) {
             color: #0f172a !important;
           }
         }
-      `}</style>
+      `,
+        }}
+      />
 
       {/* Control Bar: View Toggle + Print Button */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-slate-100 border border-slate-200 p-3 rounded-xl no-print">
