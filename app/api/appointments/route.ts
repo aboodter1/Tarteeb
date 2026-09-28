@@ -22,8 +22,8 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      count: appointments.length,
-      appointments,
+      count: appointments?.length || 0,
+      appointments: appointments || [],
       practitioners: tenantStore.practitioners,
       dental_chairs: tenantStore.dental_chairs,
       receptionist_alerts: tenantStore.receptionist_alerts,
@@ -31,7 +31,15 @@ export async function GET(req: NextRequest) {
   } catch (err: any) {
     captureException(err, { route: '/api/appointments', endpoint: 'GET' });
     console.error('[API Appointments GET] Error:', err);
-    return NextResponse.json({ success: false, error: err?.message || 'Failed to fetch appointments' }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: err?.message || 'Failed to fetch appointments',
+        appointments: [],
+        count: 0,
+      },
+      { status: 500 }
+    );
   }
 }
 

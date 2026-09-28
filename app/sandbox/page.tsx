@@ -46,6 +46,8 @@ export default function SandboxPage() {
     },
   ]);
   const [inputText, setInputText] = useState('');
+  const [patientPhone, setPatientPhone] = useState('+962791234567');
+  const [patientName, setPatientName] = useState('أحمد التميمي');
   const [isRecording, setIsRecording] = useState(false);
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState<'tools' | 'database' | 'roster' | 'ehr' | 'alerts' | 'jofotara' | 'jobs' | 'apm'>('tools');
@@ -116,9 +118,10 @@ export default function SandboxPage() {
     };
   }, []);
 
-  const fetchChatHistory = async () => {
+  const fetchChatHistory = async (targetPhone?: string) => {
+    const phoneToUse = targetPhone || patientPhone;
     try {
-      const res = await fetch('/api/history?phone=+962791234567');
+      const res = await fetch(`/api/history?phone=${encodeURIComponent(phoneToUse)}`);
       const data = await res.json();
       if (data.success && Array.isArray(data.chat_history) && data.chat_history.length > 0) {
         const formatted: ChatMessage[] = data.chat_history.map((m: any, idx: number) => ({
@@ -130,6 +133,15 @@ export default function SandboxPage() {
             : '10:00 ص',
         }));
         setMessages(formatted);
+      } else {
+        setMessages([
+          {
+            id: `m-welcome-${Date.now()}`,
+            sender: 'bot',
+            text: `يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان في عمان 🦷 تفضل يا ${patientName || 'غالي'}، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟`,
+            time: new Date().toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' }),
+          },
+        ]);
       }
     } catch (err) {
       console.warn('[Sandbox] Failed to hydrate chat history:', err);
@@ -138,12 +150,12 @@ export default function SandboxPage() {
 
   const handleResetChat = async () => {
     try {
-      await fetch('/api/history?phone=+962791234567', { method: 'DELETE' });
+      await fetch(`/api/history?phone=${encodeURIComponent(patientPhone)}`, { method: 'DELETE' });
       setMessages([
         {
           id: `m-reset-${Date.now()}`,
           sender: 'bot',
-          text: 'يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان في عمان 🦷 تفضل يا غالي، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟',
+          text: `يا هلا والله فيك في مركز نشمي لطب وجراحة الأسنان في عمان 🦷 تفضل يا ${patientName || 'غالي'}، كيف بقدر أساعدك بموعدك أو استفسارك اليوم؟`,
           time: new Date().toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' }),
         },
       ]);
@@ -225,7 +237,8 @@ export default function SandboxPage() {
         body: JSON.stringify({
           message: textToSend,
           audioBase64: isVoice ? 'UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=' : undefined,
-          phone: '+962791234567',
+          phone: patientPhone,
+          patientName: patientName,
           history: messages.map((m) => ({
             role: m.sender === 'user' ? 'user' : 'model',
             text: m.text,
@@ -381,6 +394,70 @@ export default function SandboxPage() {
               <span className="text-[10px] text-slate-600 bg-white border border-slate-200 px-2 py-1 rounded font-mono">
                 +962 7 9000 0000
               </span>
+            </div>
+          </div>
+
+          {/* Patient Context & Switcher Bar */}
+          <div className="px-3.5 py-2 bg-white border-b border-slate-200 flex flex-wrap items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded px-2 py-0.5">
+                <span className="text-slate-400 text-[10px]">المريض:</span>
+                <input
+                  type="text"
+                  value={patientName}
+                  onChange={(e) => setPatientName(e.target.value)}
+                  placeholder="اسم المريض"
+                  className="bg-transparent border-none outline-none text-slate-800 font-medium w-24 text-[11px]"
+                />
+              </div>
+
+              <div className="flex items-center gap-1 bg-slate-50 border border-slate-200 rounded px-2 py-0.5">
+                <span className="text-slate-400 text-[10px]">الهاتف:</span>
+                <input
+                  type="text"
+                  value={patientPhone}
+                  onChange={(e) => setPatientPhone(e.target.value)}
+                  onBlur={() => fetchChatHistory(patientPhone)}
+                  placeholder="رقم الهاتف"
+                  dir="ltr"
+                  className="bg-transparent border-none outline-none text-slate-800 font-mono text-[11px] w-28"
+                />
+              </div>
+            </div>
+
+            <div className="flex items-center gap-1 overflow-x-auto">
+              {[
+                { name: 'أحمد', phone: '+962791234567' },
+                { name: 'سارة', phone: '+962799887766' },
+                { name: 'عمر', phone: '+962795554433' },
+              ].map((p) => (
+                <button
+                  key={p.phone}
+                  onClick={() => {
+                    setPatientName(p.name);
+                    setPatientPhone(p.phone);
+                    fetchChatHistory(p.phone);
+                  }}
+                  className={`px-2 py-0.5 rounded text-[10px] font-medium border transition ${
+                    patientPhone === p.phone
+                      ? 'bg-teal-600 text-white border-teal-600'
+                      : 'bg-slate-50 text-slate-600 border-slate-200 hover:bg-slate-100'
+                  }`}
+                >
+                  {p.name}
+                </button>
+              ))}
+              <button
+                onClick={() => {
+                  const newPhone = `+96279${Math.floor(1000000 + Math.random() * 9000000)}`;
+                  setPatientName('مريض جديد');
+                  setPatientPhone(newPhone);
+                  fetchChatHistory(newPhone);
+                }}
+                className="px-1.5 py-0.5 rounded text-[10px] text-teal-700 bg-teal-50 border border-teal-200 hover:bg-teal-100 font-medium transition"
+              >
+                + جديد
+              </button>
             </div>
           </div>
 
@@ -1220,9 +1297,9 @@ export default function SandboxPage() {
                               alert: {
                                 type: 'EMERGENCY',
                                 title: '🚨 تنبيه محاكاة طوارئ تجريبي [EMERGENCY_TRIGGER]',
-                                description: 'المريض تجريبي (0791234567) - نزيف حاد مفاجئ بعد خلع الضرس ويتطلب تدخل فوري',
-                                patient_name: 'مريض تجريبي',
-                                patient_phone: '+962791234567',
+                                description: `المريض (${patientName}) (${patientPhone}) - نزيف حاد مفاجئ بعد خلع الضرس ويتطلب تدخل فوري`,
+                                patient_name: patientName || 'مريض تجريبي',
+                                patient_phone: patientPhone,
                                 severity: 'CRITICAL',
                               },
                             }),

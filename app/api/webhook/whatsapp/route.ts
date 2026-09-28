@@ -1,12 +1,12 @@
-// NashmiOps Enterprise (MVP Edition) - Meta WhatsApp Cloud API Production Webhook
-// Fully Powered by ReAct Agent Core with Loop Capping, Observational Error Recovery & Supabase State Persistence
-
+import crypto from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 import { waitUntil } from '@vercel/functions';
-import { runReactAgent } from '@/lib/ai/react-agent';
+import { runReactAgent, generateLocalFallbackResponse } from '@/lib/ai/react-agent';
+import { CLINIC_CONFIG } from '@/lib/config/constants';
 import {
   sendWhatsAppTextMessage as dispatchWhatsAppText,
   fetchWhatsAppAudioMedia,
+  fetchWhatsAppMedia,
 } from '@/lib/whatsapp/client';
 import {
   isAndMarkWebhookMessageProcessed,
@@ -14,6 +14,8 @@ import {
 } from '@/lib/db/supabase';
 import { captureException } from '@/lib/monitoring/apm';
 
+// Next.js 15 Route Segment Configuration
+// NOTE: Only standard HTTP route handlers (GET, POST) are exported from this file to comply with Next.js 15 rules.
 export const dynamic = 'force-dynamic';
 
 /**
@@ -37,13 +39,39 @@ export async function GET(req: NextRequest) {
 
 /**
  * Universal ReAct Webhook Receiver (POST)
- * 1. Immediate 200 OK (<10ms) to satisfy Meta strict SLA.
- * 2. Database-level deduplication via Supabase to prevent duplicate processing on retries.
- * 3. Serverless execution safeguards via waitUntil to ensure processing completes.
+ * 1. Cryptographic HMAC SHA-256 signature verification (x-hub-signature-256).
+ * 2. Immediate 200 OK (<10ms) to satisfy Meta strict SLA.
+ * 3. Database-level deduplication via Supabase to prevent duplicate processing on retries.
+ * 4. Preemptive timeout guard (8.5s) to guarantee response before Vercel 10s kill limit.
  */
 export async function POST(req: NextRequest) {
   try {
-    const body = await req.json();
+    const rawBody = await req.text();
+    const appSecret = process.env.META_APP_SECRET;
+    const signature = req.headers.get('x-hub-signature-256');
+
+    // 1. Cryptographic HMAC SHA-256 signature verification per Meta specifications
+    if (appSecret) {
+      if (!signature) {
+        console.warn('[WhatsApp Webhook Security] Unauthorized: Missing x-hub-signature-256 header.');
+        return NextResponse.json({ error: 'Unauthorized: Missing x-hub-signature-256 header' }, { status: 401 });
+      }
+
+      const expectedSignature = `sha256=${crypto
+        .createHmac('sha256', appSecret)
+        .update(rawBody)
+        .digest('hex')}`;
+
+      const sigBuffer = Buffer.from(signature);
+      const expectedBuffer = Buffer.from(expectedSignature);
+
+      if (sigBuffer.length !== expectedBuffer.length || !crypto.timingSafeEqual(sigBuffer, expectedBuffer)) {
+        console.warn('[WhatsApp Webhook Security] Unauthorized: Invalid HMAC SHA-256 signature.');
+        return NextResponse.json({ error: 'Unauthorized: Invalid x-hub-signature-256 signature' }, { status: 401 });
+      }
+    }
+
+    const body = rawBody ? JSON.parse(rawBody) : {};
 
     const entry = body?.entry?.[0];
     const changes = entry?.changes?.[0];
@@ -76,9 +104,27 @@ export async function POST(req: NextRequest) {
     // 2. Asynchronous ReAct Execution wrapped in Serverless / Edge Safeguard
     const backgroundTask = (async () => {
       try {
-        let userText = message.text?.body || '';
+        let userText = message.text?.body || message.caption || message.image?.caption || '';
         let audioBase64: string | undefined;
+        let imageBase64: string | undefined;
         let mimeType: string | undefined;
+
+        // Image / Vision Multimodal handling (e.g. Insurance cards, medical reports)
+        if (message.type === 'image' || message.image) {
+          const imageId = message.image?.id;
+          console.log(`[WhatsApp Webhook] Received image attachment ID: ${imageId}`);
+
+          if (imageId) {
+            const mediaResult = await fetchWhatsAppMedia(imageId, message.image?.mime_type || 'image/jpeg');
+            if (mediaResult) {
+              imageBase64 = mediaResult.base64;
+              mimeType = mediaResult.mimeType;
+            }
+          }
+          if (!userText) {
+            userText = '[صورة بطاقة تأمين صحي أو وثيقة طبية أرسلها المريض للتحقق والاعتماد]';
+          }
+        }
 
         // Audio voice note handling (.ogg / voice note)
         if (message.type === 'audio' || message.audio) {
@@ -97,18 +143,65 @@ export async function POST(req: NextRequest) {
           }
         }
 
-        console.log(`[WhatsApp Webhook] Launching ReAct Agent for ${senderPhone}: "${userText || '[Audio Note]'}"`);
+        console.log(`[WhatsApp Webhook] Launching ReAct Agent for ${senderPhone}: "${userText || '[Media Note]'}"`);
 
-        // Execute ReAct Agent with loop capping, tool execution, and Supabase checkpointing
-        const agentResult = await runReactAgent({
-          phoneNumber: senderPhone,
-          userMessage: userText,
-          audioBufferBase64: audioBase64,
-          mimeType,
-        });
+        // -------------------------------------------------------------
+        // Preemptive Timeout Guard: 8.5 seconds (Hard Timeout)
+        // Prevents Vercel Serverless 10s execution kill on heavy audio or slow AI models
+        // -------------------------------------------------------------
+        const PREEMPTIVE_TIMEOUT_MS = 8500;
+        const abortController = new AbortController();
+        let agentResult: {
+          replyText: string;
+          toolCallsExecuted: any[];
+          isEmergency: boolean;
+          iterations: number;
+          conversationId: string;
+        };
+
+        try {
+          let timeoutHandle: NodeJS.Timeout | undefined;
+          const timeoutPromise = new Promise<never>((_, reject) => {
+            timeoutHandle = setTimeout(() => {
+              abortController.abort();
+              reject(new Error('PREEMPTIVE_TIMEOUT_EXCEEDED_8500MS'));
+            }, PREEMPTIVE_TIMEOUT_MS);
+          });
+
+          const executionPromise = runReactAgent({
+            phoneNumber: senderPhone,
+            userMessage: userText,
+            audioBufferBase64: audioBase64,
+            imageBase64,
+            mimeType,
+            abortSignal: abortController.signal,
+          });
+
+          agentResult = await Promise.race([executionPromise, timeoutPromise]);
+          if (timeoutHandle) clearTimeout(timeoutHandle);
+        } catch (timeoutOrAgentErr: any) {
+          abortController.abort();
+          console.warn(
+            `[WhatsApp Webhook] Preemptive timeout or agent exception (${timeoutOrAgentErr?.message || timeoutOrAgentErr}). Invoking local intelligence fallback before Vercel 10s kill...`
+          );
+
+          const fallback = await generateLocalFallbackResponse({
+            rawUserMsg: userText,
+            phoneNumber: senderPhone,
+            clinicId: CLINIC_CONFIG.id,
+          });
+
+          agentResult = {
+            replyText: fallback.reply,
+            toolCallsExecuted: [],
+            isEmergency: fallback.isEmergency,
+            iterations: 0,
+            conversationId: `preemptive-fallback-${Date.now()}`,
+          };
+        }
 
         console.log(
-          `[WhatsApp Webhook] ReAct Agent completed in ${agentResult.iterations} iteration(s). Dispatching response to Meta WhatsApp API...`
+          `[WhatsApp Webhook] Processing completed (Iterations: ${agentResult.iterations}). Dispatching response to Meta WhatsApp API...`
         );
 
         // Realtime Receptionist Alert on Clinical Emergency Trigger

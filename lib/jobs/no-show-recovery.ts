@@ -1,7 +1,7 @@
 // NashmiOps Enterprise (MVP Edition) - No-Show Recovery Background Job
 
 import { Appointment } from '@/types';
-import { tenantStore } from '@/lib/db/supabase';
+import { tenantStore, supabaseAdmin, isPlaceholderConfig } from '@/lib/db/supabase';
 import { sendWhatsAppTextMessage } from '@/lib/whatsapp/client';
 
 export interface RecoveryAction {
@@ -25,12 +25,48 @@ export async function processNoShowRecovery(): Promise<{
   const oneHourMs = 3600000;
   const actions: RecoveryAction[] = [];
 
-  const noShows = tenantStore.appointments.filter((appt) => {
-    if (appt.status !== 'NO_SHOW') return false;
-    const apptTime = new Date(appt.start_time).getTime();
-    // At least 1 hour elapsed since the appointment start time
-    return now >= apptTime + oneHourMs;
-  });
+  let noShows: Appointment[] = [];
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('appointments')
+        .select('*')
+        .eq('status', 'NO_SHOW');
+
+      if (error) {
+        console.error('[No-Show Recovery] Supabase query error on appointments:', error.message || error);
+        noShows = tenantStore.appointments.filter((appt) => {
+          if (appt.status !== 'NO_SHOW') return false;
+          const apptTime = new Date(appt.start_time).getTime();
+          return now >= apptTime + oneHourMs;
+        });
+      } else if (Array.isArray(data) && data.length > 0) {
+        noShows = (data as Appointment[]).filter((appt) => {
+          const apptTime = new Date(appt.start_time).getTime();
+          return now >= apptTime + oneHourMs;
+        });
+      } else {
+        noShows = tenantStore.appointments.filter((appt) => {
+          if (appt.status !== 'NO_SHOW') return false;
+          const apptTime = new Date(appt.start_time).getTime();
+          return now >= apptTime + oneHourMs;
+        });
+      }
+    } catch (err) {
+      console.warn('[No-Show Recovery] Exception querying appointments from Supabase:', err);
+      noShows = tenantStore.appointments.filter((appt) => {
+        if (appt.status !== 'NO_SHOW') return false;
+        const apptTime = new Date(appt.start_time).getTime();
+        return now >= apptTime + oneHourMs;
+      });
+    }
+  } else {
+    noShows = tenantStore.appointments.filter((appt) => {
+      if (appt.status !== 'NO_SHOW') return false;
+      const apptTime = new Date(appt.start_time).getTime();
+      return now >= apptTime + oneHourMs;
+    });
+  }
 
   for (const appt of noShows) {
     const formattedTime = new Date(appt.start_time).toLocaleTimeString('ar-JO', {

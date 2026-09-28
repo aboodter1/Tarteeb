@@ -4,8 +4,8 @@
   "private": true,
   "description": "Tarteeb Medical OS (نظام ترتيب) - Autonomous AI Operations & Clinic OS for Jordanian Healthcare",
   "scripts": {
-    "dev": "next dev -H 0.0.0.0 -p 3000",
-    "build": "next build",
+    "dev": "node --require=./lib/utils/windows-readlink-shim.js ./node_modules/next/dist/bin/next dev -H 0.0.0.0 -p 3000",
+    "build": "node --require=./lib/utils/windows-readlink-shim.js ./node_modules/next/dist/bin/next build",
     "start": "next start",
     "lint": "next lint",
     "test:autonomous": "tsx tests/e2e/autonomous-verification.ts"

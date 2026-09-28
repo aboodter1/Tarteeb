@@ -10,7 +10,20 @@ if (!supabaseUrl || !supabaseKey) {
   console.error('[Security] CRITICAL: NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY missing in environment variables!');
 }
 
+const isPlaceholderBrowser = !supabaseUrl || supabaseUrl.includes('placeholder');
+
 export const supabaseBrowser = createClient(
   supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseKey || 'placeholder-anon-key'
+  supabaseKey || 'placeholder-anon-key',
+  isPlaceholderBrowser
+    ? {
+        global: {
+          fetch: (async () =>
+            new Response(JSON.stringify([]), {
+              status: 200,
+              headers: { 'content-type': 'application/json' },
+            })) as typeof fetch,
+        },
+      }
+    : undefined
 );

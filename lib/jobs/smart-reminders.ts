@@ -1,7 +1,7 @@
 // NashmiOps Enterprise (MVP Edition) - Smart Reminders Worker
 
 import { Appointment } from '@/types';
-import { tenantStore } from '@/lib/db/supabase';
+import { tenantStore, supabaseAdmin, isPlaceholderConfig } from '@/lib/db/supabase';
 import { CLINIC_CONFIG, CLINICAL_SERVICES } from '@/lib/config/constants';
 import { sendWhatsAppTextMessage } from '@/lib/whatsapp/client';
 
@@ -26,9 +26,29 @@ export async function processSmartReminders(): Promise<{
   const now = Date.now();
   const remindersSent: ReminderNotification[] = [];
 
-  const confirmedAppts = tenantStore.appointments.filter(
-    (a) => a.status === 'CONFIRMED'
-  );
+  let confirmedAppts: Appointment[] = [];
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('appointments')
+        .select('*')
+        .eq('status', 'CONFIRMED');
+
+      if (error) {
+        console.error('[Smart Reminders] Supabase query error on appointments:', error.message || error);
+        confirmedAppts = tenantStore.appointments.filter((a) => a.status === 'CONFIRMED');
+      } else if (Array.isArray(data) && data.length > 0) {
+        confirmedAppts = data as Appointment[];
+      } else {
+        confirmedAppts = tenantStore.appointments.filter((a) => a.status === 'CONFIRMED');
+      }
+    } catch (err) {
+      console.warn('[Smart Reminders] Exception querying appointments from Supabase:', err);
+      confirmedAppts = tenantStore.appointments.filter((a) => a.status === 'CONFIRMED');
+    }
+  } else {
+    confirmedAppts = tenantStore.appointments.filter((a) => a.status === 'CONFIRMED');
+  }
 
   for (const appt of confirmedAppts) {
     const apptTime = new Date(appt.start_time).getTime();

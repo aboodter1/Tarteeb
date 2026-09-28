@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import "./lib/utils/windows-readlink-shim.js";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
@@ -7,6 +8,12 @@ const nextConfig: NextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
+  },
+  webpack: (config) => {
+    config.resolve = config.resolve || {};
+    config.resolve.symlinks = false;
+    config.cache = false;
+    return config;
   },
   experimental: {
     serverActions: {

@@ -1,5 +1,5 @@
-const url = 'https://damyfubyjdrrrgggncja.supabase.co/rest/v1/';
-const key = 'sb_publishable_U0n-84iuyCwmqhe5tBSM1w_c-u0VJOT';
+const url = (process.env.NEXT_PUBLIC_SUPABASE_URL ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/` : 'https://placeholder.supabase.co/rest/v1/');
+const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-anon-key';
 
 async function test() {
   const res = await fetch(url, {

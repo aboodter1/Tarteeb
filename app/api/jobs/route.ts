@@ -1,11 +1,25 @@
 // NashmiOps Enterprise (MVP Edition) - Operational Jobs API Endpoint
+// ====================================================================
+// External Cron Execution Guide (e.g., cron-job.org / Cloudflare Cron):
+// Endpoint: GET https://<your-domain>/api/jobs?action=cron_batch
+// Schedule: Every 15 minutes (*/15 * * * *)
+// Security Header: Authorization: Bearer <CRON_SECRET> or x-cron-secret: <CRON_SECRET>
+// Runs:
+//  - 24h & 2h Smart Reminders with Amman Google Maps Pin
+//  - 1h No-Show Autonomous Re-engagement & Waitlist Recovery
+//  - Webhook Message Deduplication Table TTL Cleanup (48 hours)
+//  - Outbound WhatsApp and JoFotara DB Retry Queues (SKIP LOCKED)
+// ====================================================================
 
 import { NextRequest, NextResponse } from 'next/server';
-import { tenantStore, getAllAppointments, cleanupOldProcessedMessages } from '@/lib/db/supabase';
+import { tenantStore, getAllAppointments, cleanupOldProcessedMessages, getLatestInvoiceHash } from '@/lib/db/supabase';
+import { CLINIC_CONFIG } from '@/lib/config/constants';
 import { triggerWaitlistSniper } from '@/lib/jobs/waitlist-sniper';
 import { processNoShowRecovery } from '@/lib/jobs/no-show-recovery';
 import { processSmartReminders } from '@/lib/jobs/smart-reminders';
 import { compileJoFotaraXML } from '@/lib/jofotara/xml-compiler';
+import { processJoFotaraRetryQueue } from '@/lib/jofotara/client';
+import { processWhatsAppRetryQueue, whatsappRetryQueue } from '@/lib/whatsapp/retry-queue';
 import { verifyApiAuthorization } from '@/lib/auth/api-guard';
 import { captureException, captureMessage, getRecentAPMEvents } from '@/lib/monitoring/apm';
 
@@ -41,15 +55,27 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ success: true, cron: true, action: 'cleanup_messages', cleanup });
   }
 
+  if (action === 'retry_whatsapp') {
+    const retries = await processWhatsAppRetryQueue();
+    return NextResponse.json({ success: true, action: 'retry_whatsapp', retries });
+  }
+
+  if (action === 'retry_jofotara') {
+    const retries = await processJoFotaraRetryQueue();
+    return NextResponse.json({ success: true, action: 'retry_jofotara', retries });
+  }
+
   if (action === 'cron_batch' || action === 'all') {
     const reminders = await processSmartReminders();
     const recovery = await processNoShowRecovery();
     const cleanup = await cleanupOldProcessedMessages(48); // Automatic TTL cleanup of old webhook messages
+    const whatsappRetries = await processWhatsAppRetryQueue();
+    const jofotaraRetries = await processJoFotaraRetryQueue();
     return NextResponse.json({
       success: true,
       cron: true,
       action: 'cron_batch',
-      results: { reminders, recovery, cleanup },
+      results: { reminders, recovery, cleanup, whatsappRetries, jofotaraRetries },
     });
   }
 
@@ -119,12 +145,15 @@ export async function POST(req: NextRequest) {
 
       case 'test_jofotara': {
         const isB2B = payload?.invoiceType === 'B2B_STANDARD';
+        const clinicId = payload?.clinicId || CLINIC_CONFIG.id;
+        const previousInvoiceHash = await getLatestInvoiceHash(clinicId);
         const compileRes = compileJoFotaraXML({
           invoiceNumber: `INV-${Date.now().toString().slice(-4)}`,
           invoiceType: isB2B ? 'B2B_STANDARD' : 'B2C_SIMPLIFIED',
           buyerName: payload?.buyerName || (isB2B ? 'شركة النماء الطبية' : 'مريض نقدي'),
           buyerTaxId: isB2B ? (payload?.buyerTaxId || '109283746') : undefined,
           buyerNationalId: payload?.buyerNationalId,
+          previousInvoiceHash,
           items: payload?.items || (isB2B
             ? [
                 {

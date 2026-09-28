@@ -13,10 +13,17 @@ import {
   getPractitioners,
   getDentalChairs,
   getNextSequentialInvoiceNumber,
+  getLatestInvoiceHash,
   broadcastReceptionistAlert,
+  isPlaceholderConfig,
   supabase,
+  supabaseAdmin,
 } from '@/lib/db/supabase';
-import { bookFrictionlessAppointment, checkSlotAvailability } from '@/lib/calendar/scheduler';
+import {
+  bookFrictionlessAppointment,
+  checkSlotAvailability,
+  deleteCalendarEvent,
+} from '@/lib/calendar/scheduler';
 import { triggerWaitlistSniper } from '@/lib/jobs/waitlist-sniper';
 import { compileJoFotaraXML } from '@/lib/jofotara/xml-compiler';
 import { submitInvoiceToJoFotara } from '@/lib/jofotara/client';
@@ -793,14 +800,16 @@ export async function executeClinicTool(name: string, args: any, defaultPhone: s
       );
 
       // Fallback: check Supabase database if memory store doesn't have it
-      if (candidateAppts.length === 0) {
+      if (candidateAppts.length === 0 && !isPlaceholderConfig) {
         try {
-          const { data } = await supabase
+          const { data, error } = await supabaseAdmin
             .from('appointments')
             .select('*')
             .eq('clinic_id', clinicId)
             .in('status', ['CONFIRMED', 'PENDING']);
-          if (data && data.length > 0) {
+          if (error) {
+            console.warn('[cancel_appointment] Supabase lookup error:', error.message || error);
+          } else if (data && data.length > 0) {
             for (const item of data) {
               if ((args.appointment_id && item.id === args.appointment_id) || phonesMatch(item.patient_phone, phone)) {
                 candidateAppts.push(item as any);
@@ -836,7 +845,14 @@ export async function executeClinicTool(name: string, args: any, defaultPhone: s
       // 3. Mark appointment as CANCELLED
       await updateAppointmentStatus(appt.id, clinicId, 'CANCELLED');
 
-      // 4. Asynchronous Sniper Trigger (Fire-and-forget: do NOT await to prevent WhatsApp webhook timeout)
+      // 4. Reverse Sync: Purge event from Google Calendar if event ID exists
+      if (appt.google_calendar_event_id) {
+        void deleteCalendarEvent(appt.google_calendar_event_id, clinicId).catch((calErr) => {
+          console.warn('[Google Calendar Sync-Back] Failed to delete cancelled event:', calErr);
+        });
+      }
+
+      // 5. Asynchronous Sniper Trigger (Fire-and-forget: do NOT await to prevent WhatsApp webhook timeout)
       void triggerWaitlistSniper(appt).catch((sniperErr) => {
         console.error('[Waitlist Sniper Background Error]:', sniperErr);
       });
@@ -863,6 +879,13 @@ export async function executeClinicTool(name: string, args: any, defaultPhone: s
       }
 
       await updateAppointmentStatus(appt.id, clinicId, 'CANCELLED');
+
+      // Reverse Sync: Purge old event from Google Calendar to prevent phantom duplicate booking
+      if (appt.google_calendar_event_id) {
+        void deleteCalendarEvent(appt.google_calendar_event_id, clinicId).catch((calErr) => {
+          console.warn('[Google Calendar Sync-Back] Failed to delete rescheduled event:', calErr);
+        });
+      }
 
       const newBookResult = await bookFrictionlessAppointment({
         clinicId,
@@ -904,6 +927,7 @@ export async function executeClinicTool(name: string, args: any, defaultPhone: s
       const invNumber = await getNextSequentialInvoiceNumber(clinicId);
       const invType = (args.invoice_type || 'B2C_SIMPLIFIED') as InvoiceType;
       const nowAmman = new Date();
+      const previousInvoiceHash = await getLatestInvoiceHash(clinicId);
       const compileRes = compileJoFotaraXML({
         invoiceNumber: invNumber,
         invoiceType: invType,
@@ -912,6 +936,7 @@ export async function executeClinicTool(name: string, args: any, defaultPhone: s
         buyerName: args.patient_name || 'مريض نقدي',
         buyerTaxId: args.buyer_tax_id,
         buyerNationalId: args.buyer_national_id,
+        previousInvoiceHash,
         items: [
           {
             name: args.service_name || 'كشف واستشارة طب أسنان',
@@ -1031,11 +1056,13 @@ export async function executeClinicTool(name: string, args: any, defaultPhone: s
           chief_complaint: r.chief_complaint,
           diagnosis: r.diagnosis,
           treatment: r.treatment_rendered,
-          prescriptions: r.prescriptions,
+          prescriptions_notice: 'الأدوية السابقة مسجلة بالملف السريري الداخلي فقط ولا يجوز تداول جرعاتها إلا باستشارة الطبيب المباشرة',
+          prescriptions_count: r.prescriptions?.length || 0,
           odontogram: r.odontogram,
         })),
+        prescriptions_legal_disclaimer: 'تنبيه بموجب قانون المسؤولية الطبية والصحية رقم 25 لسنة 2018: الأدوية السابقة مسجلة بالملف السريري الداخلي فقط ولا يجوز تداول جرعاتها أو تكرارها إلا باستشارة الطبيب المباشرة أثناء المعاينة السريرية.',
         compliance: 'Law No. 25 of 2018 (Medical & Health Liability)',
-        message: `تم استرجاع السجل السريري للمريض (${patient.full_name}) بنجاح (${records.length} سجلات سابقة).`,
+        message: `تم استرجاع السجل السريري للمريض (${patient.full_name}) بنجاح (${records.length} سجلات سابقة). الأدوية السابقة مسجلة بالملف السريري الداخلي فقط ولا يجوز تداول جرعاتها إلا باستشارة الطبيب المباشرة.`,
       };
     }
 

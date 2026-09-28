@@ -287,6 +287,7 @@ export interface APMContext {
   patientPhone?: string;
   toolName?: string;
   metadata?: Record<string, any>;
+  [key: string]: any;
 }
 
 export interface APMEvent {

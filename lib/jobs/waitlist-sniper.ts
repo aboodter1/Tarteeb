@@ -1,7 +1,7 @@
 // NashmiOps Enterprise (MVP Edition) - Waitlist Sniper
 
 import { Appointment, WaitlistEntry } from '@/types';
-import { tenantStore } from '@/lib/db/supabase';
+import { tenantStore, supabaseAdmin } from '@/lib/db/supabase';
 import { CLINIC_CONFIG, CLINICAL_SERVICES } from '@/lib/config/constants';
 import { sendWhatsAppTextMessage } from '@/lib/whatsapp/client';
 
@@ -38,12 +38,39 @@ export async function triggerWaitlistSniper(
     Math.round((cancelledEndDate.getTime() - cancelledStartDate.getTime()) / (60 * 1000))
   );
 
-  // Find next waiting patient for this clinic, matching service duration and date
-  const candidate = tenantStore.waitlist.find((w) => {
-    if (w.clinic_id !== cancelledAppt.clinic_id) return false;
-    if (w.status !== 'WAITING') return false;
-    if (w.preferred_date > apptDate) return false;
+  // Find next waiting patient for this clinic, matching service duration and date exclusively from Supabase
+  let candidates: WaitlistEntry[] = [];
+  try {
+    const { data, error } = await supabaseAdmin
+      .from('waitlist')
+      .select('*')
+      .eq('clinic_id', cancelledAppt.clinic_id)
+      .eq('status', 'WAITING')
+      .lte('preferred_date', apptDate)
+      .order('created_at', { ascending: true });
 
+    if (!error && Array.isArray(data) && data.length > 0) {
+      candidates = data as WaitlistEntry[];
+    } else {
+      // Resilient fallback for simulated / offline tests
+      candidates = tenantStore.waitlist.filter(
+        (w) =>
+          w.clinic_id === cancelledAppt.clinic_id &&
+          w.status === 'WAITING' &&
+          w.preferred_date <= apptDate
+      );
+    }
+  } catch (err) {
+    console.warn('[Waitlist Sniper] Failed to query Supabase waitlist, checking local store:', err);
+    candidates = tenantStore.waitlist.filter(
+      (w) =>
+        w.clinic_id === cancelledAppt.clinic_id &&
+        w.status === 'WAITING' &&
+        w.preferred_date <= apptDate
+    );
+  }
+
+  const candidate = candidates.find((w) => {
     // Check that waiting patient's service duration fits within available vacancy
     const candidateService = CLINICAL_SERVICES[w.requested_service];
     const candidateDuration = candidateService?.durationMinutes || 30;
@@ -63,9 +90,26 @@ export async function triggerWaitlistSniper(
     };
   }
 
-  // Update candidate status
+  // Update candidate status atomically in Supabase
+  const notifiedAt = new Date().toISOString();
   candidate.status = 'NOTIFIED';
-  candidate.notified_at = new Date().toISOString();
+  candidate.notified_at = notifiedAt;
+
+  try {
+    await supabaseAdmin
+      .from('waitlist')
+      .update({ status: 'NOTIFIED', notified_at: notifiedAt })
+      .eq('id', candidate.id);
+  } catch (dbErr) {
+    console.warn('[Waitlist Sniper] Failed to update waitlist in Supabase:', dbErr);
+  }
+
+  // Sync memory store if entry exists without calling waitlist.find
+  const memIdx = tenantStore.waitlist.findIndex((w) => w.id === candidate.id);
+  if (memIdx !== -1) {
+    tenantStore.waitlist[memIdx].status = 'NOTIFIED';
+    tenantStore.waitlist[memIdx].notified_at = notifiedAt;
+  }
 
   const serviceName =
     CLINICAL_SERVICES[cancelledAppt.service_type]?.nameAr || 'كشف واستشارة';

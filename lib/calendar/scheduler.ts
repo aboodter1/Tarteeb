@@ -8,10 +8,13 @@ import {
   createAppointment,
   findOrCreatePatient,
   recordPdplConsent,
+  getDentalChairs,
+  isPlaceholderConfig,
   supabase,
+  supabaseAdmin,
 } from '@/lib/db/supabase';
 
-import { parseAmmanDateTime, toZonedTime, AMMAN_TIMEZONE } from '@/lib/utils/timezone';
+import { parseAmmanDateTime, toZonedTime, AMMAN_TIMEZONE, getAmmanNow } from '@/lib/utils/timezone';
 
 let googleCalendarClient: any = null;
 
@@ -66,12 +69,21 @@ export interface SchedulingResult {
 }
 
 /**
- * Validate appointment against clinic working hours and Friday closure using Asia/Amman timezone
+ * Validate appointment against clinic working hours, Friday closure, and same-day past-time check using Asia/Amman timezone
  */
 export function validateClinicWorkingHours(
   startTime: Date,
   endTimeWithBuffer: Date
 ): { valid: boolean; reason?: string } {
+  // Same-Day Past-Time Booking Guard
+  const nowAmman = getAmmanNow();
+  if (startTime.getTime() <= nowAmman.getTime()) {
+    return {
+      valid: false,
+      reason: 'عذراً، هذا الوقت قد مضى اليوم بالفعل. يسعدنا حجز أقرب وقت متاح لك لاحقاً اليوم أو غداً. هل يناسبك موعد لاحق؟ 🦷',
+    };
+  }
+
   const day = startTime.getDay(); // 0 = Sunday, 5 = Friday, 6 = Saturday
 
   // Friday is weekly holiday
@@ -110,7 +122,7 @@ export function validateClinicWorkingHours(
 
 /**
  * Check slot availability including mandatory 15-minute sterilization buffer, working hours,
- * and practitioner/chair roster allocation.
+ * same-day past-time guard, and practitioner/chair roster allocation.
  */
 export async function checkSlotAvailability(
   clinicId: string,
@@ -129,7 +141,16 @@ export async function checkSlotAvailability(
   assignedPractitioner?: string;
   assignedChair?: number;
 }> {
-  // 1. Working Hours & Friday Closure Guard
+  // 1. Same-Day Past-Time Guard
+  const nowAmman = getAmmanNow();
+  if (startTime.getTime() <= nowAmman.getTime()) {
+    return {
+      available: false,
+      conflictReason: 'عذراً، هذا الوقت قد مضى اليوم بالفعل. يسعدنا حجز أقرب وقت متاح لك لاحقاً اليوم أو غداً. هل يناسبك موعد لاحق؟ 🦷',
+    };
+  }
+
+  // 2. Working Hours & Friday Closure Guard
   const hoursCheck = validateClinicWorkingHours(startTime, endTimeWithBuffer);
   if (!hoursCheck.valid) {
     return {
@@ -143,21 +164,31 @@ export async function checkSlotAvailability(
 
   // Query Supabase directly (Single Source of Truth)
   let activeAppointments: Appointment[] = [];
-  try {
-    const { data, error } = await supabase
-      .from('appointments')
-      .select('*')
-      .eq('clinic_id', clinicId)
-      .neq('status', 'CANCELLED');
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('appointments')
+        .select('*')
+        .eq('clinic_id', clinicId)
+        .neq('status', 'CANCELLED');
 
-    if (!error && Array.isArray(data) && data.length > 0) {
-      activeAppointments = data as Appointment[];
-    } else {
+      if (!error && Array.isArray(data)) {
+        activeAppointments = data as Appointment[];
+      } else {
+        if (error) {
+          console.warn('[Calendar Scheduler] Supabase query error for appointments:', error.message || error);
+        }
+        activeAppointments = tenantStore.appointments.filter(
+          (appt) => appt.clinic_id === clinicId && appt.status !== 'CANCELLED'
+        );
+      }
+    } catch (err) {
+      console.warn('[Calendar Scheduler] Exception querying appointments from Supabase:', err);
       activeAppointments = tenantStore.appointments.filter(
         (appt) => appt.clinic_id === clinicId && appt.status !== 'CANCELLED'
       );
     }
-  } catch {
+  } else {
     activeAppointments = tenantStore.appointments.filter(
       (appt) => appt.clinic_id === clinicId && appt.status !== 'CANCELLED'
     );
@@ -198,7 +229,8 @@ export async function checkSlotAvailability(
   }
 
   // If total overlapping appointments reach total chairs capacity (3 chairs in Nashmi clinic)
-  const totalChairs = tenantStore.dental_chairs.length || 3;
+  const activeChairs = await getDentalChairs(clinicId);
+  const totalChairs = activeChairs.length || 3;
   if (overlappingAppts.length >= totalChairs) {
     const earliestEnd = Math.min(
       ...overlappingAppts.map((a) => new Date(a.sterilization_end_time || a.end_time).getTime())
@@ -437,3 +469,64 @@ export async function bookFrictionlessAppointment(
     throw err;
   }
 }
+
+/**
+ * Delete a Calendar Event from Google Calendar (Reverse Sync-Back)
+ * Purges cancelled or rescheduled appointments to prevent phantom calendar clutter.
+ */
+export async function deleteCalendarEvent(
+  eventId: string,
+  clinicId?: string,
+  calendarId?: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!eventId) {
+    return { success: false, error: 'No eventId provided' };
+  }
+
+  let resolvedCalendarId = calendarId;
+  if (!resolvedCalendarId && clinicId) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('clinics')
+        .select('google_calendar_id')
+        .eq('id', clinicId)
+        .maybeSingle();
+
+      if (!error && data?.google_calendar_id) {
+        resolvedCalendarId = data.google_calendar_id;
+      }
+    } catch (dbErr) {
+      console.warn('[Google Calendar] Clinic calendar lookup error, using default:', dbErr);
+    }
+  }
+
+  if (!resolvedCalendarId) {
+    resolvedCalendarId = process.env.GOOGLE_CALENDAR_ID || 'primary';
+  }
+
+  const calendar = getCalendarClient();
+  if (!calendar) {
+    console.log(`[Google Calendar - Simulated Mode] Event ${eventId} marked deleted from calendar ${resolvedCalendarId}`);
+    return { success: true };
+  }
+
+  try {
+    const deletePromise = calendar.events.delete({
+      calendarId: resolvedCalendarId,
+      eventId,
+    });
+
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Google Calendar event deletion timed out')), 3500)
+    );
+
+    await Promise.race([deletePromise, timeoutPromise]);
+    console.log(`[Google Calendar] Successfully deleted event ${eventId} from calendar ${resolvedCalendarId}`);
+    return { success: true };
+  } catch (err: any) {
+    console.warn(`[Google Calendar] Failed to delete event ${eventId}:`, err?.message || err);
+    return { success: false, error: err?.message || 'Deletion failed' };
+  }
+}
+
+

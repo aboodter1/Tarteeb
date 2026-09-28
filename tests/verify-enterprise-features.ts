@@ -78,9 +78,10 @@ async function runEnterpriseTests() {
   const vercelJsonPath = path.join(process.cwd(), 'vercel.json');
   assert(fs.existsSync(vercelJsonPath), 'vercel.json exists in root directory');
   const vercelConfig = JSON.parse(fs.readFileSync(vercelJsonPath, 'utf-8'));
-  assert(Array.isArray(vercelConfig.crons), 'vercel.json contains crons array');
-  assert(vercelConfig.crons.length >= 2, 'vercel.json defines at least 2 cron tasks');
-  assert(vercelConfig.crons.every((c: any) => c.schedule === '*/15 * * * *'), 'Crons are scheduled every 15 minutes (*/15 * * * *)');
+  assert(
+    !vercelConfig.crons || vercelConfig.crons.length === 0,
+    'Conflicting limited daily midnight Vercel crons removed in favor of external cron-job.org 15m runner'
+  );
 
   // Test Cron Execution via GET /api/jobs with Authorization: Bearer ${CRON_SECRET}
   const cronSecret = process.env.CRON_SECRET || 'nashmi_cron_secret_token_2026';
@@ -118,8 +119,8 @@ async function runEnterpriseTests() {
   const batchCronJson = await batchCronRes.json();
   assert(batchCronJson.success === true && batchCronJson.action === 'cron_batch', 'Cron batch runs both smart reminders and no-show recovery');
 
-  // 3. Database-Level Conflict Exclusion & SQL Migration
-  console.log('\n--- 3. Testing Database-Level Conflict Exclusion ---');
+  // 3. Database-Level Conflict Exclusion & Atomic Booking SQL Migration
+  console.log('\n--- 3. Testing Database-Level Conflict Exclusion & Atomic Booking ---');
   const migrationPath = path.join(process.cwd(), 'supabase', 'migrations', '20261001_appointment_exclusion_constraint.sql');
   assert(fs.existsSync(migrationPath), 'SQL Exclusion constraint migration file exists');
   const migrationSql = fs.readFileSync(migrationPath, 'utf-8');
@@ -128,11 +129,43 @@ async function runEnterpriseTests() {
   assert(migrationSql.includes('tstzrange(start_time, sterilization_end_time)'), 'Constraint covers start_time through sterilization_end_time buffer');
   assert(migrationSql.includes('processed_webhook_messages'), 'Migration creates processed_webhook_messages table');
 
-  // 4. Edge/Serverless Execution Safeguards
+  const atomicMigrationPath = path.join(process.cwd(), 'supabase', 'migrations', '20261005_atomic_appointment_booking.sql');
+  assert(fs.existsSync(atomicMigrationPath), 'Atomic booking migration file exists');
+  const atomicSql = fs.readFileSync(atomicMigrationPath, 'utf-8');
+  assert(atomicSql.includes('book_appointment_atomic'), 'Migration defines book_appointment_atomic RPC function');
+  assert(atomicSql.includes('DOUBLE_BOOKING_CONFLICT'), 'Migration defines DOUBLE_BOOKING_CONFLICT exception');
+  assert(atomicSql.includes('23P01'), 'Migration binds PostgreSQL exclusion violation code 23P01');
+
+  const { createAppointmentAtomic, subscribeToClinicTableChanges, subscribeToAppointments } = await import('../lib/db/supabase');
+  assert(typeof createAppointmentAtomic === 'function', 'createAppointmentAtomic is exported as a function');
+  assert(typeof subscribeToClinicTableChanges === 'function', 'subscribeToClinicTableChanges is exported');
+  assert(typeof subscribeToAppointments === 'function', 'subscribeToAppointments is exported');
+
+  // Verify Persistent Retry Queues SQL Migrations
+  const waRetryMigPath = path.join(process.cwd(), 'supabase', 'migrations', '20261006_whatsapp_retry_queue.sql');
+  assert(fs.existsSync(waRetryMigPath), 'WhatsApp retry queue SQL migration file exists');
+  const waRetrySql = fs.readFileSync(waRetryMigPath, 'utf-8');
+  assert(waRetrySql.includes('whatsapp_message_retries'), 'Migration creates whatsapp_message_retries table');
+
+  const jofotaraRetryMigPath = path.join(process.cwd(), 'supabase', 'migrations', '20261007_jofotara_retry_queue.sql');
+  assert(fs.existsSync(jofotaraRetryMigPath), 'JoFotara retry queue SQL migration file exists');
+  const jofotaraRetrySql = fs.readFileSync(jofotaraRetryMigPath, 'utf-8');
+  assert(jofotaraRetrySql.includes('jofotara_invoice_retries'), 'Migration creates jofotara_invoice_retries table');
+
+  const queueLocksMigPath = path.join(process.cwd(), 'supabase', 'migrations', '20261008_queue_row_level_locks_skip_locked.sql');
+  assert(fs.existsSync(queueLocksMigPath), 'Row-level queue locking SQL migration file exists');
+  const queueLocksSql = fs.readFileSync(queueLocksMigPath, 'utf-8');
+  assert(queueLocksSql.includes('claim_pending_whatsapp_retries'), 'Migration defines claim_pending_whatsapp_retries RPC');
+  assert(queueLocksSql.includes('claim_pending_jofotara_retries'), 'Migration defines claim_pending_jofotara_retries RPC');
+  assert(queueLocksSql.includes('FOR UPDATE SKIP LOCKED'), 'Migration implements FOR UPDATE SKIP LOCKED clause');
+
+  // 4. Edge/Serverless Execution Safeguards & Preemptive Timeout Guard
   console.log('\n--- 4. Testing Edge/Serverless Execution Safeguards ---');
   const webhookCode = fs.readFileSync(path.join(process.cwd(), 'app', 'api', 'webhook', 'whatsapp', 'route.ts'), 'utf-8');
   assert(webhookCode.includes("import { waitUntil } from '@vercel/functions'"), 'Webhook route imports waitUntil from @vercel/functions');
   assert(webhookCode.includes('waitUntil(backgroundTask)'), 'Webhook route executes background ReAct agent inside waitUntil safeguard');
+  assert(webhookCode.includes('PREEMPTIVE_TIMEOUT_MS = 8500'), 'Webhook route enforces 8.5s Preemptive Timeout Guard');
+  assert(webhookCode.includes('generateLocalFallbackResponse'), 'Webhook route intercepts timeout with local fallback response');
 
   // 5. Working Hours & Friday Closure Guard
   console.log('\n--- 5. Testing Clinic Working Hours & Friday Closure Guard ---');
@@ -198,6 +231,25 @@ async function runEnterpriseTests() {
   const vercelCronExecRes = await jobsGetHandler(vercelCronReq);
   const vercelCronExecJson = await vercelCronExecRes.json();
   assert(vercelCronExecJson.success === true, 'Vercel cron request executes /api/jobs handler successfully');
+
+  // Verify Strict Production Security Guard
+  const origNodeEnv = process.env.NODE_ENV;
+  try {
+    (process.env as any).NODE_ENV = 'production';
+    const unauthReq = new NextRequest('https://api.nashmiops.jo/api/jobs', {
+      headers: { host: 'api.nashmiops.jo' },
+    });
+    const unauthCheck = verifyApiAuthorization(unauthReq);
+    assert(unauthCheck.authorized === false, 'Production strictly rejects unauthenticated API request');
+
+    const spoofReq = new NextRequest('https://api.nashmiops.jo/api/jobs', {
+      headers: { host: 'api.nashmiops.jo', 'x-sandbox-simulation': 'true' },
+    });
+    const spoofCheck = verifyApiAuthorization(spoofReq);
+    assert(spoofCheck.authorized === false, 'Production strictly rejects spoofed simulation headers');
+  } finally {
+    (process.env as any).NODE_ENV = origNodeEnv;
+  }
 
   // 7. Supabase RLS Migration Fallback
   console.log('\n--- 7. Testing Supabase RLS Migration Policy ---');

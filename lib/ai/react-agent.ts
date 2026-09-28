@@ -8,7 +8,25 @@ import {
   getOrCreateConversation,
   appendChatHistory,
   tenantStore,
+  queryClinicFaq,
 } from '@/lib/db/supabase';
+import {
+  classifyLocalIntent,
+  generateIntelligentLocalResponse,
+  extractTimeSlots,
+  extractDateSlots,
+  ClassifiedIntent,
+  LocalIntentType,
+  ExtractedSlots,
+} from './local-intent';
+
+export {
+  classifyLocalIntent,
+  generateIntelligentLocalResponse,
+  extractTimeSlots,
+  extractDateSlots,
+};
+export type { ClassifiedIntent, LocalIntentType, ExtractedSlots };
 
 // ====================================================================
 // 1. SECURITY & SECRETS ISOLATION (No hardcoded credentials)
@@ -112,7 +130,8 @@ export function getMasterSystemInstruction(): string {
 
 ## 5. سيناريو التأمين وفحص البطاقة (Insurance OCR & Verification):
 - المركز معتمد لمعظم الشبكات الرئيسية في الأردن (نات هيلث، ميدنت، الشرق العربي، GIG).
-- إذا سأل المريض عن التأمين أو أبدى تخوفه من المجيء بلا طائل، اطلب منه صورة البطاقة فوراً.
+- إذا سأل المريض عن التأمين، اطلب منه صورة البطاقة فوراً.
+- إذا أرسل المريض صورة لبطاقة التأمين، قم بتحليلها بالرؤية الحاسوبية واستخراج اسم شركة التأمين ورقم البطاقة، واستدعِ فوراً أداة verify_insurance_card للتحقق من التغطية وتأكيد قبولها.
 
 ## 6. سيناريو خصوصية الأطباء والمسؤولية الطبية (Medical Liability Law No. 25 of 2018):
 - ممنوع إعطاء رقم الدكتور الشخصي نهائياً حفاظاً على خصوصيته وتركيزه بالعمليات.
@@ -263,6 +282,42 @@ export interface ReactAgentResult {
   conversationId: string;
 }
 
+/**
+ * High-Resilience Local Fallback Response Engine
+ * Generates immediate, spontaneous Jordanian receptionist responses when Gemini models
+ * or remote 3rd-party network services experience complete outages or rate-limits.
+ */
+export async function generateLocalFallbackResponse(params: {
+  rawUserMsg: string;
+  phoneNumber: string;
+  clinicId: string;
+  isEmergency?: boolean;
+  detectedNames?: string[];
+  timeMatch?: any;
+  isMultiPersonIntent?: boolean;
+}): Promise<{ reply: string; isEmergency: boolean }> {
+  const { rawUserMsg, clinicId, detectedNames = [], isMultiPersonIntent = false, timeMatch } = params;
+
+  // 1. Intelligent Local Intent Classification & Slot Extraction
+  const classified = classifyLocalIntent(rawUserMsg, detectedNames, isMultiPersonIntent);
+
+  // If caller explicitly passed emergency flag, elevate immediately
+  if (params.isEmergency) {
+    classified.isEmergency = true;
+    classified.primaryIntent = 'EMERGENCY';
+  }
+
+  // If explicit time was passed via timeMatch but slot is not set
+  if (timeMatch && !classified.slots.specificTime) {
+    const rawTime = timeMatch[1] || timeMatch[0];
+    classified.slots.specificTime = rawTime.includes(':') ? rawTime : `${rawTime.padStart(2, '0')}:00`;
+  }
+
+  // 2. Synthesize Contextual Jordanian Response
+  const result = await generateIntelligentLocalResponse(classified, clinicId);
+  return result;
+}
+
 // ====================================================================
 // 4. UNIFIED REACT AGENT ORCHESTRATION ENGINE
 // ====================================================================
@@ -273,9 +328,14 @@ export async function runReactAgent(params: {
   patientName?: string;
   userMessage?: string;
   audioBufferBase64?: string;
+  imageBase64?: string;
   mimeType?: string;
   chatHistoryOverride?: Array<{ role: 'user' | 'model'; text: string }>;
+  abortSignal?: AbortSignal;
 }): Promise<ReactAgentResult> {
+  if (params.abortSignal?.aborted) {
+    throw new Error('OPERATION_ABORTED');
+  }
   const clinicId = params.clinicId || CLINIC_CONFIG.id;
   const phoneNumber = (params.phoneNumber || '+962791234567').trim();
   const rawUserMsg = (params.userMessage || '').trim();
@@ -381,9 +441,11 @@ export async function runReactAgent(params: {
   const detectedNames = extractCandidateNames(rawUserMsg, historyToUse);
   const isMultiPersonIntent =
     /(?:إلي ولقريبي|إلي ولأخوي|إلي ولزوجتي|شخصين|موعدين|مع بعض|حجز مشترك|لي ولـ|حجز لشخصين|ومعي|وقريبي|وأخوي|وزوجتي|بدنا|لشخصين)/.test(rawUserMsg);
+  const colloquialTime = extractTimeSlots(rawUserMsg).specificTime;
   const timeMatch =
     rawUserMsg.match(/\b([01]?[0-9]|2[0-3]):[0-5][0-9]\b/) ||
-    rawUserMsg.match(/(?:الساعة|ساعة)\s*(\d{1,2}(?::\d{2})?)/);
+    rawUserMsg.match(/(?:الساعة|ساعة)\s*(\d{1,2}(?::\d{2})?)/) ||
+    (colloquialTime ? [colloquialTime, colloquialTime] : null);
 
   // If user requested a time without providing requisite names, strictly enforce asking for names
   if (timeMatch) {
@@ -412,7 +474,21 @@ export async function runReactAgent(params: {
 
   // 5. Prepare Current Turn Content Parts
   const currentParts: any[] = [];
-  if (params.audioBufferBase64) {
+  if (params.imageBase64) {
+    currentParts.push({
+      inlineData: {
+        mimeType: params.mimeType || 'image/jpeg',
+        data: params.imageBase64,
+      },
+    });
+    if (rawUserMsg) {
+      currentParts.push({ text: rawUserMsg });
+    } else {
+      currentParts.push({
+        text: 'حلل صورة بطاقة التأمين الصحي أو الوثيقة المرفقة، واستخرج اسم شبكة التأمين ورقم البطاقة، واستدعِ فوراً أداة verify_insurance_card للتحقق من التغطية وطمأنة المريض.',
+      });
+    }
+  } else if (params.audioBufferBase64) {
     currentParts.push({
       inlineData: {
         mimeType: params.mimeType || 'audio/ogg',
@@ -440,6 +516,9 @@ export async function runReactAgent(params: {
 
   // 6. ReAct Loop (strictly capped at MAX_REACT_ITERATIONS = 3)
   while (iterationCount < MAX_REACT_ITERATIONS) {
+    if (params.abortSignal?.aborted) {
+      throw new Error('OPERATION_ABORTED');
+    }
     iterationCount++;
     console.log(`[ReAct Agent] Iteration ${iterationCount} of ${MAX_REACT_ITERATIONS} for ${phoneNumber}`);
 
@@ -614,15 +693,20 @@ export async function runReactAgent(params: {
     }
   }
 
-  // 8. Fallback Recovery (Pillar 3: Triggered ONLY on real connection drops)
+  // 8. Fallback Recovery (Pillar 3: Triggered ONLY on real connection drops or model exhaustion)
   if (!finalReplyText) {
-    if (isEmergency) {
-      finalReplyText = `${MEDICAL_LIABILITY_GUARDRAILS.emergencyTriggerCode}\n${MEDICAL_LIABILITY_GUARDRAILS.emergencyResponseAr}`;
-    } else {
-      const nameMatch = rawUserMsg.match(/(?:أنا|اسمي|معك|لـ|للمريض|الأخ|السيد)\s+([^\s،.]+)/);
-      const detectedName = nameMatch ? nameMatch[1] : '';
-      const greeting = detectedName ? `أهلاً بك يا ${detectedName}` : 'أهلاً بك يا غالي';
-      finalReplyText = `${greeting}، عذراً منك واجهنا ضغط مؤقت في شبكة الاتصال، ممكن تعيدلي طلبك بعد إذنك؟`;
+    const fallbackRes = await generateLocalFallbackResponse({
+      rawUserMsg,
+      phoneNumber,
+      clinicId,
+      isEmergency,
+      detectedNames,
+      timeMatch,
+      isMultiPersonIntent,
+    });
+    finalReplyText = fallbackRes.reply;
+    if (fallbackRes.isEmergency) {
+      isEmergency = true;
     }
   }
 

@@ -1,5 +1,6 @@
-// NashmiOps Enterprise (MVP Edition) - API Route Protection & PDPL Guard
+// NashmiOps Enterprise (Production Edition) - Strict API & Cron Route Security Guard
 // Jordanian Personal Data Protection Law (PDPL No. 24 of 2023)
+// Strictly eliminates all production bypasses, unconfigured secrets, and default backdoor tokens.
 
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -11,65 +12,94 @@ export interface AuthVerificationResult {
 
 /**
  * Verify API Authorization pursuant to PDPL Law No. 24 of 2023.
- * Checks Bearer token or custom headers against CRON_SECRET / API_SECRET_KEY.
- * Allows local sandbox simulations and in-browser Sandbox testing seamlessly.
+ * Enforces cryptographic token isolation and zero-bypass security in production.
  */
 export function verifyApiAuthorization(req: NextRequest): AuthVerificationResult {
+  const isProduction = process.env.NODE_ENV === 'production';
   const envCronSecret = process.env.CRON_SECRET;
   const envApiSecret = process.env.API_SECRET_KEY;
 
-  // If env variables are explicitly defined, use them strictly; otherwise allow default dev secret in non-production
-  const cronSecret = envCronSecret || (process.env.NODE_ENV !== 'production' ? 'tarteeb_cron_secret_token_2026' : undefined);
-  const apiSecret = envApiSecret || (process.env.NODE_ENV !== 'production' ? 'tarteeb_secure_api_secret_key_2026' : undefined);
+  // 1. Strict Production Guard: Mandatory Environment Secrets
+  // In production, failure to configure CRON_SECRET or API_SECRET_KEY is a fatal misconfiguration
+  if (isProduction && !envCronSecret && !envApiSecret) {
+    return {
+      authorized: false,
+      reason: 'PRODUCTION_SECRETS_NOT_CONFIGURED',
+      response: NextResponse.json(
+        {
+          success: false,
+          error:
+            'Security Alert: Protected routes are locked in production because CRON_SECRET and API_SECRET_KEY are not configured. Access denied.',
+        },
+        { status: 500 }
+      ),
+    };
+  }
+
+  // 2. Token Matching Functions
+  // In production: ONLY real environment variables are accepted (zero defaults/backdoors allowed)
+  // In development: fallback test keys are permitted for local tests and offline dev
+  const isAuthorizedCronToken = (token: string) => {
+    if (!token) return false;
+    if (envCronSecret) return token === envCronSecret;
+    return !isProduction && (token === 'tarteeb_cron_secret_token_2026' || token === 'nashmi_cron_secret_token_2026');
+  };
+
+  const isAuthorizedApiToken = (token: string) => {
+    if (!token) return false;
+    if (envApiSecret) return token === envApiSecret;
+    return !isProduction && token === 'tarteeb_secure_api_secret_key_2026';
+  };
 
   const authHeader = req.headers.get('authorization') || '';
   const xApiKey = req.headers.get('x-api-key') || '';
   const xCronSecret = req.headers.get('x-cron-secret') || '';
   const xVercelCron = req.headers.get('x-vercel-cron') || '';
-  const isSimulation =
-    req.headers.get('x-sandbox-simulation') === 'true' ||
-    req.headers.get('x-client-simulation') === 'true';
 
-  // 1. Official Vercel Cron Header Recognition
+  // 3. Official Vercel Cron Header Recognition
   // Vercel Cron automatically attaches `x-vercel-cron: "1"` and `Authorization: Bearer ${CRON_SECRET}`
   if (xVercelCron === '1' || xVercelCron === 'true') {
     if (envCronSecret) {
-      if (authHeader === `Bearer ${envCronSecret}`) {
+      if (authHeader === `Bearer ${envCronSecret}` || authHeader === envCronSecret) {
         return { authorized: true, reason: 'VERCEL_CRON_AUTHENTICATED' };
       }
-    } else {
+    } else if (!isProduction) {
       // In dev or unconfigured test environment, valid Vercel Cron header passes
-      return { authorized: true, reason: 'VERCEL_CRON_HEADER_RECOGNIZED' };
+      return { authorized: true, reason: 'VERCEL_CRON_HEADER_DEV_RECOGNIZED' };
     }
   }
 
-  // 2. Check Bearer token in Authorization header
+  // 4. Check Bearer token in Authorization header
   if (authHeader.startsWith('Bearer ')) {
     const token = authHeader.substring(7).trim();
-    if ((cronSecret && token === cronSecret) || (apiSecret && token === apiSecret)) {
+    if (isAuthorizedCronToken(token) || isAuthorizedApiToken(token)) {
       return { authorized: true, reason: 'BEARER_TOKEN_AUTHENTICATED' };
     }
+  } else if (authHeader && (isAuthorizedCronToken(authHeader) || isAuthorizedApiToken(authHeader))) {
+    return { authorized: true, reason: 'DIRECT_AUTH_TOKEN_AUTHENTICATED' };
   }
 
-  // 3. Check direct custom headers
-  if ((apiSecret && xApiKey === apiSecret) || (cronSecret && xCronSecret === cronSecret)) {
+  // 5. Check direct custom headers
+  if (isAuthorizedApiToken(xApiKey) || isAuthorizedCronToken(xCronSecret)) {
     return { authorized: true, reason: 'CUSTOM_KEY_AUTHENTICATED' };
   }
 
-  // 4. Strict Local Development / Controlled Sandbox Simulation
-  // Completely prohibits header-spoofing referer bypass in production
+  // 6. Strict Non-Production Local Development Isolation
+  // Completely forbidden in production, staging, and preview deployments to eliminate SSRF and spoofing
   const host = req.headers.get('host') || '';
-  const secFetchSite = req.headers.get('sec-fetch-site') || '';
+  const isStrictLocalHost = host.includes('localhost') || host.includes('127.0.0.1');
+  const vercelEnv = process.env.VERCEL_ENV;
+  const isStagingOrPreview = vercelEnv === 'preview' || vercelEnv === 'staging';
 
-  const isDevEnvironment = process.env.NODE_ENV !== 'production';
-  const isLocalOrigin = host.includes('localhost') || host.includes('127.0.0.1');
-
-  // Allow same-origin local development requests or explicit non-production sandbox header
-  if (isDevEnvironment && isLocalOrigin && (secFetchSite === 'same-origin' || isSimulation)) {
-    return { authorized: true, reason: 'LOCAL_DEV_AUTHENTICATED' };
+  if (!isProduction && !isStagingOrPreview && isStrictLocalHost) {
+    const secFetchSite = req.headers.get('sec-fetch-site') || '';
+    // Allow local browser same-origin UI navigation without exposing external bypasses
+    if (secFetchSite === 'same-origin') {
+      return { authorized: true, reason: 'LOCAL_DEV_SAME_ORIGIN' };
+    }
   }
 
-  // 4. Unauthorized Access Block (HTTP 401)
+  // 7. Unauthorized Access Block (HTTP 401)
   return {
     authorized: false,
     reason: 'UNAUTHORIZED_PDPL_VIOLATION',

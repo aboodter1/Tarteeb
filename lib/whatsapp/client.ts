@@ -3,6 +3,16 @@
 
 import { logFailedOutboundMessage } from '@/lib/db/supabase';
 import { captureException, captureMessage } from '@/lib/monitoring/apm';
+import { circuitBreaker } from '@/lib/resilience/circuit-breaker';
+import {
+  enqueueWhatsAppRetry,
+  processWhatsAppRetryQueue,
+  whatsappRetryQueue,
+  WhatsAppRetryItem,
+} from './retry-queue';
+
+export { enqueueWhatsAppRetry, processWhatsAppRetryQueue, whatsappRetryQueue, circuitBreaker };
+export type { WhatsAppRetryItem };
 
 export interface WhatsAppSendResult {
   success: boolean;
@@ -29,10 +39,12 @@ export function formatMetaRecipientPhone(phone: string): string {
 
 /**
  * Send WhatsApp Text Message via Meta Cloud API v21.0
+ * Automatically enqueues into WhatsApp Retry Queue with Exponential Backoff upon network or API failure.
  */
 export async function sendWhatsAppTextMessage(
   to: string,
-  messageText: string
+  messageText: string,
+  options?: { skipEnqueue?: boolean; clinicId?: string }
 ): Promise<WhatsAppSendResult> {
   const token =
     process.env.META_WHATSAPP_ACCESS_TOKEN ||
@@ -45,10 +57,21 @@ export async function sendWhatsAppTextMessage(
 
   const recipient = formatMetaRecipientPhone(to);
 
-  if (!token || token.startsWith('mock_')) {
+  if (!token || token.startsWith('mock_') || circuitBreaker.isSimulatedFallbackActive('whatsapp')) {
     console.log(
       `[WhatsApp Client - Simulated Mode] Dispatching text to ${recipient} via PhoneID ${phoneNumberId}:\n"${messageText.substring(0, 100)}..."`
     );
+
+    // If active due to tripped circuit breaker, queue for eventual live delivery
+    if (circuitBreaker.isSimulatedFallbackActive('whatsapp') && !options?.skipEnqueue) {
+      await enqueueWhatsAppRetry(
+        recipient,
+        messageText,
+        'Circuit Breaker OPEN: In local simulated mode, queued for live delivery upon Meta API recovery',
+        options?.clinicId
+      ).catch((qErr) => console.warn('[WhatsApp Client] Retry enqueue warning:', qErr));
+    }
+
     return {
       success: true,
       messageId: `wamid.simulated.${Date.now()}`,
@@ -59,85 +82,186 @@ export async function sendWhatsAppTextMessage(
 
   const endpoint = `https://graph.facebook.com/v21.0/${phoneNumberId}/messages`;
 
-  try {
-    const payload = {
-      messaging_product: 'whatsapp',
-      recipient_type: 'individual',
-      to: recipient,
-      type: 'text',
-      text: {
-        preview_url: false,
-        body: messageText,
-      },
-    };
+  return await circuitBreaker.execute<WhatsAppSendResult>(
+    'whatsapp',
+    async () => {
+      const payload = {
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: recipient,
+        type: 'text',
+        text: {
+          preview_url: false,
+          body: messageText,
+        },
+      };
 
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const data = await res.json().catch(() => null);
+      const data = await res.json().catch(() => null);
 
-    if (!res.ok) {
-      const errorMsg = data?.error?.message || `HTTP error ${res.status}`;
-      console.warn(`[WhatsApp Client] Meta API error HTTP ${res.status}:`, data);
+      if (!res.ok) {
+        const errorMsg = data?.error?.message || `HTTP error ${res.status}`;
+        console.warn(`[WhatsApp Client] Meta API error HTTP ${res.status}:`, data);
 
-      // APM Alert: Real-time error capture
-      captureMessage(`Meta API dispatch error HTTP ${res.status}: ${errorMsg}`, 'ERROR', {
+        captureMessage(`Meta API dispatch error HTTP ${res.status}: ${errorMsg}`, 'ERROR', {
+          endpoint,
+          patientPhone: recipient,
+          route: 'sendWhatsAppTextMessage',
+        });
+
+        await logFailedOutboundMessage({
+          recipientPhone: recipient,
+          messageText,
+          errorReason: `Meta API HTTP ${res.status}: ${errorMsg}`,
+        }).catch((logErr) => console.warn('[WhatsApp Client] Dead-letter logging notice:', logErr));
+
+        if (!options?.skipEnqueue) {
+          await enqueueWhatsAppRetry(
+            recipient,
+            messageText,
+            `Meta API HTTP ${res.status}: ${errorMsg}`,
+            options?.clinicId
+          ).catch((qErr) => console.warn('[WhatsApp Client] Retry enqueue warning:', qErr));
+        }
+
+        throw new Error(`Meta API HTTP ${res.status}: ${errorMsg}`);
+      }
+
+      const messageId = data?.messages?.[0]?.id;
+      console.log(`[WhatsApp Client] Message sent successfully (ID: ${messageId}) to ${recipient}`);
+
+      return {
+        success: true,
+        messageId,
+        recipient,
+        simulated: false,
+      };
+    },
+    async (circuitState, err) => {
+      const errorMsg = err?.message || 'Network exception sending WhatsApp message';
+      console.warn(`[WhatsApp Client - Circuit Fallback] Meta API unreachable (${circuitState}), transitioning to local simulated mode:`, errorMsg);
+
+      captureException(err, {
         endpoint,
         patientPhone: recipient,
         route: 'sendWhatsAppTextMessage',
+        circuitState,
       });
 
-      // Dead-Letter Handling: Log failed dispatch for receptionist review
       await logFailedOutboundMessage({
         recipientPhone: recipient,
         messageText,
-        errorReason: `Meta API HTTP ${res.status}: ${errorMsg}`,
+        errorReason: `Circuit Breaker Fallback (${circuitState}): ${errorMsg}`,
       }).catch((logErr) => console.warn('[WhatsApp Client] Dead-letter logging notice:', logErr));
 
+      if (!options?.skipEnqueue) {
+        await enqueueWhatsAppRetry(
+          recipient,
+          messageText,
+          `Circuit Breaker Fallback: ${errorMsg}`,
+          options?.clinicId
+        ).catch((qErr) => console.warn('[WhatsApp Client] Retry enqueue warning:', qErr));
+      }
+
       return {
-        success: false,
+        success: true,
+        messageId: `wamid.simulated.offline.${Date.now()}`,
         recipient,
+        simulated: true,
         error: errorMsg,
       };
     }
+  );
+}
 
-    const messageId = data?.messages?.[0]?.id;
-    console.log(`[WhatsApp Client] Message sent successfully (ID: ${messageId}) to ${recipient}`);
+/**
+ * Fetch and convert WhatsApp Media (Image, Audio, Document) to Base64 using Meta Graph API
+ */
+export async function fetchWhatsAppMedia(
+  mediaId: string,
+  fallbackMime: string = 'image/jpeg'
+): Promise<{ base64: string; mimeType: string } | null> {
+  const token =
+    process.env.META_WHATSAPP_ACCESS_TOKEN ||
+    process.env.META_WHATSAPP_TOKEN;
 
+  if (!token || token.startsWith('mock_')) {
+    if (fallbackMime.startsWith('image/')) {
+      console.log(`[WhatsApp Client] Simulated mode: returning standard mock image for ID ${mediaId}`);
+      return {
+        base64: 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==',
+        mimeType: fallbackMime || 'image/png',
+      };
+    }
+    console.log(`[WhatsApp Client] Simulated mode: returning standard OGG mock audio for ID ${mediaId}`);
     return {
-      success: true,
-      messageId,
-      recipient,
+      base64: 'UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=',
+      mimeType: fallbackMime || 'audio/ogg',
     };
-  } catch (err: any) {
-    const errorMsg = err?.message || 'Network exception sending WhatsApp message';
-    console.error(`[WhatsApp Client] Network error sending message to ${recipient}:`, errorMsg);
+  }
 
-    // APM Alert: Capture network exception
-    captureException(err, {
-      endpoint,
-      patientPhone: recipient,
-      route: 'sendWhatsAppTextMessage',
+  try {
+    // Step 1: Retrieve Media URL from Meta Graph API
+    const metaMediaEndpoint = `https://graph.facebook.com/v21.0/${mediaId}`;
+    const metaRes = await fetch(metaMediaEndpoint, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
 
-    // Dead-Letter Handling: Log failed dispatch for receptionist review
-    await logFailedOutboundMessage({
-      recipientPhone: recipient,
-      messageText,
-      errorReason: `Network Exception: ${errorMsg}`,
-    }).catch((logErr) => console.warn('[WhatsApp Client] Dead-letter logging notice:', logErr));
+    if (!metaRes.ok) {
+      console.warn(`[WhatsApp Client] Could not resolve media metadata for ${mediaId}: HTTP ${metaRes.status}`);
+      return null;
+    }
+
+    const mediaJson = await metaRes.json();
+    const mediaUrl = mediaJson?.url;
+    const mimeType = mediaJson?.mime_type || fallbackMime;
+
+    if (!mediaUrl) {
+      console.warn(`[WhatsApp Client] Missing URL in media metadata for ${mediaId}`);
+      return null;
+    }
+
+    // Step 2: Download binary content from Meta CDN
+    const binaryRes = await fetch(mediaUrl, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    // Vercel Serverless OOM Protection: Max 16MB limit
+    const MAX_MEDIA_BYTES = 16 * 1024 * 1024;
+    const contentLength = binaryRes.headers.get('content-length');
+    if (contentLength && parseInt(contentLength, 10) > MAX_MEDIA_BYTES) {
+      console.warn(`[WhatsApp Client] Media file exceeds 16MB limit (${contentLength} bytes). Download aborted to prevent serverless OOM.`);
+      return null;
+    }
+
+    const arrayBuffer = await binaryRes.arrayBuffer();
+    if (arrayBuffer.byteLength > MAX_MEDIA_BYTES) {
+      console.warn(`[WhatsApp Client] Downloaded media buffer (${arrayBuffer.byteLength} bytes) exceeds 16MB limit. Aborting Base64 conversion.`);
+      return null;
+    }
+
+    const base64 = Buffer.from(arrayBuffer).toString('base64');
+    console.log(`[WhatsApp Client] Successfully downloaded media ${mediaId} (${(arrayBuffer.byteLength / 1024).toFixed(1)} KB, mime: ${mimeType})`);
 
     return {
-      success: false,
-      recipient,
-      error: errorMsg,
+      base64,
+      mimeType,
     };
+  } catch (err: any) {
+    console.error(`[WhatsApp Client] Error fetching WhatsApp media ${mediaId}:`, err?.message || err);
+    return null;
   }
 }
 
@@ -147,72 +271,5 @@ export async function sendWhatsAppTextMessage(
 export async function fetchWhatsAppAudioMedia(
   audioId: string
 ): Promise<{ base64: string; mimeType: string } | null> {
-  const token =
-    process.env.META_WHATSAPP_ACCESS_TOKEN ||
-    process.env.META_WHATSAPP_TOKEN;
-
-  if (!token || token.startsWith('mock_')) {
-    console.log(`[WhatsApp Client] Simulated mode: returning standard OGG mock audio for ID ${audioId}`);
-    return {
-      base64: 'UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=',
-      mimeType: 'audio/ogg',
-    };
-  }
-
-  try {
-    // Step 1: Retrieve Media URL from Meta Graph API
-    const metaMediaEndpoint = `https://graph.facebook.com/v21.0/${audioId}`;
-    const metaRes = await fetch(metaMediaEndpoint, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    if (!metaRes.ok) {
-      console.warn(`[WhatsApp Client] Could not resolve audio metadata for ${audioId}: HTTP ${metaRes.status}`);
-      return null;
-    }
-
-    const mediaJson = await metaRes.json();
-    const mediaUrl = mediaJson?.url;
-    const mimeType = mediaJson?.mime_type || 'audio/ogg';
-
-    if (!mediaUrl) {
-      console.warn(`[WhatsApp Client] Missing URL in media metadata for audio ${audioId}`);
-      return null;
-    }
-
-    // Step 2: Download binary audio content from Meta CDN
-    const binaryRes = await fetch(mediaUrl, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    // Vercel Serverless OOM Protection: Max 16MB limit
-    const MAX_AUDIO_BYTES = 16 * 1024 * 1024;
-    const contentLength = binaryRes.headers.get('content-length');
-    if (contentLength && parseInt(contentLength, 10) > MAX_AUDIO_BYTES) {
-      console.warn(`[WhatsApp Client] Audio file exceeds 16MB limit (${contentLength} bytes). Download aborted to prevent serverless OOM.`);
-      return null;
-    }
-
-    const arrayBuffer = await binaryRes.arrayBuffer();
-    if (arrayBuffer.byteLength > MAX_AUDIO_BYTES) {
-      console.warn(`[WhatsApp Client] Downloaded audio buffer (${arrayBuffer.byteLength} bytes) exceeds 16MB limit. Aborting Base64 conversion.`);
-      return null;
-    }
-
-    const base64 = Buffer.from(arrayBuffer).toString('base64');
-
-    console.log(`[WhatsApp Client] Successfully downloaded audio ${audioId} (${(arrayBuffer.byteLength / 1024).toFixed(1)} KB, mime: ${mimeType})`);
-
-    return {
-      base64,
-      mimeType,
-    };
-  } catch (err: any) {
-    console.error(`[WhatsApp Client] Error fetching WhatsApp audio ${audioId}:`, err?.message || err);
-    return null;
-  }
+  return fetchWhatsAppMedia(audioId, 'audio/ogg');
 }

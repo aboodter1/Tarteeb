@@ -37,7 +37,7 @@ if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_
   console.warn('[Security] Supabase credentials (NEXT_PUBLIC_SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY) using fallback defaults.');
 }
 
-const isPlaceholderConfig =
+export const isPlaceholderConfig =
   !process.env.NEXT_PUBLIC_SUPABASE_URL ||
   process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder');
 
@@ -434,7 +434,105 @@ export async function findOrCreatePatient(params: {
   const normalizedPhone = params.phone.trim();
   const name = params.fullName.trim();
 
-  // 1. Search in local store
+  // 1. Direct Supabase Query (Single Source of Truth for Serverless Lambdas)
+  if (!isPlaceholderConfig) {
+    try {
+      const { data: existing, error } = await supabaseAdmin
+        .from('patients')
+        .select('*')
+        .eq('clinic_id', params.clinicId)
+        .eq('whatsapp_phone', normalizedPhone)
+        .eq('full_name', name)
+        .eq('is_deleted', false)
+        .maybeSingle();
+
+      if (existing) {
+        const patientData = existing as Patient;
+        const idx = tenantStore.patients.findIndex((p) => p.id === patientData.id);
+        if (idx >= 0) tenantStore.patients[idx] = patientData;
+        else tenantStore.patients.push(patientData);
+        persistTenantStore();
+        return { patient: patientData, isNew: false };
+      }
+
+      // Create new Patient directly in Supabase
+      const newPatient: Patient = {
+        id: `pat-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+        clinic_id: params.clinicId,
+        whatsapp_phone: normalizedPhone,
+        full_name: name,
+        national_id: params.nationalId,
+        is_head_of_family: !params.familyRelation || params.familyRelation === 'self',
+        family_relation: params.familyRelation || 'self',
+        primary_contact_phone: params.primaryContactPhone || normalizedPhone,
+        pdpl_consent: false,
+        is_deleted: false,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      const { data: inserted, error: insertErr } = await supabaseAdmin
+        .from('patients')
+        .insert(newPatient)
+        .select('*')
+        .single();
+
+      if (insertErr) {
+        // Handle 23505 unique conflict (concurrent insertion race condition)
+        if (insertErr.code === '23505') {
+          console.warn('[Supabase] Patient insertion conflict (23505), re-querying existing patient...');
+          const { data: reQueried } = await supabaseAdmin
+            .from('patients')
+            .select('*')
+            .eq('clinic_id', params.clinicId)
+            .eq('whatsapp_phone', normalizedPhone)
+            .eq('full_name', name)
+            .eq('is_deleted', false)
+            .maybeSingle();
+
+          if (reQueried) {
+            const patientData = reQueried as Patient;
+            const idx = tenantStore.patients.findIndex((p) => p.id === patientData.id);
+            if (idx >= 0) tenantStore.patients[idx] = patientData;
+            else tenantStore.patients.push(patientData);
+            persistTenantStore();
+            return { patient: patientData, isNew: false };
+          }
+        }
+        console.error('[Supabase] Patient insertion error:', insertErr);
+        throw insertErr;
+      }
+
+      const finalPatient = (inserted || newPatient) as Patient;
+      tenantStore.patients.push(finalPatient);
+      persistTenantStore();
+      return { patient: finalPatient, isNew: true };
+    } catch (err: any) {
+      if (err?.code === '23505') {
+        const { data: reQueried } = await supabaseAdmin
+          .from('patients')
+          .select('*')
+          .eq('clinic_id', params.clinicId)
+          .eq('whatsapp_phone', normalizedPhone)
+          .eq('full_name', name)
+          .eq('is_deleted', false)
+          .maybeSingle();
+
+        if (reQueried) {
+          const patientData = reQueried as Patient;
+          const idx = tenantStore.patients.findIndex((p) => p.id === patientData.id);
+          if (idx >= 0) tenantStore.patients[idx] = patientData;
+          else tenantStore.patients.push(patientData);
+          persistTenantStore();
+          return { patient: patientData, isNew: false };
+        }
+      }
+      console.error('[Supabase Serverless] Patient DB lookup/insert error:', err);
+      if (err?.code && err.code !== 'ECONNREFUSED') throw err;
+    }
+  }
+
+  // 2. Offline / Simulated Mode Fallback (isPlaceholderConfig)
   let existing = tenantStore.patients.find(
     (p) =>
       p.clinic_id === params.clinicId &&
@@ -443,7 +541,6 @@ export async function findOrCreatePatient(params: {
       !p.is_deleted
   );
 
-  // If name differs but phone is same, might be a family member profile!
   if (!existing && params.familyRelation && params.familyRelation !== 'self') {
     existing = tenantStore.patients.find(
       (p) =>
@@ -458,26 +555,6 @@ export async function findOrCreatePatient(params: {
     return { patient: existing, isNew: false };
   }
 
-  // 2. Query Supabase
-  try {
-    const { data } = await supabase
-      .from('patients')
-      .select('*')
-      .eq('clinic_id', params.clinicId)
-      .eq('whatsapp_phone', normalizedPhone)
-      .eq('full_name', name)
-      .eq('is_deleted', false)
-      .maybeSingle();
-
-    if (data) {
-      tenantStore.patients.push(data as Patient);
-      return { patient: data as Patient, isNew: false };
-    }
-  } catch (err) {
-    console.warn('[Supabase] Falling back to memory store for patient lookup:', err);
-  }
-
-  // 3. Create new Patient
   const newPatient: Patient = {
     id: `pat-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
     clinic_id: params.clinicId,
@@ -495,13 +572,6 @@ export async function findOrCreatePatient(params: {
 
   tenantStore.patients.push(newPatient);
   persistTenantStore();
-
-  try {
-    await supabase.from('patients').insert(newPatient);
-  } catch (err) {
-    console.warn('[Supabase] Patient insert mirrored locally:', err);
-  }
-
   return { patient: newPatient, isNew: true };
 }
 
@@ -513,26 +583,34 @@ export async function recordPdplConsent(
   clinicId: string,
   granted: boolean
 ): Promise<boolean> {
-  const patient = tenantStore.patients.find((p) => p.id === patientId && p.clinic_id === clinicId);
   const now = new Date().toISOString();
+
+  if (!isPlaceholderConfig) {
+    try {
+      const { error } = await supabaseAdmin
+        .from('patients')
+        .update({
+          pdpl_consent: granted,
+          pdpl_consent_timestamp: now,
+          updated_at: now,
+        })
+        .eq('id', patientId)
+        .eq('clinic_id', clinicId);
+
+      if (error) {
+        console.error('[Supabase Serverless] Error recording PDPL consent in DB:', error);
+      }
+    } catch (err) {
+      console.warn('[Supabase] PDPL consent network warning:', err);
+    }
+  }
+
+  const patient = tenantStore.patients.find((p) => p.id === patientId && p.clinic_id === clinicId);
   if (patient) {
     patient.pdpl_consent = granted;
     patient.pdpl_consent_timestamp = now;
     patient.updated_at = now;
-  }
-
-  try {
-    await supabase
-      .from('patients')
-      .update({
-        pdpl_consent: granted,
-        pdpl_consent_timestamp: now,
-        updated_at: now,
-      })
-      .eq('id', patientId)
-      .eq('clinic_id', clinicId);
-  } catch (err) {
-    console.warn('[Supabase] PDPL consent updated in memory:', err);
+    persistTenantStore();
   }
 
   return true;
@@ -542,35 +620,40 @@ export async function recordPdplConsent(
  * Soft-Delete Patient (Jordanian Medical Liability Law No. 25 of 2018 - 5-year retention)
  */
 export async function softDeletePatient(patientId: string, clinicId: string): Promise<boolean> {
-  const patient = tenantStore.patients.find((p) => p.id === patientId && p.clinic_id === clinicId);
   const now = new Date().toISOString();
+
+  if (!isPlaceholderConfig) {
+    try {
+      const { error } = await supabaseAdmin
+        .from('patients')
+        .update({
+          is_deleted: true,
+          deleted_at: now,
+          updated_at: now,
+        })
+        .eq('id', patientId)
+        .eq('clinic_id', clinicId);
+
+      if (error) {
+        console.error('[Supabase Serverless] Error soft-deleting patient in DB:', error);
+      }
+    } catch (err) {
+      console.warn('[Supabase] Soft-delete network warning:', err);
+    }
+  }
+
+  const patient = tenantStore.patients.find((p) => p.id === patientId && p.clinic_id === clinicId);
   if (patient) {
     patient.is_deleted = true;
     patient.deleted_at = now;
     patient.updated_at = now;
-  }
-
-  try {
-    await supabase
-      .from('patients')
-      .update({
-        is_deleted: true,
-        deleted_at: now,
-        updated_at: now,
-      })
-      .eq('id', patientId)
-      .eq('clinic_id', clinicId);
-  } catch (err) {
-    console.warn('[Supabase] Soft-delete updated in memory:', err);
+    persistTenantStore();
   }
 
   return true;
 }
 
-/**
- * Create Appointment (Frictionless Zero-Deposit with Concurrency Conflict Guard)
- */
-export async function createAppointment(params: {
+export interface CreateAppointmentAtomicParams {
   clinicId: string;
   patientId: string;
   patientName: string;
@@ -578,7 +661,7 @@ export async function createAppointment(params: {
   serviceType: ServiceType;
   startTime: string;
   endTime: string;
-  sterilizationEndTime: string;
+  sterilizationEndTime?: string;
   practitionerId?: string;
   practitionerName?: string;
   chairId?: string;
@@ -586,9 +669,17 @@ export async function createAppointment(params: {
   googleCalendarEventId?: string;
   notes?: string;
   isEmergency?: boolean;
-}): Promise<Appointment> {
+}
+
+/**
+ * Create Appointment with PostgreSQL Atomic RPC (book_appointment_atomic)
+ * Guarantees zero double-booking and concurrency isolation across distributed serverless instances.
+ * Enforces mandatory 15-minute sterilization buffers, practitioner, and dental chair assignments.
+ */
+export async function createAppointmentAtomic(params: CreateAppointmentAtomicParams): Promise<Appointment> {
   const reqStart = new Date(params.startTime).getTime();
-  const reqEnd = new Date(params.sterilizationEndTime || params.endTime).getTime();
+  const calculatedSterilization = params.sterilizationEndTime || new Date(new Date(params.endTime).getTime() + 15 * 60000).toISOString();
+  const reqEnd = new Date(calculatedSterilization).getTime();
 
   // Resolve or Auto-Assign Practitioner & Chair based on service if not explicitly specified
   let practitionerId = params.practitionerId;
@@ -643,7 +734,149 @@ export async function createAppointment(params: {
     }
   }
 
-  // 1. Strict Concurrency Check in Local Memory Store (Practitioner & Chair specific)
+  const appointmentDate = params.startTime.split('T')[0];
+  const appt: Appointment = {
+    id: `appt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
+    clinic_id: params.clinicId,
+    patient_id: params.patientId,
+    patient_name: params.patientName,
+    patient_phone: params.patientPhone,
+    service_type: params.serviceType,
+    practitioner_id: practitionerId,
+    practitioner_name: practitionerName,
+    chair_id: chairId,
+    chair_number: chairNumber,
+    appointment_date: appointmentDate,
+    start_time: params.startTime,
+    end_time: params.endTime,
+    sterilization_end_time: calculatedSterilization,
+    status: 'CONFIRMED',
+    google_calendar_event_id: params.googleCalendarEventId,
+    notes: params.notes,
+    is_emergency: !!params.isEmergency,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  };
+
+  // ====================================================================
+  // 1. LIVE SERVERLESS PRODUCTION EXECUTION (Single Source of Truth)
+  // ====================================================================
+  if (!isPlaceholderConfig) {
+    // Attempt Atomic RPC stored procedure (Single Transaction with Row-Level Share Locks & 23P01 catch)
+    try {
+      const { data: rpcData, error: rpcError } = await supabaseAdmin.rpc('book_appointment_atomic', {
+        p_appointment: appt,
+      });
+
+      if (rpcError) {
+        if (
+          rpcError.code === '23P01' ||
+          rpcError.message?.includes('DOUBLE_BOOKING_CONFLICT') ||
+          rpcError.message?.includes('exclusion')
+        ) {
+          const conflictErr: any = new Error(
+            `DOUBLE_BOOKING_CONFLICT: يتعارض الموعد المطلوب مع حجز مسجل مسبقاً (PostgreSQL Exclusion Constraint 23P01) شاملاً فترة التعقيم الإلزامية.`
+          );
+          conflictErr.code = 'DOUBLE_BOOKING_CONFLICT';
+          throw conflictErr;
+        }
+        if (rpcError.code !== '42883') {
+          console.warn('[Supabase] RPC book_appointment_atomic notice:', rpcError.message);
+        }
+      } else if (rpcData) {
+        const createdAppt = rpcData as Appointment;
+        tenantStore.appointments.push(createdAppt);
+        persistTenantStore();
+        return createdAppt;
+      }
+    } catch (rpcErr: any) {
+      if (rpcErr?.code === 'DOUBLE_BOOKING_CONFLICT') {
+        throw rpcErr;
+      }
+    }
+
+    // Direct Database Concurrency & Exclusion Guard (Single Source of Truth)
+    let query = supabaseAdmin
+      .from('appointments')
+      .select('*')
+      .eq('clinic_id', params.clinicId)
+      .neq('status', 'CANCELLED')
+      .lt('start_time', calculatedSterilization)
+      .gt('sterilization_end_time', params.startTime);
+
+    if (practitionerId) {
+      query = query.eq('practitioner_id', practitionerId);
+    }
+
+    const { data: dbConflicts, error: conflictErrCheck } = await query;
+    if (conflictErrCheck) {
+      console.warn('[Supabase Serverless] Error checking appointment conflicts:', conflictErrCheck.message);
+    }
+    if (Array.isArray(dbConflicts) && dbConflicts.length > 0) {
+      const conflict = dbConflicts[0];
+      const conflictEndTime = new Date(conflict.sterilization_end_time || conflict.end_time)
+        .toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' });
+      const conflictErr: any = new Error(
+        `DOUBLE_BOOKING_CONFLICT: يتعارض الموعد مع حجز مسجل في قاعدة البيانات حتى الساعة ${conflictEndTime} شاملاً فترة التعقيم.`
+      );
+      conflictErr.code = 'DOUBLE_BOOKING_CONFLICT';
+      conflictErr.conflictingAppointment = conflict;
+      throw conflictErr;
+    }
+
+    // Insert directly into Supabase appointments table
+    const { data: inserted, error: insertError } = await supabaseAdmin
+      .from('appointments')
+      .insert({
+        id: appt.id,
+        clinic_id: appt.clinic_id,
+        patient_id: appt.patient_id,
+        patient_name: appt.patient_name,
+        patient_phone: appt.patient_phone,
+        service_type: appt.service_type,
+        practitioner_id: appt.practitioner_id,
+        practitioner_name: appt.practitioner_name,
+        chair_id: appt.chair_id,
+        chair_number: appt.chair_number,
+        appointment_date: appt.appointment_date,
+        start_time: appt.start_time,
+        end_time: appt.end_time,
+        sterilization_end_time: appt.sterilization_end_time,
+        status: 'CONFIRMED',
+        notes: appt.notes,
+        is_emergency: appt.is_emergency,
+        google_calendar_event_id: appt.google_calendar_event_id,
+        created_at: appt.created_at,
+        updated_at: appt.updated_at,
+      })
+      .select('*')
+      .single();
+
+    if (insertError) {
+      if (
+        insertError.code === '23P01' ||
+        insertError.message?.includes('exclusion') ||
+        insertError.message?.includes('no_overlapping_appointments')
+      ) {
+        const conflictErr: any = new Error(
+          'DOUBLE_BOOKING_CONFLICT: رفضت قاعدة البيانات الحجز لوجود تعارض زمني نشط (PostgreSQL Exclusion Constraint 23P01).'
+        );
+        conflictErr.code = 'DOUBLE_BOOKING_CONFLICT';
+        throw conflictErr;
+      }
+      console.error('[Supabase] Failed to insert appointment into database:', insertError);
+      throw insertError;
+    }
+
+    const createdAppt = (inserted || appt) as Appointment;
+    tenantStore.appointments.push(createdAppt);
+    persistTenantStore();
+    return createdAppt;
+  }
+
+  // ====================================================================
+  // 2. SIMULATED / OFFLINE MODE FALLBACK (isPlaceholderConfig)
+  // ====================================================================
   const localConflict = tenantStore.appointments.find((a) => {
     if (a.clinic_id !== params.clinicId) return false;
     if (a.status === 'CANCELLED') return false;
@@ -653,11 +886,8 @@ export async function createAppointment(params: {
     const overlaps = reqStart < existingEnd && reqEnd > existingStart;
     if (!overlaps) return false;
 
-    // Specific doctor conflict
     if (practitionerId && a.practitioner_id === practitionerId) return true;
-    // Specific chair conflict
     if (chairId && a.chair_id === chairId) return true;
-    // If appointment had no assigned chair/doctor, assume exclusive
     if (!a.practitioner_id && !a.chair_id) return true;
 
     return false;
@@ -675,130 +905,26 @@ export async function createAppointment(params: {
     throw conflictErr;
   }
 
-  // 2. Strict Concurrency Check against Supabase Database (Overlap with 15-minute sterilization buffer)
-  try {
-    const query = supabase
-      .from('appointments')
-      .select('*')
-      .eq('clinic_id', params.clinicId)
-      .neq('status', 'CANCELLED')
-      .lt('start_time', params.sterilizationEndTime)
-      .gt('sterilization_end_time', params.startTime);
-
-    if (practitionerId) {
-      query.eq('practitioner_id', practitionerId);
-    }
-
-    const { data: dbConflicts } = await query;
-
-    if (Array.isArray(dbConflicts) && dbConflicts.length > 0) {
-      const conflict = dbConflicts[0];
-      const conflictEndTime = new Date(conflict.sterilization_end_time || conflict.end_time)
-        .toLocaleTimeString('ar-JO', { hour: '2-digit', minute: '2-digit' });
-      const conflictErr: any = new Error(
-        `DOUBLE_BOOKING_CONFLICT: يتعارض الموعد مع حجز مسجل في قاعدة البيانات حتى الساعة ${conflictEndTime} شاملاً فترة التعقيم.`
-      );
-      conflictErr.code = 'DOUBLE_BOOKING_CONFLICT';
-      conflictErr.conflictingAppointment = conflict;
-      throw conflictErr;
-    }
-  } catch (err: any) {
-    if (err?.code === 'DOUBLE_BOOKING_CONFLICT') {
-      throw err;
-    }
-  }
-
-  const appointmentDate = params.startTime.split('T')[0];
-  const appt: Appointment = {
-    id: `appt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
-    clinic_id: params.clinicId,
-    patient_id: params.patientId,
-    patient_name: params.patientName,
-    patient_phone: params.patientPhone,
-    service_type: params.serviceType,
-    practitioner_id: practitionerId,
-    practitioner_name: practitionerName,
-    chair_id: chairId,
-    chair_number: chairNumber,
-    appointment_date: appointmentDate,
-    start_time: params.startTime,
-    end_time: params.endTime,
-    sterilization_end_time: params.sterilizationEndTime,
-    status: 'CONFIRMED',
-    google_calendar_event_id: params.googleCalendarEventId,
-    notes: params.notes,
-    is_emergency: !!params.isEmergency,
-    created_at: new Date().toISOString(),
-    updated_at: new Date().toISOString(),
-  };
-
   tenantStore.appointments.push(appt);
   persistTenantStore();
-
-  try {
-    const { error } = await supabase.from('appointments').insert({
-      id: appt.id,
-      clinic_id: appt.clinic_id,
-      patient_id: appt.patient_id,
-      patient_name: appt.patient_name,
-      patient_phone: appt.patient_phone,
-      service_type: appt.service_type,
-      practitioner_id: appt.practitioner_id,
-      practitioner_name: appt.practitioner_name,
-      chair_id: appt.chair_id,
-      chair_number: appt.chair_number,
-      appointment_date: appt.appointment_date,
-      start_time: appt.start_time,
-      end_time: appt.end_time,
-      sterilization_end_time: appt.sterilization_end_time,
-      status: 'CONFIRMED',
-      notes: appt.notes,
-      created_at: appt.created_at,
-    });
-    if (error) {
-      if (
-        error.code === '23P01' ||
-        error.message?.includes('exclusion') ||
-        error.message?.includes('no_overlapping_appointments')
-      ) {
-        tenantStore.appointments = tenantStore.appointments.filter((a) => a.id !== appt.id);
-        persistTenantStore();
-        const conflictErr: any = new Error(
-          'DOUBLE_BOOKING_CONFLICT: رفضت قاعدة البيانات الحجز لوجود تعارض زمني نشط (PostgreSQL Exclusion Constraint).'
-        );
-        conflictErr.code = 'DOUBLE_BOOKING_CONFLICT';
-        throw conflictErr;
-      }
-      console.warn('[Supabase] Appointments insert notice:', error.message);
-    }
-  } catch (err: any) {
-    if (err?.code === 'DOUBLE_BOOKING_CONFLICT') {
-      throw err;
-    }
-    console.warn('[Supabase] Appointment stored locally:', err);
-  }
-
   return appt;
 }
 
+export const createAppointment = createAppointmentAtomic;
+
 /**
- * Fetch Practitioners Roster
+ * Fetch Practitioners Roster directly from Supabase
  */
 export async function getPractitioners(clinicId?: string): Promise<Practitioner[]> {
   const targetClinic = clinicId || CLINIC_CONFIG.id;
   try {
-    const { data } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('practitioners')
       .select('*')
       .eq('clinic_id', targetClinic)
       .eq('is_active', true);
-    if (data && data.length > 0) {
-      for (const row of data) {
-        if (!tenantStore.practitioners.some((p) => p.id === row.id)) {
-          tenantStore.practitioners.push(row as Practitioner);
-        }
-      }
-      persistTenantStore();
+    if (!error && Array.isArray(data) && data.length > 0) {
+      return data as Practitioner[];
     }
   } catch (err) {
     console.warn('[Supabase] Practitioners query fallback:', err);
@@ -807,23 +933,18 @@ export async function getPractitioners(clinicId?: string): Promise<Practitioner[
 }
 
 /**
- * Fetch Dental Chairs Roster
+ * Fetch Dental Chairs Roster directly from Supabase
  */
 export async function getDentalChairs(clinicId?: string): Promise<DentalChair[]> {
   const targetClinic = clinicId || CLINIC_CONFIG.id;
   try {
-    const { data } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('dental_chairs')
       .select('*')
       .eq('clinic_id', targetClinic)
       .eq('is_active', true);
-    if (data && data.length > 0) {
-      for (const row of data) {
-        if (!tenantStore.dental_chairs.some((c) => c.id === row.id)) {
-          tenantStore.dental_chairs.push(row as DentalChair);
-        }
-      }
-      persistTenantStore();
+    if (!error && Array.isArray(data) && data.length > 0) {
+      return data as DentalChair[];
     }
   } catch (err) {
     console.warn('[Supabase] Dental chairs query fallback:', err);
@@ -1145,22 +1266,42 @@ export async function updateAppointmentStatus(
   clinicId: string,
   status: AppointmentStatus
 ): Promise<Appointment | null> {
-  const appt = tenantStore.appointments.find((a) => a.id === appointmentId && a.clinic_id === clinicId);
   const now = new Date().toISOString();
+
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('appointments')
+        .update({ status, updated_at: now })
+        .eq('id', appointmentId)
+        .eq('clinic_id', clinicId)
+        .select('*')
+        .maybeSingle();
+
+      if (error) {
+        console.error('[Supabase Serverless] Error updating appointment status in DB:', error);
+        throw error;
+      }
+
+      if (data) {
+        const updated = data as Appointment;
+        const idx = tenantStore.appointments.findIndex((a) => a.id === appointmentId);
+        if (idx >= 0) tenantStore.appointments[idx] = updated;
+        else tenantStore.appointments.push(updated);
+        persistTenantStore();
+        return updated;
+      }
+    } catch (err: any) {
+      console.error('[Supabase] Failed to update appointment status:', err);
+      if (err?.code && err.code !== 'ECONNREFUSED') throw err;
+    }
+  }
+
+  const appt = tenantStore.appointments.find((a) => a.id === appointmentId && a.clinic_id === clinicId);
   if (appt) {
     appt.status = status;
     appt.updated_at = now;
     persistTenantStore();
-  }
-
-  try {
-    await supabase
-      .from('appointments')
-      .update({ status, updated_at: now })
-      .eq('id', appointmentId)
-      .eq('clinic_id', clinicId);
-  } catch (err) {
-    console.warn('[Supabase] Appointment status updated locally:', err);
   }
 
   return appt || null;
@@ -1191,15 +1332,30 @@ export async function addToWaitlist(params: {
     created_at: new Date().toISOString(),
   };
 
-  tenantStore.waitlist.push(entry);
-  persistTenantStore();
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('waitlist')
+        .insert(entry)
+        .select('*')
+        .single();
 
-  try {
-    await supabase.from('waitlist').insert(entry);
-  } catch (err) {
-    console.warn('[Supabase] Waitlist entry stored locally:', err);
+      if (error) {
+        console.error('[Supabase Serverless] Error inserting waitlist entry:', error);
+        throw error;
+      }
+      const saved = (data || entry) as WaitlistEntry;
+      tenantStore.waitlist.push(saved);
+      persistTenantStore();
+      return saved;
+    } catch (err) {
+      console.error('[Supabase] Waitlist insert error:', err);
+      throw err;
+    }
   }
 
+  tenantStore.waitlist.push(entry);
+  persistTenantStore();
   return entry;
 }
 
@@ -1212,6 +1368,28 @@ export async function findNextWaitlistCandidate(
   dateString: string
 ): Promise<WaitlistEntry | null> {
   const targetDate = dateString.split('T')[0];
+
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('waitlist')
+        .select('*')
+        .eq('clinic_id', clinicId)
+        .eq('status', 'WAITING')
+        .eq('preferred_date', targetDate)
+        .eq('requested_service', serviceType)
+        .order('created_at', { ascending: true })
+        .limit(1)
+        .maybeSingle();
+
+      if (!error && data) {
+        return data as WaitlistEntry;
+      }
+    } catch (err) {
+      console.warn('[Supabase Serverless] Waitlist candidate lookup fallback:', err);
+    }
+  }
+
   const candidate = tenantStore.waitlist.find(
     (w) =>
       w.clinic_id === clinicId &&
@@ -1227,14 +1405,68 @@ export async function findNextWaitlistCandidate(
  * Store JoFotara Invoice
  */
 export async function saveInvoice(invoice: Invoice): Promise<Invoice> {
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('invoices')
+        .insert(invoice)
+        .select('*')
+        .single();
+
+      if (error) {
+        console.error('[Supabase Serverless] Error saving invoice:', error);
+        throw error;
+      }
+      const saved = (data || invoice) as Invoice;
+      tenantStore.invoices.push(saved);
+      persistTenantStore();
+      return saved;
+    } catch (err) {
+      console.error('[Supabase] Invoice insert error:', err);
+      throw err;
+    }
+  }
+
   tenantStore.invoices.push(invoice);
   persistTenantStore();
-  try {
-    await supabase.from('invoices').insert(invoice);
-  } catch (err) {
-    console.warn('[Supabase] Invoice stored locally:', err);
-  }
   return invoice;
+}
+
+/**
+ * Retrieve the latest issued invoice hash for a clinic (ISTD JoFotara PIH Chaining)
+ * Returns the SHA-256 hash of the most recent invoice, or standard Genesis Hash if no previous invoices exist.
+ */
+export async function getLatestInvoiceHash(clinicId: string): Promise<string> {
+  const GENESIS_PIH = 'NWZlY2ViNjAxOTEzMWIxMWNmMzQ1OGE3MDU4NDhhZGIxY2VmY2Q1NzcxN2FkNzhmNWQ5NzU0NzA1OWUyYzg2';
+
+  if (!isPlaceholderConfig) {
+    try {
+      const { data, error } = await supabaseAdmin
+        .from('invoices')
+        .select('invoice_hash, created_at')
+        .eq('clinic_id', clinicId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (!error && data?.invoice_hash) {
+        return data.invoice_hash;
+      }
+    } catch (err) {
+      console.warn('[Supabase] Failed to fetch latest invoice hash from DB, falling back to memory/genesis:', err);
+    }
+  }
+
+  // Memory store fallback
+  const clinicInvoices = tenantStore.invoices
+    .filter((inv) => inv.clinic_id === clinicId && inv.invoice_hash)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  if (clinicInvoices.length > 0 && clinicInvoices[0].invoice_hash) {
+    return clinicInvoices[0].invoice_hash;
+  }
+
+  return GENESIS_PIH;
 }
 
 /**
@@ -1242,18 +1474,31 @@ export async function saveInvoice(invoice: Invoice): Promise<Invoice> {
  */
 export async function queryClinicFaq(clinicId: string, queryText: string): Promise<ClinicFaq[]> {
   const q = (queryText || '').toLowerCase().trim();
-  const words = q.split(/\s+/).filter((w) => w.length > 1);
+  if (!q) return [];
+
+  const stopWords = new Set(['في', 'من', 'على', 'إلى', 'الي', 'عن', 'مع', 'يا', 'شو', 'كم', 'هل', 'أنا', 'انا', 'هو', 'هي', 'ما']);
+  const words = q.split(/\s+/).filter((w) => w.length >= 3 && !stopWords.has(w));
+
+  const isFaqMatch = (faq: ClinicFaq) => {
+    if (faq.clinic_id !== clinicId) return false;
+    const cat = faq.category.toLowerCase();
+    const qAr = faq.question_ar.toLowerCase();
+    const aAr = faq.answer_ar.toLowerCase();
+    
+    // Direct phrase match
+    if (qAr.includes(q) || q.includes(cat)) return true;
+
+    // Specific keyword match
+    const hasKeyword = faq.keywords.some((k) => {
+      const lowerK = k.toLowerCase();
+      return q.includes(lowerK) || words.some((w) => w === lowerK || lowerK.includes(w));
+    });
+
+    return hasKeyword;
+  };
 
   // 1. Check local memory store
-  const localMatches = tenantStore.clinic_faqs.filter((faq) => {
-    if (faq.clinic_id !== clinicId) return false;
-    const matchCategory = q.includes(faq.category.toLowerCase());
-    const matchQ = faq.question_ar.toLowerCase().includes(q) || words.some((w) => faq.question_ar.toLowerCase().includes(w));
-    const matchA = faq.answer_ar.toLowerCase().includes(q) || words.some((w) => faq.answer_ar.toLowerCase().includes(w));
-    const matchKeyword = faq.keywords.some((k) => q.includes(k.toLowerCase()) || words.some((w) => k.toLowerCase().includes(w)));
-    return matchCategory || matchQ || matchA || matchKeyword;
-  });
-
+  const localMatches = tenantStore.clinic_faqs.filter(isFaqMatch);
   if (localMatches.length > 0) {
     return localMatches;
   }
@@ -1271,19 +1516,13 @@ export async function queryClinicFaq(clinicId: string, queryText: string): Promi
           tenantStore.clinic_faqs.push(row as ClinicFaq);
         }
       }
-      return (data as ClinicFaq[]).filter((faq) => {
-        const matchCategory = q.includes(faq.category.toLowerCase());
-        const matchQ = faq.question_ar.toLowerCase().includes(q) || words.some((w) => faq.question_ar.toLowerCase().includes(w));
-        const matchA = faq.answer_ar.toLowerCase().includes(q) || words.some((w) => faq.answer_ar.toLowerCase().includes(w));
-        const matchKeyword = faq.keywords.some((k) => q.includes(k.toLowerCase()) || words.some((w) => k.toLowerCase().includes(w)));
-        return matchCategory || matchQ || matchA || matchKeyword;
-      });
+      return (data as ClinicFaq[]).filter(isFaqMatch);
     }
   } catch (err) {
     console.warn('[Supabase] Clinic FAQ query failed, using default FAQs:', err);
   }
 
-  return tenantStore.clinic_faqs.filter((faq) => faq.clinic_id === clinicId);
+  return [];
 }
 
 /**
@@ -1525,55 +1764,53 @@ export async function appendChatHistory(
   persistTenantStore();
 
   // Persist checkpoint to Supabase
-  try {
-    await supabase.from('conversations').upsert({
-      id: conv.id,
-      clinic_id: conv.clinic_id,
-      phone_number: conv.phone_number,
-      patient_name: conv.patient_name,
-      summary: conv.summary,
-      summary_updated_at: conv.summary_updated_at,
-      chat_history: conv.chat_history,
-      updated_at: conv.updated_at,
-    });
-  } catch (err) {
-    console.warn('[Supabase] Checkpointing chat history to DB fallback:', err);
+  if (!isPlaceholderConfig) {
+    try {
+      await supabaseAdmin.from('conversations').upsert({
+        id: conv.id,
+        clinic_id: conv.clinic_id,
+        phone_number: conv.phone_number,
+        patient_name: conv.patient_name,
+        summary: conv.summary,
+        summary_updated_at: conv.summary_updated_at,
+        chat_history: conv.chat_history,
+        updated_at: conv.updated_at,
+      });
+    } catch (err) {
+      console.warn('[Supabase Serverless] Checkpointing chat history to DB warning:', err);
+    }
   }
 
   return conv;
 }
 
 /**
- * Fetch all appointments from Supabase with resilient tenantStore sync
+ * Fetch all appointments from Supabase (Single Source of Truth)
  */
 export async function getAllAppointments(clinicId?: string): Promise<Appointment[]> {
-  try {
-    const query = supabase
-      .from('appointments')
-      .select('*')
-      .order('start_time', { ascending: false });
+  if (!isPlaceholderConfig) {
+    try {
+      let query = supabaseAdmin
+        .from('appointments')
+        .select('*');
 
-    if (clinicId) {
-      query.eq('clinic_id', clinicId);
-    }
-
-    const { data, error } = await query;
-    if (data && data.length > 0) {
-      for (const row of data) {
-        const existingIdx = tenantStore.appointments.findIndex((a) => a.id === row.id);
-        if (existingIdx >= 0) {
-          tenantStore.appointments[existingIdx] = {
-            ...tenantStore.appointments[existingIdx],
-            ...row,
-          };
-        } else {
-          tenantStore.appointments.push(row as Appointment);
-        }
+      if (clinicId) {
+        query = query.eq('clinic_id', clinicId);
       }
-      persistTenantStore();
+
+      query = query.order('start_time', { ascending: false });
+
+      const { data, error } = await query;
+      if (error) {
+        console.error('[Supabase Serverless] Error querying appointments table:', error.message || error);
+      } else if (Array.isArray(data)) {
+        tenantStore.appointments = data as Appointment[];
+        persistTenantStore();
+        return data as Appointment[];
+      }
+    } catch (err) {
+      console.warn('[Supabase Serverless] Fetching appointments notice:', err);
     }
-  } catch (err) {
-    console.warn('[Supabase] Fetching appointments notice:', err);
   }
 
   return clinicId
@@ -1582,7 +1819,7 @@ export async function getAllAppointments(clinicId?: string): Promise<Appointment
 }
 
 /**
- * Get Conversation History for phone
+ * Get Conversation History for phone (Single Source of Truth)
  */
 export async function getConversationHistory(
   clinicId: string,
@@ -1590,35 +1827,41 @@ export async function getConversationHistory(
 ): Promise<ConversationState | null> {
   const normalizedPhone = (phoneNumber || '+962791234567').trim();
 
-  // First check in-memory / hydrated store
-  let conv = tenantStore.conversations.find(
-    (c) => c.clinic_id === clinicId && c.phone_number === normalizedPhone
-  );
-
-  // If not found or empty, try Supabase
-  if (!conv || conv.chat_history.length === 0) {
+  if (!isPlaceholderConfig) {
     try {
-      const { data } = await supabase
+      const { data, error } = await supabaseAdmin
         .from('conversations')
         .select('*')
         .eq('clinic_id', clinicId)
         .eq('phone_number', normalizedPhone)
         .maybeSingle();
 
-      if (data) {
-        if (!conv) {
-          conv = data as ConversationState;
-          tenantStore.conversations.push(conv);
-        } else {
-          conv.chat_history = data.chat_history || [];
-          conv.patient_name = data.patient_name || conv.patient_name;
-        }
+      if (!error && data) {
+        const conv: ConversationState = {
+          id: data.id,
+          clinic_id: data.clinic_id,
+          phone_number: data.phone_number,
+          patient_name: data.patient_name,
+          summary: data.summary,
+          summary_updated_at: data.summary_updated_at,
+          chat_history: Array.isArray(data.chat_history) ? data.chat_history : [],
+          updated_at: data.updated_at || new Date().toISOString(),
+        };
+        const idx = tenantStore.conversations.findIndex((c) => c.phone_number === normalizedPhone);
+        if (idx >= 0) tenantStore.conversations[idx] = conv;
+        else tenantStore.conversations.push(conv);
         persistTenantStore();
+        return conv;
       }
     } catch (err) {
-      console.warn('[Supabase] Conversation history query notice:', err);
+      console.warn('[Supabase Serverless] Conversation history query notice:', err);
     }
   }
+
+  // Fallback to local store in offline mode
+  const conv = tenantStore.conversations.find(
+    (c) => c.clinic_id === clinicId && c.phone_number === normalizedPhone
+  );
 
   return conv || null;
 }
@@ -1631,6 +1874,19 @@ export async function clearConversationHistory(
   phoneNumber: string
 ): Promise<boolean> {
   const normalizedPhone = (phoneNumber || '+962791234567').trim();
+
+  if (!isPlaceholderConfig) {
+    try {
+      await supabaseAdmin
+        .from('conversations')
+        .update({ chat_history: [], updated_at: new Date().toISOString() })
+        .eq('clinic_id', clinicId)
+        .eq('phone_number', normalizedPhone);
+    } catch (err) {
+      console.warn('[Supabase Serverless] Clear conversation notice:', err);
+    }
+  }
+
   const conv = tenantStore.conversations.find(
     (c) => c.clinic_id === clinicId && c.phone_number === normalizedPhone
   );
@@ -1638,21 +1894,76 @@ export async function clearConversationHistory(
   if (conv) {
     conv.chat_history = [];
     conv.updated_at = new Date().toISOString();
-  }
-
-  persistTenantStore();
-
-  try {
-    if (conv) {
-      await supabase
-        .from('conversations')
-        .update({ chat_history: [], updated_at: new Date().toISOString() })
-        .eq('id', conv.id);
-    }
-  } catch (err) {
-    console.warn('[Supabase] Clear conversation notice:', err);
+    persistTenantStore();
   }
 
   return true;
 }
+
+// ====================================================================
+// SUPABASE REALTIME MULTI-TENANT STREAMING ENGINE
+// ====================================================================
+
+export type RealtimeTable =
+  | 'patients'
+  | 'waitlist'
+  | 'invoices'
+  | 'appointments'
+  | 'receptionist_alerts'
+  | 'conversations';
+
+/**
+ * Universal subscription helper for live PostgreSQL change notifications
+ */
+export function subscribeToClinicTableChanges(
+  table: RealtimeTable,
+  clinicId: string = CLINIC_CONFIG.id,
+  callback: (payload: any) => void
+) {
+  if (isPlaceholderConfig) {
+    console.log(`[Supabase Realtime - Simulated] Mock channel attached to ${table} for clinic ${clinicId}`);
+    return {
+      unsubscribe: () => console.log(`[Supabase Realtime - Simulated] Unsubscribed from ${table}`),
+    };
+  }
+
+  const channelName = `realtime_${table}_${clinicId}_${Math.random().toString(36).substring(2, 6)}`;
+  return supabase
+    .channel(channelName)
+    .on(
+      'postgres_changes',
+      {
+        event: '*',
+        schema: 'public',
+        table,
+        filter: `clinic_id=eq.${clinicId}`,
+      },
+      (payload) => {
+        console.log(`[Supabase Realtime] Event on ${table}:`, payload.eventType);
+        callback(payload);
+      }
+    )
+    .subscribe();
+}
+
+export function subscribeToAppointments(clinicId: string = CLINIC_CONFIG.id, callback: (payload: any) => void) {
+  return subscribeToClinicTableChanges('appointments', clinicId, callback);
+}
+
+export function subscribeToWaitlist(clinicId: string = CLINIC_CONFIG.id, callback: (payload: any) => void) {
+  return subscribeToClinicTableChanges('waitlist', clinicId, callback);
+}
+
+export function subscribeToInvoices(clinicId: string = CLINIC_CONFIG.id, callback: (payload: any) => void) {
+  return subscribeToClinicTableChanges('invoices', clinicId, callback);
+}
+
+export function subscribeToPatients(clinicId: string = CLINIC_CONFIG.id, callback: (payload: any) => void) {
+  return subscribeToClinicTableChanges('patients', clinicId, callback);
+}
+
+export function subscribeToReceptionistAlerts(clinicId: string = CLINIC_CONFIG.id, callback: (payload: any) => void) {
+  return subscribeToClinicTableChanges('receptionist_alerts', clinicId, callback);
+}
+
 

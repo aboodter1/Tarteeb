@@ -134,13 +134,12 @@ console.log(`✅ Saved bundle to: ${outputFile} and ${legacyOutputFile} (${(Buff
 
 // Also copy to artifacts directory
 try {
-  fs.writeFileSync(artifactOutput, mdContent, 'utf-8');
-  const legacyArtifactOutput = path.join(
-    'C:\\Users\\Toshiba\\.gemini\\antigravity-ide\\brain\\c32f6ced-e9df-4b0f-ba5a-b0db496385c3',
-    'nashmi_ops_full_codebase.md'
-  );
-  fs.writeFileSync(legacyArtifactOutput, mdContent, 'utf-8');
-  console.log(`✅ Saved copies to artifacts directory`);
+  const currentArtifactDir = 'C:\\Users\\pc\\.gemini\\antigravity\\brain\\811f9f18-8cfb-424b-a065-d9bde3c266de';
+  if (fs.existsSync(currentArtifactDir)) {
+    fs.writeFileSync(path.join(currentArtifactDir, 'tarteeb_medical_os.md'), mdContent, 'utf-8');
+    fs.writeFileSync(path.join(currentArtifactDir, 'nashmi_ops_full_codebase.md'), mdContent, 'utf-8');
+    console.log(`✅ Saved copies to current artifact directory`);
+  }
 } catch (e) {
   console.warn('Could not write to artifact dir:', e);
 }
